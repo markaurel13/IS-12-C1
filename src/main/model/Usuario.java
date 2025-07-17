@@ -7,8 +7,8 @@ package model;
 public abstract class Usuario {
     // Expresiones regulares para validación:
     private static final String EMAIL_REGEX = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-    private static final String CEDULA_REGEX = "\\d{8,10}"; // 8-10 dígitos
-    private static final String TELEFONO_REGEX = "\\d{10}"; // 10 dígitos
+    private static final String CEDULA_REGEX = "[1-9]\\d{5,9}"; // 6-10 dígitos
+    private static final String TELEFONO_REGEX = "04[12][246]\\d{7}"; // 11 dígitos
 
     // Campos finales (inmutables después de la creación):
     private final String cedula;      // Identificador único
@@ -33,7 +33,7 @@ public abstract class Usuario {
         
         // Validación de cédula (8-10 dígitos):
         if (cedula == null || !cedula.matches(CEDULA_REGEX)) {
-            throw new IllegalArgumentException("Cédula inválida. Debe tener 8-10 dígitos");
+            throw new IllegalArgumentException("Cédula inválida. Debe tener 6 a 10 dígitos");
         }
         
         // Validación de email:
@@ -43,7 +43,7 @@ public abstract class Usuario {
         
         // Validación de teléfono (10 dígitos):
         if (telefono == null || !telefono.matches(TELEFONO_REGEX)) {
-            throw new IllegalArgumentException("Teléfono inválido. Debe tener 10 dígitos");
+            throw new IllegalArgumentException("Teléfono inválido. Debe tener 11 dígitos y estar en formato 04XX0000000");
         }
         
         // Validación de contraseña (mínimo 5 caracteres):
