@@ -1,3 +1,4 @@
+// Comensal.java
 package model;
 
 /**
@@ -7,11 +8,13 @@ package model;
 public class Comensal extends Usuario {
     /**
      * Crea una instancia de Comensal.
-     * @param email Email válido del comensal.
+     * @param cedula Cédula del comensal.
+     * @param correo Email válido del comensal.
+     * @param telefono Teléfono del comensal.
      * @param passwordHash Contraseña hasheada.
-     * @throws IllegalArgumentException Si el email es inválido.
+     * @throws IllegalArgumentException Si algún dato es inválido.
      */
-    public Comensal(String email, String passwordHash) {
-        super(email, passwordHash, Usuario.RolUsuario.COMENSAL);
+    public Comensal(String cedula, String correo, String telefono, String passwordHash) {
+        super(cedula, correo, telefono, passwordHash, Usuario.RolUsuario.COMENSAL);
     }
 }

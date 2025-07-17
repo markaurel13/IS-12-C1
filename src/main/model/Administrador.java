@@ -1,3 +1,4 @@
+// Administrador.java
 package model;
 
 /**
@@ -7,11 +8,13 @@ package model;
 public class Administrador extends Usuario {
     /**
      * Crea una instancia de Administrador.
-     * @param email Email válido del administrador (formato: usuario@dominio.ext).
+     * @param cedula Cédula del administrador.
+     * @param correo Email válido del administrador.
+     * @param telefono Teléfono del administrador.
      * @param passwordHash Contraseña hasheada.
-     * @throws IllegalArgumentException Si el email es inválido (validado por la clase padre).
+     * @throws IllegalArgumentException Si algún dato es inválido.
      */
-    public Administrador(String email, String passwordHash) {
-        super(email, passwordHash, Usuario.RolUsuario.ADMIN); // Usa el Enum
+    public Administrador(String cedula, String correo, String telefono, String passwordHash) {
+        super(cedula, correo, telefono, passwordHash, Usuario.RolUsuario.ADMIN);
     }
 }

@@ -1,3 +1,4 @@
+// FileManager.java
 package service;
 
 import modelos.Usuario.RolUsuario;
@@ -7,31 +8,31 @@ import java.util.List;
 
 /**
  * Maneja la persistencia de usuarios en un archivo de texto.
- * Formato de cada línea: email,passwordHash,rol
+ * Nuevo formato de cada línea: cedula,correo,telefono,passwordHash,rol
  */
 public class FileManager {
     private static final String DEFAULT_FILE_PATH = "data/usuarios.txt";
     private static String filePath = DEFAULT_FILE_PATH;
 
-    /**
-     * Cambia la ruta del archivo de usuarios (útil para pruebas).
-     */
     public static void setFilePath(String path) {
         filePath = path;
     }
 
     /**
      * Guarda un usuario en el archivo.
-     * @param email Email válido (no nulo).
-     * @param passwordHash Contraseña hasheada (no nula).
-     * @param rol Rol del usuario (no nulo).
+     * @param cedula Cédula del usuario.
+     * @param correo Correo electrónico.
+     * @param telefono Teléfono del usuario.
+     * @param passwordHash Contraseña hasheada.
+     * @param rol Rol del usuario (siempre COMENSAL al registrarse).
      * @throws IOException Si hay error al escribir en el archivo.
      * @throws IllegalArgumentException Si algún parámetro es inválido.
      */
-    public static void guardarUsuario(String email, String passwordHash, RolUsuario rol) 
+    public static void guardarUsuario(String cedula, String correo, String telefono, 
+                                    String passwordHash, RolUsuario rol) 
             throws IOException, IllegalArgumentException {
-        if (email == null || passwordHash == null || rol == null) {
-            throw new IllegalArgumentException("Email, passwordHash y rol no pueden ser nulos");
+        if (cedula == null || correo == null || telefono == null || passwordHash == null || rol == null) {
+            throw new IllegalArgumentException("Todos los campos son obligatorios");
         }
 
         File file = new File(filePath);
@@ -41,14 +42,14 @@ public class FileManager {
         }
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
-            writer.write(email + "," + passwordHash + "," + rol.name()); // Usa enum.name()
+            writer.write(cedula + "," + correo + "," + telefono + "," + passwordHash + "," + rol.name());
             writer.newLine();
         }
     }
 
     /**
      * Lee todos los usuarios del archivo.
-     * @return Lista de arrays donde cada array es [email, passwordHash, rol].
+     * @return Lista de arrays donde cada array es [cedula, correo, telefono, passwordHash, rol].
      * @throws IOException Si hay error al leer el archivo.
      */
     public static List<String[]> leerUsuarios() throws IOException {
@@ -61,7 +62,7 @@ public class FileManager {
             String linea;
             while ((linea = reader.readLine()) != null) {
                 String[] partes = linea.split(",");
-                if (partes.length == 3) {
+                if (partes.length == 5) {
                     usuarios.add(partes);
                 }
             }

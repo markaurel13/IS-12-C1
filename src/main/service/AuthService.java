@@ -1,3 +1,4 @@
+// AuthService.java
 package service;
 
 import modelos.Usuario;
@@ -12,52 +13,56 @@ import java.util.List;
 public class AuthService {
 
     /**
-     * Autentica a un usuario mediante email y contraseña.
-     * @param email Email del usuario.
+     * Autentica a un usuario mediante cédula y contraseña.
+     * @param cedula Cédula del usuario.
      * @param password Contraseña en texto plano (se hashea internamente).
      * @return Instancia de Usuario (Comensal o Administrador) si las credenciales son válidas, o null.
-     * @throws IllegalArgumentException Si el email o password son nulos/vacíos.
+     * @throws IllegalArgumentException Si la cédula o password son nulos/vacíos.
      */
-    public static Usuario login(String email, String password) 
+    public static Usuario login(String cedula, String password) 
         throws IllegalArgumentException {
-        if (email == null || email.trim().isEmpty() || password == null || password.isEmpty()) {
-            throw new IllegalArgumentException("Email y contraseña no pueden estar vacíos");
+        if (cedula == null || cedula.trim().isEmpty() || password == null || password.isEmpty()) {
+            throw new IllegalArgumentException("Cédula y contraseña no pueden estar vacíos");
         }
 
         List<String[]> usuarios = FileManager.leerUsuarios();
         
         for (String[] usuarioData : usuarios) {
-            if (usuarioData[0].equals(email) && 
-                SecurityUtils.checkPassword(password, usuarioData[1])) {
-                RolUsuario rol = RolUsuario.valueOf(usuarioData[2].toUpperCase());
-                return rol == RolUsuario.COMENSAL 
-                    ? new Comensal(email, usuarioData[1])
-                    : new Administrador(email, usuarioData[1]);
+            if (usuarioData[0].equals(cedula)) { // Compara con cédula
+                if (SecurityUtils.checkPassword(password, usuarioData[3])) { // Password ahora está en posición 3
+                    RolUsuario rol = RolUsuario.valueOf(usuarioData[4].toUpperCase()); // Rol ahora está en posición 4
+                    return rol == RolUsuario.COMENSAL 
+                        ? new Comensal(usuarioData[0], usuarioData[1], usuarioData[2], usuarioData[3])
+                        : new Administrador(usuarioData[0], usuarioData[1], usuarioData[2], usuarioData[3]);
+                }
             }
         }
         return null;
     }
 
     /**
-     * Registra un nuevo usuario en el sistema.
-     * @param usuario Instancia de Usuario (Comensal o Administrador) con contraseña EN TEXTO PLANO.
+     * Registra un nuevo comensal en el sistema.
+     * @param cedula Cédula del usuario.
+     * @param correo Correo electrónico.
+     * @param telefono Teléfono del usuario.
+     * @param password Contraseña en texto plano.
      * @return true si el registro fue exitoso, false si el usuario ya existe.
-     * @throws IllegalArgumentException Si el usuario es nulo o tiene datos inválidos.
+     * @throws IllegalArgumentException Si algún dato es inválido.
      */
-    public static boolean registrar(String email, String password, RolUsuario rol) {
-    if (email == null || password == null || rol == null) {
-        throw new IllegalArgumentException("Datos inválidos");
-    }
-
-    List<String[]> usuarios = FileManager.leerUsuarios();
-    for (String[] u : usuarios) {
-        if (u[0].equals(email)) {
-            return false;
+    public static boolean registrar(String cedula, String correo, String telefono, String password) {
+        if (cedula == null || correo == null || telefono == null || password == null) {
+            throw new IllegalArgumentException("Datos inválidos");
         }
-    }
 
-    String hashedPassword = SecurityUtils.hashPassword(password); // Hashing único
-    FileManager.guardarUsuario(email, hashedPassword, rol);
-    return true;
-}
+        List<String[]> usuarios = FileManager.leerUsuarios();
+        for (String[] u : usuarios) {
+            if (u[0].equals(cedula)) { // Verifica por cédula
+                return false;
+            }
+        }
+
+        String hashedPassword = SecurityUtils.hashPassword(password);
+        FileManager.guardarUsuario(cedula, correo, telefono, hashedPassword, RolUsuario.COMENSAL); // Todos se registran como COMENSAL
+        return true;
+    }
 }
