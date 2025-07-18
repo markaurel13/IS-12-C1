@@ -1,4 +1,4 @@
-package main.model;
+package main;
 
 public class CostoVariable {
     private double proteinas;

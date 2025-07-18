@@ -1,5 +1,5 @@
 // Comensal.java
-package model;
+package main;
 
 /**
  * Representa a un comensal del sistema de comedor.

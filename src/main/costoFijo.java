@@ -1,4 +1,4 @@
-package main.model;
+package main;
 
 public class costoFijo {
     private double manoObra;
