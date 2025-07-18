@@ -19,4 +19,15 @@ public class MonederoVirtual {
         return textoSaldo;
     }
 
+    public void recargarSaldo(double recarga) {
+        if(recarga <= 0) {
+            throw new IllegalArgumentException("Recargue un monto válido positivo.");
+        }
+        else {
+            saldo += recarga;
+            system.out.println("Recarga exitosa.");
+        }
+
+    }
+
 }

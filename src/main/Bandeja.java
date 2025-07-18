@@ -1,5 +1,7 @@
 package main.model;
 
+import java.time.LocalDate;
+
 public class Bandeja {
     // Expresiones regulares para valsidación:
     private static final String ID_REGEX = "\\d{5,10}";
@@ -13,6 +15,7 @@ public class Bandeja {
     private String nombreBandeja;
     private double costo;
     private String descripcionBandeja;
+    private LocalDate fecha;
 
     private string crearID(int ID) {
         string numberID = Integer.toString(identifierNumber);
@@ -90,7 +93,7 @@ public class Bandeja {
         if (descripcionBandeja == null) {
             descripcionBandeja = "No hay una descripción disponible para este platillo.";
         } else {
-        this.nombreBandeja = nombreBandeja;
+        this.descripcionBandejaBandeja = descripcionBandeja;
         }
     }
 }
