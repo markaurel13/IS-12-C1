@@ -8,6 +8,7 @@ public class MonederoVirtual {
     // Constructor del monedero (usado al crearse un comensal)
     public MonederoVirtual() {
         saldo = 0;
+        MonederoGlobal.getInstancia();
     }
 
     // Devuelve el saldo disponible en una cadena de formato "BsS. 0.00"
