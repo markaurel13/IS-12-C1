@@ -3,31 +3,38 @@ package main;
 import java.text.DecimalFormat;
 
 public class MonederoVirtual {
-    private double saldo;
-    
-    // Constructor del monedero (usado al crearse un comensal)
-    public MonederoVirtual() {
-        saldo = 0;
-        MonederoGlobal.getInstancia();
-    }
+private double saldo;
 
-    // Devuelve el saldo disponible en una cadena de formato "BsS. 0.00"
-    public double getSaldo() {
-        string moneda = "BsS. "; 
-        string saldoRounded = new DecimalFormat("#.0#").format(saldo);
-        string textoSaldo = moneda + saldoRounded;
-        return textoSaldo;
-    }
+public MonederoVirtual() {
+    saldo = 0;
+    MonederoGlobal.getInstancia();
+}
 
-    public void recargarSaldo(double recarga) {
-        if(recarga <= 0) {
-            throw new IllegalArgumentException("Recargue un monto válido positivo.");
-        }
-        else {
-            saldo += recarga;
-            system.out.println("Recarga exitosa.");
-        }
+public double getSaldo() {
+    string moneda = "BsS. "; 
+    string saldoRounded = new DecimalFormat("#.0#").format(saldo);
+    string textoSaldo = moneda + saldoRounded;
+    return textoSaldo;
+}
 
+public void recargar(double recarga) {
+    if(recarga <= 0) {
+        throw new IllegalArgumentException("Recargue un monto válido positivo.");
     }
+    else {
+        saldo += recarga;
+        system.out.println("Recarga exitosa.");
+    }
+}
+
+public boolean pagarBandeja(double costo) {
+    if (saldo >= costo) {
+        saldo -= costo;
+        return true;
+    }
+    return false;
+}
 
 }
+
+
