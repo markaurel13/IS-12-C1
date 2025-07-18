@@ -48,8 +48,8 @@ public class inicioSesionInterface {
         JButton botonRegistrarse = new JButton("Registrarse");
         botonRegistrarse.setAlignmentX(JButton.CENTER_ALIGNMENT);
         botonRegistrarse.addActionListener(e -> {
-            // Aquí puedes agregar la lógica para redirigir a la ventana de registro
-            // Por ejemplo, puedes usar un JFrame o un JOptionPane para mostrar un mensaje
+            ((JFrame) SwingUtilities.getWindowAncestor(botonRegistrarse)).dispose(); // Cierra la ventana actual
+            main.vista.registroInterface.mostrarVentanaRegistro(); // Abre la ventana de registro
             JOptionPane.showMessageDialog(null, "¡Bienvenido a la ventana de registro!");
         });
         
