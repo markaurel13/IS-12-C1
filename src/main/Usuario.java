@@ -1,4 +1,4 @@
-package model;
+package main;
 
 /**
  * Clase abstracta que representa un usuario del sistema de comedor.

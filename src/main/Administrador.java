@@ -1,5 +1,5 @@
 // Administrador.java
-package model;
+package main;
 
 /**
  * Representa a un administrador del sistema de comedor.
