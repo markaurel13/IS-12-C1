@@ -1,94 +1,93 @@
-package main.vista;
-import main.vista.MyFrame;
 import javax.swing.*;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.Dimension;
+import javax.swing.border.Border;
+import java.awt.*;
 
-public class registroInterface {
+public class registroInterface extends JFrame {
 
-    public static void mostrarVentanaRegistro() {
-        main(new String[0]);
-    }
+    public registroInterface() {
+        setTitle("Registro UCV Eats");
+        setSize(380, 580);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setLayout(new BorderLayout());
+        getContentPane().setBackground(Color.decode("#f4f6f8"));
 
-    private static class moduloRegistro extends JPanel {
+        // Panel Superior
+        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.setBackground(Color.decode("#353535"));
+        topPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
-        private static String DEFAULT_TITLE = "Título por defecto";
+        JLabel logo = new JLabel("UCVeats");
+        logo.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        logo.setForeground(Color.decode("#ffffff"));
 
-        JLabel labelTitulo;
-        JTextField campoTexto;
+        JLabel seccion = new JLabel("Registro", SwingConstants.RIGHT);
+        seccion.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        seccion.setForeground(Color.decode("#ffffff"));
+        Border borde = BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(Color.decode("#ffffff"), 2, true),
+                BorderFactory.createEmptyBorder(2, 6, 2, 6));
+        seccion.setBorder(borde);
 
-        public moduloRegistro(String title) {
-            moduloRegistro.DEFAULT_TITLE= title;
-            this.setLayout(new GridLayout(1, 2, 50, 0));
-            this.setBorder(BorderFactory.createEmptyBorder(10, 45, 10, 45));
+        topPanel.add(logo, BorderLayout.WEST);
+        topPanel.add(seccion, BorderLayout.EAST);
 
-            labelTitulo = new JLabel(title);
-            labelTitulo.setFont(new Font("Arial", Font.BOLD, 14));
-            labelTitulo.setPreferredSize(new Dimension(200, 30));
+        // Panel Central
+        JPanel centralPanel = new JPanel();
+        centralPanel.setLayout(null);
+        centralPanel.setBackground(Color.decode("#ffffff"));
 
-            campoTexto = new JTextField();
-            campoTexto.setFont(new Font("Arial", Font.PLAIN, 14));
-            campoTexto.setBounds(0, 0, 200, 30);
-            
+        JLabel titulo = new JLabel("REGISTRO DE USUARIO");
+        titulo.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        titulo.setBounds(70, 30, 250, 25);
+        centralPanel.add(titulo);
 
-            this.add(labelTitulo);
-            this.add(campoTexto);
+        int y = 80;
+        String[] campos = {"Nombre", "Apellido", "Cédula", "Teléfono", "Correo", "Contraseña", "Confirmar Contraseña"};
+        JTextField[] entradas = new JTextField[campos.length];
+
+        for (int i = 0; i < campos.length; i++) {
+            JLabel etiqueta = new JLabel(campos[i] + ":");
+            etiqueta.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+            etiqueta.setBounds(40, y, 130, 25);
+            centralPanel.add(etiqueta);
+
+            JTextField campo;
+            if (campos[i].toLowerCase().contains("contraseña")) {
+                campo = new JPasswordField();
+            } else {
+                campo = new JTextField();
+            }
+            campo.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+            campo.setBounds(180, y, 150, 25);
+            entradas[i] = campo;
+            centralPanel.add(campo);
+            y += 40;
         }
-        
+
+        JButton botonRegistrar = new JButton("REGISTRAR");
+        botonRegistrar.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        botonRegistrar.setBackground(Color.decode("#87cc2e"));
+        botonRegistrar.setForeground(Color.decode("#2f3829"));
+        botonRegistrar.setFocusPainted(false);
+        botonRegistrar.setBounds(80, y + 10, 200, 40);
+        botonRegistrar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        botonRegistrar.setBorder(BorderFactory.createLineBorder(Color.decode("#2f3829"), 2, true));
+        botonRegistrar.addActionListener(e -> {
+            JOptionPane.showMessageDialog(this, "¡Registro exitoso!");
+        });
+        centralPanel.add(botonRegistrar);
+
+        add(topPanel, BorderLayout.NORTH);
+        add(centralPanel, BorderLayout.CENTER);
+        setVisible(true);
     }
-    
 
     public static void main(String[] args) {
-        MyFrame frame = new MyFrame("Registro UCV Eats");
-
-        frame.getMyPanel().setLayout(new BoxLayout(frame.getMyPanel(), BoxLayout.Y_AXIS));
-
-        JLabel labelTitulo = new JLabel("Registro de Usuarios");
-        labelTitulo.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-        labelTitulo.setFont(new Font("Arial", Font.BOLD, 24));
-        labelTitulo.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-
-        moduloRegistro nombre = new moduloRegistro("Ingrese su Nombre: ");
-
-        moduloRegistro apellido = new moduloRegistro("Ingrese su Apellido: ");
-        moduloRegistro cedula = new moduloRegistro("Ingrese su Cédula: ");
-        moduloRegistro telefono = new moduloRegistro("Ingrese su Teléfono: ");
-        moduloRegistro correo = new moduloRegistro("Ingrese su Correo: ");
-        moduloRegistro contrasena = new moduloRegistro("Ingrese su Contraseña: ");
-        moduloRegistro confirmarContrasena = new moduloRegistro("Confirme su Contraseña: ");
-
-
-        JButton botonRegistrar = new JButton("Registrar");
-        botonRegistrar.setAlignmentX(JButton.CENTER_ALIGNMENT);
-        botonRegistrar.addActionListener(e -> {
-            // Aquí puedes agregar la lógica para redirigir a la ventana de registro
-            // Por ejemplo, puedes usar un JFrame o un JOptionPane para mostrar un mensaje
-            JOptionPane.showMessageDialog(null, "¡Registro exitoso!");
-        });
-
-
-
-        frame.getMyPanel().add(labelTitulo);
-        frame.getMyPanel().add(Box.createVerticalStrut(20));
-        frame.getMyPanel().add(nombre);
-        //frame.getMyPanel().add(Box.createVerticalStrut(20));
-        frame.getMyPanel().add(apellido);
-        //frame.getMyPanel().add(Box.createVerticalStrut(20));
-        frame.getMyPanel().add(cedula);
-        //frame.getMyPanel().add(Box.createVerticalStrut(20));
-        frame.getMyPanel().add(telefono);
-       // frame.getMyPanel().add(Box.createVerticalStrut(20));
-        frame.getMyPanel().add(correo);
-        //frame.getMyPanel().add(Box.createVerticalStrut(20));
-        frame.getMyPanel().add(contrasena);
-        //frame.getMyPanel().add(Box.createVerticalStrut(20));
-        frame.getMyPanel().add(confirmarContrasena);
-        frame.getMyPanel().add(Box.createVerticalStrut(20));
-        frame.getMyPanel().add(botonRegistrar);
-        frame.getMyPanel().add(Box.createVerticalStrut(20));
-        frame.mostrarVentana();
-       
+        try {
+            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+        } catch (Exception ignored) {}
+        new registroInterface();
     }
-
 }
