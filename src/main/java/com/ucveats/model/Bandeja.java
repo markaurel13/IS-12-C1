@@ -1,4 +1,4 @@
-package main;
+package com.ucveats.model;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

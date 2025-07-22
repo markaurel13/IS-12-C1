@@ -1,5 +1,5 @@
 // Administrador.java
-package main;
+package com.ucveats.model;
 
 /**
  * Representa a un administrador del sistema de comedor.
