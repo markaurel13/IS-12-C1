@@ -1,48 +1,61 @@
+/*detalle para corregir aca:
+el focus de los botones que se ve en el de inicio y no en el de registro*/
+
+package main.vista;
+import main.vista.MyFrame;
 import javax.swing.*;
 import javax.swing.border.Border;
+import org.w3c.dom.events.MouseEvent;
 import java.awt.*;
+
+//este import se coloca unicamente para cablear el codigo y que los botones cambein de ventana
+import main.vista.inicioSesionInterface;
+
 
 public class registroInterface extends JFrame {
 
-    public registroInterface() {
-        setTitle("Registro UCV Eats");
-        setSize(380, 580);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        setResizable(false);
-        setLayout(new BorderLayout());
-        getContentPane().setBackground(Color.decode("#f4f6f8"));
+    //clase para llamar al main desde inicio de sesion, se coloca para cablear el codigo y que los botones cambein de ventana
+    public static void mostrarVentanaRegistro() {
+        main(new String[0]);
+    }
 
-        // Panel Superior
-        JPanel topPanel = new JPanel(new BorderLayout());
-        topPanel.setBackground(Color.decode("#353535"));
-        topPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
-        JLabel logo = new JLabel("UCVeats");
-        logo.setFont(new Font("Segoe UI", Font.BOLD, 20));
-        logo.setForeground(Color.decode("#ffffff"));
+    public static void main(String[] args) {
 
-        JLabel seccion = new JLabel("Registro", SwingConstants.RIGHT);
-        seccion.setFont(new Font("Segoe UI", Font.BOLD, 12));
-        seccion.setForeground(Color.decode("#ffffff"));
-        Border borde = BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(Color.decode("#ffffff"), 2, true),
-                BorderFactory.createEmptyBorder(2, 6, 2, 6));
-        seccion.setBorder(borde);
+        // no se que hace esta verga
+        try {
+            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+        } catch (Exception ignored) {}
+        
+        MyFrame frame = new MyFrame("Registro UCV Eats");
 
-        topPanel.add(logo, BorderLayout.WEST);
-        topPanel.add(seccion, BorderLayout.EAST);
+        // boton superior de iniciar sesion en el top panel de MyFrame
+        JButton botonIniciarSesion = new JButton("Iniciar Sesión");
+        botonIniciarSesion.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        botonIniciarSesion.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        botonIniciarSesion.setBackground(Color.decode("#87cc2e"));
+        botonIniciarSesion.setForeground(Color.decode("#2f3829"));
+        botonIniciarSesion.setFocusPainted(false);
+        botonIniciarSesion.addActionListener(e -> {
+            ((JFrame) SwingUtilities.getWindowAncestor(botonIniciarSesion)).dispose(); // Cierra la ventana actual
+            main.vista.inicioSesionInterface.mostrarVentanaInicioSesion(); // Abre la ventana de inicio de sesión
+        });
+
+        frame.getTopPanel().add(botonIniciarSesion, BorderLayout.EAST);
+
 
         // Panel Central
         JPanel centralPanel = new JPanel();
         centralPanel.setLayout(null);
         centralPanel.setBackground(Color.decode("#ffffff"));
 
-        JLabel titulo = new JLabel("REGISTRO DE USUARIO");
+        JLabel titulo = new JLabel("Registro de Usuario", JLabel.CENTER);
         titulo.setFont(new Font("Segoe UI", Font.BOLD, 16));
         titulo.setBounds(70, 30, 250, 25);
+
         centralPanel.add(titulo);
 
+        // ciclo para anadir campos a registar
         int y = 80;
         String[] campos = {"Nombre", "Apellido", "Cédula", "Teléfono", "Correo", "Contraseña", "Confirmar Contraseña"};
         JTextField[] entradas = new JTextField[campos.length];
@@ -50,7 +63,8 @@ public class registroInterface extends JFrame {
         for (int i = 0; i < campos.length; i++) {
             JLabel etiqueta = new JLabel(campos[i] + ":");
             etiqueta.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-            etiqueta.setBounds(40, y, 130, 25);
+            etiqueta.setBounds(30, y, 140, 25);
+
             centralPanel.add(etiqueta);
 
             JTextField campo;
@@ -60,9 +74,11 @@ public class registroInterface extends JFrame {
                 campo = new JTextField();
             }
             campo.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-            campo.setBounds(180, y, 150, 25);
+            campo.setBounds(190, y, 150, 25);
             entradas[i] = campo;
+
             centralPanel.add(campo);
+
             y += 40;
         }
 
@@ -75,19 +91,16 @@ public class registroInterface extends JFrame {
         botonRegistrar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         botonRegistrar.setBorder(BorderFactory.createLineBorder(Color.decode("#2f3829"), 2, true));
         botonRegistrar.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "¡Registro exitoso!");
+            JOptionPane.showMessageDialog(null, "¡Registro exitoso!");
         });
+        
         centralPanel.add(botonRegistrar);
 
-        add(topPanel, BorderLayout.NORTH);
-        add(centralPanel, BorderLayout.CENTER);
-        setVisible(true);
-    }
+       
+       
+        frame.getMyPanel().add(centralPanel, BorderLayout.CENTER);
+        frame.mostrarVentana();
 
-    public static void main(String[] args) {
-        try {
-            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-        } catch (Exception ignored) {}
-        new registroInterface();
+
     }
 }
