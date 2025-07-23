@@ -4,8 +4,8 @@
  * los botones estan cableados menos el de ver monedero 
  */
 
-package main.vista;
-import main.vista.MyFrame;
+package com.ucveats.view;
+import com.ucveats.view.MyFrame;
 import javax.swing.*;
 import java.awt.*;
 
@@ -24,7 +24,7 @@ public class menuUsuario {
         botonCerrarSesion.setFocusPainted(false);
         botonCerrarSesion.addActionListener(e -> {
             ((JFrame) SwingUtilities.getWindowAncestor(botonCerrarSesion)).dispose();
-            main.vista.inicioSesionInterface.mostrarVentanaInicioSesion();
+            com.ucveats.view.inicioSesionInterface.mostrarVentanaInicioSesion();
         });
 
         frame.getTopPanel().add(botonCerrarSesion, BorderLayout.EAST);
@@ -44,7 +44,7 @@ public class menuUsuario {
         botonVerMenu.setFocusPainted(false);
         botonVerMenu.addActionListener(e -> {
             ((JFrame) SwingUtilities.getWindowAncestor(botonVerMenu)).dispose();// Cierra la ventana actual
-            main.vista.verMenuInterface.mostrarVentanaVerMenu(); // Muestra la ventana del menu
+            com.ucveats.view.verMenuInterface.mostrarVentanaVerMenu(); // Muestra la ventana del menu
         });
 
         JButton botonVerMonedero = new JButton("Ver Monedero");

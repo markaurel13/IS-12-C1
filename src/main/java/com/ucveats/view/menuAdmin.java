@@ -6,8 +6,8 @@
  */
 
 
-package main.vista;
-import main.vista.MyFrame;
+package com.ucveats.view;
+import com.ucveats.view.MyFrame;
 import javax.swing.*;
 import java.awt.*;
 
@@ -27,7 +27,7 @@ public class menuAdmin {
         botonCerrarSesion.setFocusPainted(false);
         botonCerrarSesion.addActionListener(e -> {
             ((JFrame) SwingUtilities.getWindowAncestor(botonCerrarSesion)).dispose();
-            main.vista.inicioSesionInterface.mostrarVentanaInicioSesion();
+            com.ucveats.view.inicioSesionInterface.mostrarVentanaInicioSesion();
         });
 
         frame.getTopPanel().add(botonCerrarSesion, BorderLayout.EAST);

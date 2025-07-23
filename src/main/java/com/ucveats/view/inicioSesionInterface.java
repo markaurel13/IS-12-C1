@@ -1,10 +1,10 @@
-package main.vista;
-import main.vista.MyFrame;
+package com.ucveats.view;
+import com.ucveats.view.MyFrame;
 import javax.swing.*;
 import java.awt.*;
 
 //este import se coloca unicamente para cablear el codigo y que los botones cambein de ventana
-import main.vista.registroInterface;
+//import main.java.com.ucveats.view.registroInterface;
 
 public class inicioSesionInterface {
 
@@ -77,7 +77,7 @@ public class inicioSesionInterface {
         botonRegistrarse.setBorder(BorderFactory.createLineBorder(Color.decode("#2f3829"), 1, true));
         botonRegistrarse.addActionListener(e -> {
             ((JFrame) SwingUtilities.getWindowAncestor(botonRegistrarse)).dispose(); // Cierra la ventana actual
-            main.vista.registroInterface.mostrarVentanaRegistro(); // Muestra la ventana de registro
+            com.ucveats.view.registroInterface.mostrarVentanaRegistro(); // Muestra la ventana de registro
             JOptionPane.showMessageDialog(null, "¡Bienvenido a la ventana de registro!");
         });
 

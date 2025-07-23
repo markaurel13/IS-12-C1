@@ -1,15 +1,15 @@
 /*detalle para corregir aca:
 el focus de los botones que se ve en el de inicio y no en el de registro*/
 
-package main.vista;
-import main.vista.MyFrame;
+package com.ucveats.view;
+import com.ucveats.view.MyFrame;
 import javax.swing.*;
 import javax.swing.border.Border;
 import org.w3c.dom.events.MouseEvent;
 import java.awt.*;
 
 //este import se coloca unicamente para cablear el codigo y que los botones cambein de ventana
-import main.vista.inicioSesionInterface;
+//import main.vista.inicioSesionInterface;      REVISAR ESTE IMPORT SI NO FUNCIONA
 
 
 public class registroInterface extends JFrame {
@@ -38,7 +38,7 @@ public class registroInterface extends JFrame {
         botonIniciarSesion.setFocusPainted(false);
         botonIniciarSesion.addActionListener(e -> {
             ((JFrame) SwingUtilities.getWindowAncestor(botonIniciarSesion)).dispose(); // Cierra la ventana actual
-            main.vista.inicioSesionInterface.mostrarVentanaInicioSesion(); // Abre la ventana de inicio de sesión
+            com.ucveats.view.inicioSesionInterface.mostrarVentanaInicioSesion(); // Abre la ventana de inicio de sesión
         });
 
         frame.getTopPanel().add(botonIniciarSesion, BorderLayout.EAST);

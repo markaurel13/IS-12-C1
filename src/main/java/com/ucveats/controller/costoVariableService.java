@@ -1,14 +1,23 @@
-package main.service;
+// los archivos de costoVariableService y costoFijoService son esxatamente iguales
 
-import is12c1.model.costoVariable;
+package com.ucveats.controller;
+
+import com.ucveats.model.CostoVariable;
+import com.ucveats.model.CostoFijo;
+import com.ucveats.controller.costoFijoService;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import javax.swing.JOptionPane;
 
-public class CostoVariableService {
-    private CostoVariable costoVariable;
-    private CostoFijoService costoFijoService;
 
-    public CostoVariableService() {
-        this.costoFijoService = new CostoFijoService();
+public class costoVariableService {
+    private CostoVariable costoVariable;
+    private costoFijoService costoFijoService;
+
+    public costoVariableService() {
+        this.costoFijoService = new costoFijoService();
         this.costoVariable = cargarCostosVariables();
         if (costoVariable == null) {
             this.costoVariable = new CostoVariable(0, 0, 0, "", "");
@@ -16,7 +25,7 @@ public class CostoVariableService {
     }
 
     private CostoVariable cargarCostosVariables() {
-        try (BufferedReader br = new BufferedReader(new FileReader(CostoFijoService.FILE_PATH))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(costoFijoService.FILE_PATH))) {
             String linea = br.readLine();
             if (linea != null) {
                 String[] partes = linea.split("\\|")[1].split(",");

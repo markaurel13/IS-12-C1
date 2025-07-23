@@ -18,7 +18,8 @@ public class MonederoGlobal {
         this.saldoPagado = 0;
     }
 
-    public static getInstancia() {
+    // luisangel anadio el tipo MonederoGlobal a la clase get instancia porque habia un error
+    public static MonederoGlobal getInstancia() {
         if (MonederoGlobal.instancia == null){
             MonederoGlobal.instancia = new MonederoGlobal();
         }

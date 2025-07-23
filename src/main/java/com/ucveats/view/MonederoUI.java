@@ -1,3 +1,4 @@
+package com.ucveats.view;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;

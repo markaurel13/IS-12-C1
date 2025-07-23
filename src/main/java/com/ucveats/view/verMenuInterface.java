@@ -1,20 +1,73 @@
 /*
- * en este interface deberia crear un objeto de tipo plato para poder crear los diferentes platos necesarios 
  * hay que colocar los respectivos botones para cerrar sesion y aceder al menu ademas de ver el saldo que tengo disponible y el usuario que 
  * esta registrado
  */
 
-package main.vista;
+package com.ucveats.view;
+//import com.ucveats.view.MyFrame;
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDate;
+import java.net.URL;
+
 
 public class verMenuInterface {
 
     // Clase para llamar al main desde el menú de usuario, se coloca unicamente para cablear el código y que los botones cambien de ventana
-    
     public static void mostrarVentanaVerMenu() {
         main(new String[0]);
+    }
+
+    // Clase interna para representar un elemento del menú
+    // Cada elemento del menú tiene un icono, nombre y descripción
+    public static class elementoMenu extends JPanel {
+
+        private ImageIcon iconoPlato;
+        private JLabel labelIcono;
+        private JLabel nombrePlato;
+        private JLabel descripcionPlato;
+
+        // Constructor de la clase elementoMenu
+        // Recibe la ruta del icono, el nombre del plato y una breve descripción
+        public elementoMenu (String rutaIcono, String nombre, String descripcion) {
+
+            URL imageUrl = getClass().getResource(rutaIcono); // Intenta cargar el recurso
+            if (imageUrl != null) {
+                this.iconoPlato = new ImageIcon(imageUrl);
+            } else {
+                // Manejar el caso en que la imagen no se encuentre
+                System.err.println("Advertencia: Imagen no encontrada en el classpath: " + rutaIcono);
+                this.iconoPlato = new ImageIcon(); // Icono vacío o un icono predeterminado de error
+            }
+            
+            //this.iconoPlato = new ImageIcon(rutaIcono);
+            this.labelIcono = new JLabel(iconoPlato);
+            this.nombrePlato = new JLabel(nombre);
+            this.descripcionPlato = new JLabel(descripcion);
+
+            this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+            this.setBackground(Color.decode("#ffffff"));
+
+            this.labelIcono.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+            this.nombrePlato.setAlignmentX(Component.CENTER_ALIGNMENT);
+            this.nombrePlato.setFont(new Font("Segoe UI", Font.BOLD, 16));
+            this.nombrePlato.setForeground(Color.decode("#2f3829"));
+
+            this.descripcionPlato.setAlignmentX(Component.CENTER_ALIGNMENT);
+            this.descripcionPlato.setFont(new Font("Segoe UI", Font.ITALIC, 14));
+            this.descripcionPlato.setForeground(Color.decode("#2f3829"));
+
+            this.add(Box.createVerticalStrut(10));
+            this.add(labelIcono);
+            this.add(Box.createVerticalStrut(10));
+            this.add(nombrePlato);
+            this.add(Box.createVerticalStrut(10));
+            this.add(descripcionPlato);
+            this.add(Box.createVerticalStrut(10));
+        }
+
+
     }
     
 
@@ -48,50 +101,23 @@ public class verMenuInterface {
         labelFecha.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         labelFecha.setForeground(Color.decode("#2f3829"));
 
-
+        // titulo de desayuno y elemento del desayuno
         JLabel tituloDesayuno = new JLabel("Desayuno");
         tituloDesayuno.setAlignmentX(Component.CENTER_ALIGNMENT);
         tituloDesayuno.setFont(new Font("Segoe UI", Font.BOLD, 18));
         tituloDesayuno.setForeground(Color.decode("#2f3829"));
 
-        ImageIcon iconoDesayuno = new ImageIcon("D:\\archivos\\Documents\\01 UCV\\01-2025\\ing software\\IS-12-C1\\src\\main\\vista\\desayuno.png");
-        JLabel labelIconoDesayuno = new JLabel(iconoDesayuno);
-        labelIconoDesayuno.setAlignmentX(Component.CENTER_ALIGNMENT);
+        elementoMenu desayuno = new elementoMenu("/desayuno.png", "Huevos con Tocino", "Deliciosos Huevos con tocino crujiente y pan");
 
-        JLabel labelNombrePalatoDesayuno = new JLabel("Huevos con Tocino");
-        labelNombrePalatoDesayuno.setAlignmentX(Component.CENTER_ALIGNMENT);
-        labelNombrePalatoDesayuno.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        labelNombrePalatoDesayuno.setForeground(Color.decode("#2f3829"));
-
-
-        JLabel labelDescripcionPlatoDesayuno = new JLabel("Deliciosos Huevos con tocino crujiente y pan");
-        labelDescripcionPlatoDesayuno.setAlignmentX(Component.CENTER_ALIGNMENT);
-        labelDescripcionPlatoDesayuno.setFont(new Font("Segoe UI", Font.ITALIC, 14));
-        labelDescripcionPlatoDesayuno.setForeground(Color.decode("#2f3829"));
-
-
-
+        // titulo de almuerzo y elemento del almuerzo
         JLabel tituloAlmuerzo = new JLabel("Almuerzo");
         tituloAlmuerzo.setAlignmentX(Component.CENTER_ALIGNMENT);
         tituloAlmuerzo.setFont(new Font("Segoe UI", Font.BOLD, 18));
         tituloAlmuerzo.setForeground(Color.decode("#2f3829"));
 
-        ImageIcon iconoAlmuerzo = new ImageIcon("D:\\archivos\\Documents\\01 UCV\\01-2025\\ing software\\IS-12-C1\\src\\main\\vista\\plato.png");
-        JLabel labelIconoAlmuerzo = new JLabel(iconoAlmuerzo);
-        labelIconoAlmuerzo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        elementoMenu almuerzo = new elementoMenu("/almuerzo.png", "Pato a la Naranja", "Delicioso pato con salsa de naranja");
 
-        JLabel labelNombrePalatoAlmuerzo = new JLabel("Pato a la naranja");
-        labelNombrePalatoAlmuerzo.setAlignmentX(Component.CENTER_ALIGNMENT);
-        labelNombrePalatoAlmuerzo.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        labelNombrePalatoAlmuerzo.setForeground(Color.decode("#2f3829"));
-
-        JLabel labelDescripcionPlatoAlmuerzo = new JLabel("Delicioso pato con salsa de naranja");
-        labelDescripcionPlatoAlmuerzo.setAlignmentX(Component.CENTER_ALIGNMENT);
-        labelDescripcionPlatoAlmuerzo.setFont(new Font("Segoe UI", Font.ITALIC, 14));
-        labelDescripcionPlatoAlmuerzo.setForeground(Color.decode("#2f3829"));
-
-
-
+        // Agregar los elementos colocados en central panel a un panel que tiene scroll
         JScrollPane scrollPane = new JScrollPane(centerPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         centerPanel.add(labelTitulo);
@@ -99,19 +125,11 @@ public class verMenuInterface {
         centerPanel.add(Box.createVerticalStrut(15));
         centerPanel.add(tituloDesayuno);
         centerPanel.add(Box.createVerticalStrut(10));
-        centerPanel.add(labelIconoDesayuno);
-        centerPanel.add(Box.createVerticalStrut(20));
-        centerPanel.add(labelNombrePalatoDesayuno);
-        centerPanel.add(Box.createVerticalStrut(10));
-        centerPanel.add(labelDescripcionPlatoDesayuno);
+        centerPanel.add(desayuno); 
         centerPanel.add(Box.createVerticalStrut(40));
         centerPanel.add(tituloAlmuerzo);
         centerPanel.add(Box.createVerticalStrut(10));
-        centerPanel.add(labelIconoAlmuerzo);
-        centerPanel.add(Box.createVerticalStrut(20));
-        centerPanel.add(labelNombrePalatoAlmuerzo);
-        centerPanel.add(Box.createVerticalStrut(10));
-        centerPanel.add(labelDescripcionPlatoAlmuerzo);
+        centerPanel.add(almuerzo);
         centerPanel.add(Box.createVerticalStrut(20));
 
         frame.getMyPanel().add(scrollPane);

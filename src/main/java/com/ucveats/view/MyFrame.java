@@ -1,4 +1,4 @@
-package main.vista;
+package com.ucveats.view;
 import javax.swing.*;
 import java.awt.*;
 

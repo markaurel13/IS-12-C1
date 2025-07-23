@@ -1,10 +1,10 @@
 // AuthService.java
-package service;
+package com.ucveats.controller;
 
-import modelos.Usuario;
-import modelos.Comensal;
-import modelos.Administrador;
-import modelos.Usuario.RolUsuario;
+import com.ucveats.model.Usuario;
+import com.ucveats.model.Comensal;
+import com.ucveats.model.Administrador;
+import com.ucveats.model.Usuario.RolUsuario;
 import java.util.List;
 
 /**
