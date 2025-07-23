@@ -1,13 +1,17 @@
 package com.ucveats.view;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import com.ucveats.controller.costoFijoService;
 
 public class CostosFijosUI extends JFrame {
     private final JTextField campoManoObra, campoMantenimiento, campoAlquiler;
     private final JLabel totalLabel;
+    private final costoFijoService servicioCostos;
 
     public CostosFijosUI() {
+        
         setTitle("Registro de Costos Fijos");
         setSize(380, 580);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -30,8 +34,7 @@ public class CostosFijosUI extends JFrame {
         totalLabel.setForeground(Color.WHITE);
         totalLabel.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(Color.white, 2, true),
-                BorderFactory.createEmptyBorder(5, 10, 5, 10)
-        ));
+                BorderFactory.createEmptyBorder(5, 10, 5, 10)));
 
         topPanel.add(logoUCV, BorderLayout.WEST);
         topPanel.add(totalLabel, BorderLayout.EAST);
@@ -63,7 +66,12 @@ public class CostosFijosUI extends JFrame {
         add(topPanel, BorderLayout.NORTH);
         add(central, BorderLayout.CENTER);
 
+this.servicioCostos = new costoFijoService();
+double total = servicioCostos.getCostoFijoTotal();
+    totalLabel.setText(String.format("Total: Bs. %.2f", total));
+
         setVisible(true);
+        
     }
 
     private JTextField crearCampo(String etiqueta, int y, JPanel panel) {
@@ -84,25 +92,30 @@ public class CostosFijosUI extends JFrame {
             double manoObra = Double.parseDouble(campoManoObra.getText());
             double mantenimiento = Double.parseDouble(campoMantenimiento.getText());
             double alquiler = Double.parseDouble(campoAlquiler.getText());
-            JOptionPane.showMessageDialog(this, 
-            "✅ ¡Costos registrados exitosamente! ✅"+
-            "\n Mano de Obra: (" + manoObra + ")"+
-            "\n Mantenimiento: ("+ mantenimiento + ")" +
-            "\n Alquiler: ("+alquiler+")"
             
-            , "Proceso Exitoso", JOptionPane.PLAIN_MESSAGE) ;
-            
-            
+            servicioCostos.guardarCostos(manoObra, mantenimiento, alquiler);
+            double total = servicioCostos.getCostoFijoTotal();
+            totalLabel.setText(String.format("Total: Bs. %.2f", total));
+
+            /*JOptionPane.showMessageDialog(this,
+                    "✅ ¡Costos registrados exitosamente! ✅" +
+                            "\n Mano de Obra: (" + manoObra + ")" +
+                            "\n Mantenimiento: (" + mantenimiento + ")" +
+                            "\n Alquiler: (" + alquiler + ")"
+
+                    , "Proceso Exitoso", JOptionPane.PLAIN_MESSAGE); */
+
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "ERROR: Valor inválido. Intente de nuevo.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "ERROR: Valor inválido. Intente de nuevo.", "Advertencia",
+                    JOptionPane.WARNING_MESSAGE);
         }
     }
 
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
         new CostosFijosUI();
     }
 }
-
