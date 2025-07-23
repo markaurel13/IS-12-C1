@@ -1,4 +1,4 @@
-package main;
+package com.ucveats.model;
 
 import java.text.DecimalFormat;
 

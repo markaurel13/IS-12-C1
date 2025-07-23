@@ -1,11 +1,11 @@
-package main;
+package com.ucveats.model;
 
-public class costoFijo {
+public class CostoFijo {
     private double manoObra;
     private double mantenimiento;
     private double alquiler;
 
-    public costoFijo(double manoObra, double mantenimiento, double alquiler) {
+    public CostoFijo(double manoObra, double mantenimiento, double alquiler) {
         this.manoObra = manoObra;
         this.mantenimiento = mantenimiento;
         this.alquiler = alquiler;

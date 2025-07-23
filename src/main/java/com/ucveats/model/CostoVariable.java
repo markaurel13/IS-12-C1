@@ -1,4 +1,4 @@
-package main;
+package com.ucveats.model;
 
 public class CostoVariable {
     private double proteinas;

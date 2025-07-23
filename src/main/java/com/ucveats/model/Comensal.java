@@ -1,5 +1,5 @@
 // Comensal.java
-package main;
+package com.ucveats.model;
 
 /**
  * Representa a un comensal del sistema de comedor.

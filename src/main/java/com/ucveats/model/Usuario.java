@@ -1,4 +1,4 @@
-package main;
+package com.ucveats.model;
 
 /**
  * Clase abstracta que representa un usuario del sistema de comedor.
