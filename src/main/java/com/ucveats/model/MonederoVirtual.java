@@ -23,6 +23,7 @@ public void recargar(double recarga) {
     }
     else {
         saldo += recarga;
+        MonederoGlobal.recargarSaldo(recarga);
         system.out.println("Recarga exitosa.");
     }
 }
@@ -30,6 +31,7 @@ public void recargar(double recarga) {
 public boolean pagarBandeja(double costo) {
     if (saldo >= costo) {
         saldo -= costo;
+        MonederoGlobal.pagarComida(costo);
         return true;
     }
     return false;
