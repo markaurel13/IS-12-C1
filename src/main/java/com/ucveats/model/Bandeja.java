@@ -3,7 +3,7 @@ package com.ucveats.model;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import main.vista.inicioSesionInterface;
+import com.ucveats.view.inicioSesionInterface;
 
 public class Bandeja {
     // Expresiones regulares para valsidación:

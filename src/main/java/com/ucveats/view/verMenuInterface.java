@@ -1,7 +1,75 @@
+/*
+ * hay que colocar los respectivos botones para cerrar sesion y aceder al menu ademas de ver el saldo que tengo disponible y el usuario que 
+ * esta registrado
+ */
+
+package com.ucveats.view;
+//import com.ucveats.view.MyFrame;
 import javax.swing.*;
 import java.awt.*;
+import java.time.LocalDate;
+import java.net.URL;
 
-public class VerMenuInterface {
+
+public class verMenuInterface {
+
+    // Clase para llamar al main desde el menú de usuario, se coloca unicamente para cablear el código y que los botones cambien de ventana
+    public static void mostrarVentanaVerMenu() {
+        main(new String[0]);
+    }
+
+    // Clase interna para representar un elemento del menú
+    // Cada elemento del menú tiene un icono, nombre y descripción
+    public static class elementoMenu extends JPanel {
+
+        private ImageIcon iconoPlato;
+        private JLabel labelIcono;
+        private JLabel nombrePlato;
+        private JLabel descripcionPlato;
+
+        // Constructor de la clase elementoMenu
+        // Recibe la ruta del icono, el nombre del plato y una breve descripción
+        public elementoMenu (String rutaIcono, String nombre, String descripcion) {
+
+            URL imageUrl = getClass().getResource(rutaIcono); // Intenta cargar el recurso
+            if (imageUrl != null) {
+                this.iconoPlato = new ImageIcon(imageUrl);
+            } else {
+                // Manejar el caso en que la imagen no se encuentre
+                System.err.println("Advertencia: Imagen no encontrada en el classpath: " + rutaIcono);
+                this.iconoPlato = new ImageIcon(); // Icono vacío o un icono predeterminado de error
+            }
+            
+            //this.iconoPlato = new ImageIcon(rutaIcono);
+            this.labelIcono = new JLabel(iconoPlato);
+            this.nombrePlato = new JLabel(nombre);
+            this.descripcionPlato = new JLabel(descripcion);
+
+            this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+            this.setBackground(Color.decode("#ffffff"));
+
+            this.labelIcono.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+            this.nombrePlato.setAlignmentX(Component.CENTER_ALIGNMENT);
+            this.nombrePlato.setFont(new Font("Segoe UI", Font.BOLD, 16));
+            this.nombrePlato.setForeground(Color.decode("#2f3829"));
+
+            this.descripcionPlato.setAlignmentX(Component.CENTER_ALIGNMENT);
+            this.descripcionPlato.setFont(new Font("Segoe UI", Font.ITALIC, 14));
+            this.descripcionPlato.setForeground(Color.decode("#2f3829"));
+
+            this.add(Box.createVerticalStrut(10));
+            this.add(labelIcono);
+            this.add(Box.createVerticalStrut(10));
+            this.add(nombrePlato);
+            this.add(Box.createVerticalStrut(10));
+            this.add(descripcionPlato);
+            this.add(Box.createVerticalStrut(10));
+        }
+
+
+    }
+    
 
     public static void main(String[] args) {
         try {
@@ -9,21 +77,7 @@ public class VerMenuInterface {
         } catch (Exception ignored) {}
 
         MyFrame frame = new MyFrame("Menú Disponible");
-        frame.setSize(380, 580);
-        frame.getMyPanel().setLayout(new BorderLayout());
-        frame.getMyPanel().setBackground(Color.decode("#ffffff"));
 
-        // Panel Superior: logo izquierda
-        JPanel topPanel = new JPanel(new BorderLayout());
-        topPanel.setBackground(Color.decode("#353535"));
-        topPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-
-        JLabel logoUCV = new JLabel("UCVeats");
-        logoUCV.setFont(new Font("Segoe UI", Font.BOLD, 20));
-        logoUCV.setForeground(Color.decode("#ffffff"));
-
-        topPanel.add(logoUCV, BorderLayout.WEST);
-        frame.getMyPanel().add(topPanel, BorderLayout.NORTH);
 
         // Panel Central
         JPanel centerPanel = new JPanel();
@@ -34,66 +88,51 @@ public class VerMenuInterface {
         labelTitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
         labelTitulo.setFont(new Font("Segoe UI", Font.BOLD, 20));
         labelTitulo.setForeground(Color.decode("#2f3829"));
-        labelTitulo.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0));
+        labelTitulo.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
 
-        ImageIcon iconoPlato = new ImageIcon("src/assets/plato.png");
-        Image imagen = iconoPlato.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
-        JLabel labelIcono = new JLabel(new ImageIcon(imagen));
-        labelIcono.setAlignmentX(Component.CENTER_ALIGNMENT);
+        // Obtener la fecha actual
+        LocalDate fechaHoy = LocalDate.now();
+        int dia = fechaHoy.getDayOfMonth();
+        int mes = fechaHoy.getMonthValue();
+        int año = fechaHoy.getYear();
+        // Formatear la fecha como "dd/mm/yyyy"
+        JLabel labelFecha = new JLabel("Fecha: " + dia + "/" + mes + "/" + año);
+        labelFecha.setAlignmentX(Component.CENTER_ALIGNMENT);
+        labelFecha.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        labelFecha.setForeground(Color.decode("#2f3829"));
 
-        JLabel labelNombrePato = new JLabel("Pato a la naranja");
-        labelNombrePato.setAlignmentX(Component.CENTER_ALIGNMENT);
-        labelNombrePato.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        labelNombrePato.setForeground(Color.decode("#2f3829"));
+        // titulo de desayuno y elemento del desayuno
+        JLabel tituloDesayuno = new JLabel("Desayuno");
+        tituloDesayuno.setAlignmentX(Component.CENTER_ALIGNMENT);
+        tituloDesayuno.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        tituloDesayuno.setForeground(Color.decode("#2f3829"));
 
-        JLabel labelPrecioPato = new JLabel("Precio: $10.00");
-        labelPrecioPato.setAlignmentX(Component.CENTER_ALIGNMENT);
-        labelPrecioPato.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-        labelPrecioPato.setForeground(Color.decode("#2f3829"));
+        elementoMenu desayuno = new elementoMenu("/desayuno.png", "Huevos con Tocino", "Deliciosos Huevos con tocino crujiente y pan");
 
-        JLabel labelDescripcionPato = new JLabel("Delicioso pato con salsa de naranja");
-        labelDescripcionPato.setAlignmentX(Component.CENTER_ALIGNMENT);
-        labelDescripcionPato.setFont(new Font("Segoe UI", Font.ITALIC, 14));
-        labelDescripcionPato.setForeground(Color.decode("#2f3829"));
+        // titulo de almuerzo y elemento del almuerzo
+        JLabel tituloAlmuerzo = new JLabel("Almuerzo");
+        tituloAlmuerzo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        tituloAlmuerzo.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        tituloAlmuerzo.setForeground(Color.decode("#2f3829"));
 
-        JCheckBox checkPlato = new JCheckBox("Seleccionar plato");
-        checkPlato.setAlignmentX(Component.CENTER_ALIGNMENT);
-        checkPlato.setBackground(Color.decode("#ffffff"));
-        checkPlato.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        checkPlato.setForeground(Color.decode("#2f3829"));
+        elementoMenu almuerzo = new elementoMenu("/almuerzo.png", "Pato a la Naranja", "Delicioso pato con salsa de naranja");
 
-        JButton botonSeleccionar = new JButton("Seleccionar");
-        botonSeleccionar.setAlignmentX(Component.CENTER_ALIGNMENT);
-        botonSeleccionar.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        botonSeleccionar.setBackground(Color.decode("#87cc2e"));
-        botonSeleccionar.setForeground(Color.decode("#2f3829"));
-        botonSeleccionar.setFocusPainted(false);
-        botonSeleccionar.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        botonSeleccionar.setMaximumSize(new Dimension(220, 40));
-        botonSeleccionar.setBorder(BorderFactory.createLineBorder(Color.decode("#2f3829"), 2, true));
-        botonSeleccionar.addActionListener(e -> {
-            if (checkPlato.isSelected()) {
-                JOptionPane.showMessageDialog(frame, "✅ Plato seleccionado", "Proceso exitoso", JOptionPane.PLAIN_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(frame, "Debes seleccionar el plato primero", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            }
-        });
+        // Agregar los elementos colocados en central panel a un panel que tiene scroll
+        JScrollPane scrollPane = new JScrollPane(centerPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         centerPanel.add(labelTitulo);
+        centerPanel.add(labelFecha);
         centerPanel.add(Box.createVerticalStrut(15));
-        centerPanel.add(labelIcono);
-        centerPanel.add(Box.createVerticalStrut(20));
-        centerPanel.add(labelNombrePato);
+        centerPanel.add(tituloDesayuno);
         centerPanel.add(Box.createVerticalStrut(10));
-        centerPanel.add(labelPrecioPato);
+        centerPanel.add(desayuno); 
+        centerPanel.add(Box.createVerticalStrut(40));
+        centerPanel.add(tituloAlmuerzo);
         centerPanel.add(Box.createVerticalStrut(10));
-        centerPanel.add(labelDescripcionPato);
+        centerPanel.add(almuerzo);
         centerPanel.add(Box.createVerticalStrut(20));
-        centerPanel.add(checkPlato);
-        centerPanel.add(Box.createVerticalStrut(15));
-        centerPanel.add(botonSeleccionar);
 
-        frame.getMyPanel().add(centerPanel, BorderLayout.CENTER);
+        frame.getMyPanel().add(scrollPane);
         frame.mostrarVentana();
     }
 }

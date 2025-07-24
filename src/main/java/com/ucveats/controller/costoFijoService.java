@@ -1,83 +1,81 @@
-package main.service;
+package com.ucveats.controller;
 
-import is12c1.model.costoFijo;
+import com.ucveats.model.CostoFijo;
 import javax.swing.JOptionPane;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Locale;
 
-public class CostoVariableService {
-    private CostoVariable costoVariable;
-    private CostoFijoService costoFijoService;
 
-    public CostoVariableService() {
-        this.costoFijoService = new CostoFijoService();
-        this.costoVariable = cargarCostosVariables();
-        if (costoVariable == null) {
-            this.costoVariable = new CostoVariable(0, 0, 0, "", "");
+public class costoFijoService {
+    private CostoFijo costoFijo;
+    private static final String FILE_PATH = "src/main/resources/costosFijos.txt";
+
+    public costoFijoService() {
+        this.costoFijo = cargarCostosFijos();
+        if (costoFijo == null) {
+            this.costoFijo = new CostoFijo(0, 0, 0); // Valores por defecto
         }
     }
 
-    private CostoVariable cargarCostosVariables() {
-        try (BufferedReader br = new BufferedReader(new FileReader(CostoFijoService.FILE_PATH))) {
+    private CostoFijo cargarCostosFijos() {
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
             String linea = br.readLine();
             if (linea != null) {
-                String[] partes = linea.split("\\|")[1].split(",");
-                return new CostoVariable(
-                    Double.parseDouble(partes[0]),
-                    Double.parseDouble(partes[1]),
-                    Double.parseDouble(partes[2]),
-                    partes[3], // fecha
-                    partes[4]  // tipoBandeja
+                String[] partes = linea.split(",");
+                return new CostoFijo(
+                    Double.parseDouble(partes[0]), // manoObra
+                    Double.parseDouble(partes[1]), // mantenimiento
+                    Double.parseDouble(partes[2])  // alquiler
                 );
             }
         } catch (IOException | NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Error al cargar los costos variables. Se iniciará con valores por defecto.", "Error", JOptionPane.ERROR_MESSAGE);
+            //JOptionPane.showMessageDialog(null, "Error al cargar los costos fijos. Se iniciará con valores por defecto.", "Error", JOptionPane.ERROR_MESSAGE);
         }
         return null;
     }
 
-    public void guardarCostos(double proteinas, double carbohidratos, double energia, String fecha, String tipoBandeja) {
-        if (proteinas < 0 || carbohidratos < 0 || energia < 0) {
+    public void guardarCostos(double manoObra, double mantenimiento, double alquiler) {
+        if (manoObra < 0 || mantenimiento < 0 || alquiler < 0) {
             JOptionPane.showMessageDialog(null, "Por favor ingrese un valor numérico positivo.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        if (proteinas + carbohidratos + energia == 0 || fecha.isEmpty() || tipoBandeja.isEmpty()) {
+        if (manoObra == 0 || mantenimiento == 0 || alquiler == 0) {
             JOptionPane.showMessageDialog(null, "Complete todos los campos obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        if (!fecha.matches("\\d{2}/\\d{2}/\\d{2}")) {
-            JOptionPane.showMessageDialog(null, "La fecha debe estar en formato DD/MM/YY.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        costoVariable.setProteinas(proteinas);
-        costoVariable.setCarbohidratos(carbohidratos);
-        costoVariable.setEnergia(energia);
-        costoVariable.setFecha(fecha);
-        costoVariable.setTipoBandeja(tipoBandeja);
-        costoFijoService.guardarEnArchivo();
-        JOptionPane.showMessageDialog(null, "Costos variables registrados correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        costoFijo.setManoObra(manoObra);
+        costoFijo.setMantenimiento(mantenimiento);
+        costoFijo.setAlquiler(alquiler);
+        guardarEnArchivo();
+        JOptionPane.showMessageDialog(null,
+                    "✅ ¡Costos registrados exitosamente! ✅" +
+                            "\n Mano de Obra: (" + manoObra + ")" +
+                            "\n Mantenimiento: (" + mantenimiento + ")" +
+                            "\n Alquiler: (" + alquiler + ")"
+
+                    , "Proceso Exitoso", JOptionPane.PLAIN_MESSAGE);
+        //JOptionPane.showMessageDialog(null, "Costos fijos registrados correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    public void modificarInsumo(String tipo, double nuevoValor) {
-        if (nuevoValor < 0) {
-            JOptionPane.showMessageDialog(null, "El valor debe ser positivo.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
+    public void guardarEnArchivo() {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH))) {
+            String costoFijoData = String.format(Locale.US,"%.2f,%.2f,%.2f", costoFijo.getManoObra(), costoFijo.getMantenimiento(), costoFijo.getAlquiler());
+            bw.write(costoFijoData);
+            bw.newLine();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error al guardar los datos.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        switch (tipo.toLowerCase()) {
-            case "proteinas": costoVariable.setProteinas(nuevoValor); break;
-            case "carbohidratos": costoVariable.setCarbohidratos(nuevoValor); break;
-            case "energia": costoVariable.setEnergia(nuevoValor); break;
-            default:
-                JOptionPane.showMessageDialog(null, "Tipo de insumo no válido.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-        }
-        costoFijoService.guardarEnArchivo();
-        JOptionPane.showMessageDialog(null, "Insumo modificado correctamente. Costo variable total actualizado: " + String.format("%.2f", getCostoVariableTotal()), "Éxito", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    public double getCostoVariableTotal() {
-        return costoVariable.getTotal();
+    public double getCostoFijoTotal() {
+        return costoFijo.getTotal();
     }
 
-    public CostoVariable getCostoVariable() {
-        return costoVariable;
+    public CostoFijo getCostoFijo() {
+        return costoFijo;
     }
 }

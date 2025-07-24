@@ -1,4 +1,4 @@
-package service;
+package com.ucveats.controller;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

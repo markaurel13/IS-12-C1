@@ -1,32 +1,25 @@
-package main.vista;
-import main.vista.MyFrame;
-
+package com.ucveats.view;
+import com.ucveats.view.MyFrame;
 import javax.swing.*;
 import java.awt.*;
 
-public class InicioSesionInterface {
+//este import se coloca unicamente para cablear el codigo y que los botones cambein de ventana
+//import main.java.com.ucveats.view.registroInterface;
+
+public class inicioSesionInterface {
+
+    //clase para llamar al main desde registro de usuario, se coloca unucamente para cablear el codigo y que los botones cambein de ventana
+    public static void mostrarVentanaInicioSesion() {
+        main(new String[0]);
+    }
     public static void main(String[] args) {
+        // no se que hace esta verga
         try {
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
         } catch (Exception ignored) {}
 
         MyFrame frame = new MyFrame("Inicio de Sesión UCVeats");
-        frame.setSize(380, 580,);
-        frame.getMyPanel().setLayout(new BorderLayout());
-        frame.getMyPanel().setBackground(Color.decode("#ffffff"));
-
-        // Panel Superior: logo izquierda
-        JPanel topPanel = new JPanel(new BorderLayout());
-        topPanel.setBackground(Color.decode("#353535"));
-        topPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-
-        JLabel logoUCV = new JLabel("UCVeats");
-        logoUCV.setFont(new Font("Segoe UI", Font.BOLD, 20));
-        logoUCV.setForeground(Color.decode("#ffffff"));
-        topPanel.add(logoUCV, BorderLayout.WEST);
-
-        frame.getMyPanel().add(topPanel, BorderLayout.NORTH);
-
+    
         // Panel Central
         JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
@@ -83,8 +76,8 @@ public class InicioSesionInterface {
         botonRegistrarse.setMaximumSize(new Dimension(200, 35));
         botonRegistrarse.setBorder(BorderFactory.createLineBorder(Color.decode("#2f3829"), 1, true));
         botonRegistrarse.addActionListener(e -> {
-            ((JFrame) SwingUtilities.getWindowAncestor(botonRegistrarse)).dispose();
-            main.vista.registroInterface.mostrarVentanaRegistro();
+            ((JFrame) SwingUtilities.getWindowAncestor(botonRegistrarse)).dispose(); // Cierra la ventana actual
+            com.ucveats.view.registroInterface.mostrarVentanaRegistro(); // Muestra la ventana de registro
             JOptionPane.showMessageDialog(null, "¡Bienvenido a la ventana de registro!");
         });
 

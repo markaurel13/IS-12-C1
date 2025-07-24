@@ -1,10 +1,19 @@
+package com.ucveats.view;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import com.toedter.calendar.JDateChooser;
+import com.ucveats.controller.costoVariableService;
+import java.util.Calendar;
+import java.util.Date;
 
 public class costoVariableUI extends JFrame {
-    private final JTextField campoProteinas, campoCarbohidratos, campoEnergia, campoFecha, campoTipoBandeja;
+    private final JTextField campoProteinas, campoCarbohidratos, campoEnergia;
+    private final JComboBox<String> campoTipoBandeja;
     private final JLabel totalLabel;
+    private final JDateChooser campoFecha;
+    private final costoVariableService servicioCostos;
 
     public costoVariableUI() {
         setTitle("Registro de Costos Variables");
@@ -29,8 +38,7 @@ public class costoVariableUI extends JFrame {
         totalLabel.setForeground(Color.WHITE);
         totalLabel.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(Color.white, 2, true),
-                BorderFactory.createEmptyBorder(5, 10, 5, 10)
-        ));
+                BorderFactory.createEmptyBorder(5, 10, 5, 10)));
 
         topPanel.add(logoUCV, BorderLayout.WEST);
         topPanel.add(totalLabel, BorderLayout.EAST);
@@ -40,15 +48,41 @@ public class costoVariableUI extends JFrame {
         central.setBackground(Color.decode("#f4f6f8"));
 
         JLabel titulo = new JLabel("Registrar Costos Variables");
-        titulo.setFont(new Font("Segoe ", Font.BOLD, 18));
+        titulo.setFont(new Font("Segoe UI", Font.BOLD, 18));
         titulo.setBounds(80, 30, 300, 25);
         central.add(titulo);
 
         campoProteinas = crearCampo("Proteínas:", 80, central);
         campoCarbohidratos = crearCampo("Carbohidratos:", 130, central);
         campoEnergia = crearCampo("Energía:", 180, central);
-        campoFecha = crearCampo("Fecha:", 230, central);
-        campoTipoBandeja = crearCampo("Tipo de Bandeja:", 280, central);
+
+        // Creacion de JComboBox
+        JLabel labelTipo = new JLabel("Tipo de Bandeja:");
+        labelTipo.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        labelTipo.setBounds(40, 280, 140, 25);
+        central.add(labelTipo);
+
+        String[] opcionesBandeja = { "Desayuno", "Almuerzo"};
+        campoTipoBandeja = new JComboBox<>(opcionesBandeja);
+        campoTipoBandeja.setBounds(190, 280, 150, 25);
+        campoTipoBandeja.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        central.add(campoTipoBandeja);
+
+        JLabel labelFecha = new JLabel("Fecha:");
+        labelFecha.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        labelFecha.setBounds(40, 230, 140, 25);
+        central.add(labelFecha);
+
+        campoFecha = new JDateChooser();
+        campoFecha.setBounds(190, 230, 150, 25);
+        campoFecha.setDateFormatString("dd/MM/yyyy"); // Formato de fecha
+        Calendar maxCal = Calendar.getInstance();
+        maxCal.set(2035, Calendar.JANUARY, 1); // 01/01/2035
+        campoFecha.setMaxSelectableDate(maxCal.getTime());
+        Calendar minCal = Calendar.getInstance();
+        minCal.set(2000, Calendar.JANUARY, 1); // 01/01/2000
+        campoFecha.setMinSelectableDate(minCal.getTime());
+        central.add(campoFecha);
 
         JButton btnGuardar = new JButton("GUARDAR COSTO");
         btnGuardar.setBounds(110, 350, 180, 40);
@@ -60,9 +94,13 @@ public class costoVariableUI extends JFrame {
         btnGuardar.setBorder(BorderFactory.createLineBorder(Color.decode("#2f3829"), 2, true));
         btnGuardar.addActionListener(this::guardarCostos);
         central.add(btnGuardar);
+this.servicioCostos = new costoVariableService();
 
         add(topPanel, BorderLayout.NORTH);
         add(central, BorderLayout.CENTER);
+
+double total = servicioCostos.getCostoVariableTotal();
+totalLabel.setText(String.format("Total: Bs. %.2f", total));
 
         setVisible(true);
     }
@@ -85,20 +123,29 @@ public class costoVariableUI extends JFrame {
             double proteinas = Double.parseDouble(campoProteinas.getText());
             double carbohidratos = Double.parseDouble(campoCarbohidratos.getText());
             double energia = Double.parseDouble(campoEnergia.getText());
-            String fecha = campoFecha.getText();
-            String tipoBandeja = campoTipoBandeja.getText();
+            String tipoBandeja = (String) campoTipoBandeja.getSelectedItem();
 
-            costoVariable variable = new costoVariable(proteinas, carbohidratos, energia, fecha, tipoBandeja);
-            totalLabel.setText("Total: Bs. " + String.format("%.2f", variable.getTotal()));
 
-            JOptionPane.showMessageDialog(this,
+            // Obtiene la fecha seleccionada en formato string
+            Date fechaSeleccionada = campoFecha.getDate();
+            if (fechaSeleccionada == null) {
+                JOptionPane.showMessageDialog(this, "Debe seleccionar una fecha válida.", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            Date fecha = fechaSeleccionada;
+
+            servicioCostos.guardarCostos(proteinas, carbohidratos, energia, fecha, tipoBandeja);
+            totalLabel.setText("Total: Bs. " + String.format("%.2f", servicioCostos.getCostoVariableTotal()));
+
+            /*JOptionPane.showMessageDialog(this,
                     "✅ ¡Costos variables registrados exitosamente! ✅\n\n" +
-                    "- Proteínas: " + proteinas +
-                    "\n- Carbohidratos: " + carbohidratos +
-                    "\n- Energía: " + energia +
-                    "\n- Fecha: " + fecha +
-                    "\n- Tipo de Bandeja: " + tipoBandeja,
-                    "Registro exitoso", JOptionPane.INFORMATION_MESSAGE);
+                            "- Proteínas: " + proteinas +
+                            "\n- Carbohidratos: " + carbohidratos +
+                            "\n- Energía: " + energia +
+                            "\n- Fecha: " + fecha +
+                            "\n- Tipo de Bandeja: " + tipoBandeja,
+                    "Registro exitoso", JOptionPane.INFORMATION_MESSAGE);*/
 
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this,
@@ -110,7 +157,8 @@ public class costoVariableUI extends JFrame {
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
         new costoVariableUI();
     }
 }
