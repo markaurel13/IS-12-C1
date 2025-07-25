@@ -1,0 +1,16 @@
+-------------------------------------------------------------------------------
+Test set: com.ucveats.controller.AuthServiceLoginTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.134 s <<< FAILURE! -- in com.ucveats.controller.AuthServiceLoginTest
+com.ucveats.controller.AuthServiceLoginTest.testLoginValido -- Time elapsed: 0.071 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: El usuario debería poder hacer login ==> expected: not <null>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:152)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertNotNull.failNull(AssertNotNull.java:49)
+	at org.junit.jupiter.api.AssertNotNull.assertNotNull(AssertNotNull.java:35)
+	at org.junit.jupiter.api.Assertions.assertNotNull(Assertions.java:312)
+	at com.ucveats.controller.AuthServiceLoginTest.testLoginValido(AuthServiceLoginTest.java:15)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
