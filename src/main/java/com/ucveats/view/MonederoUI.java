@@ -3,8 +3,9 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import com.ucveats.model.MonederoVirtual;
 
-public class MonederoUI extends JFrame {
+public class MonederoUI extends MyFrame {
     private final MonederoVirtual monedero;
     private final JLabel saldoLabel;
     private final JTextField campoMonto;

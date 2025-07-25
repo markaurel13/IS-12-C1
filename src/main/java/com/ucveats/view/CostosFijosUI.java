@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import com.ucveats.controller.costoFijoService;
-import com.ucveats.controller.costoFijoService;
+
 
 public class CostosFijosUI extends MyFrame {
     private final JTextField campoManoObra, campoMantenimiento, campoAlquiler;

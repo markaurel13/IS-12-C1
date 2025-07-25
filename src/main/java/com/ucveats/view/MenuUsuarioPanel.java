@@ -5,30 +5,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.net.URL;
-
-// --- Clase Boton (se recomienda moverla a un archivo Boton.java) ---
-// La he renombrado a 'Boton' (con B mayúscula) por convención.
-// Si ya la tienes en un archivo separado, asegúrate de que sea pública.
-class Boton extends JButton { // Ya no es 'static class' si está fuera de menuUsuarioPanel
-    // 'JButton nombreBoton;' es redundante ya que la clase Boton ya es un JButton.
-    // public JButton nombreBoton; // <-- REMOVE THIS LINE
-
-    public Boton(String nombre, ActionListener accion) {
-        super(nombre); // Llama al constructor de JButton para establecer el texto
-        this.setFont(new Font("Segoe UI", Font.BOLD, 12));
-        this.setAlignmentX(Component.CENTER_ALIGNMENT);
-        // Ajusta el tamaño máximo del botón, si quieres que se vea bien en el panel de menú
-        this.setMaximumSize(new Dimension(180, 35)); // Un poco más ancho
-        this.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        this.setBackground(Color.decode("#87cc2e"));
-        this.setForeground(Color.decode("#2f3829"));
-        this.setFocusPainted(false);
-        this.addActionListener(accion);
-    }
-}
-// -------------------------------------------------------------------
 
 
 // --- Clase MenuUsuario convertida a JPanel ---
@@ -87,7 +64,7 @@ public class MenuUsuarioPanel extends JPanel { // Ahora extiende JPanel
         // Aquí, simplemente ocultamos ESTE PANEL. La lógica de 'mostrar otra ventana'
         // deberá ser manejada por la clase que contenga este panel o por un controlador.
 
-        Boton botonVerMenu = new Boton("Ver Menu", e -> {
+        BotonMenuPanel botonVerMenu = new BotonMenuPanel("Ver Menu", e -> {
             // Al hacer clic, ocultamos este mismo panel
             this.setVisible(false); 
             // La ventana actual que contiene este menú deberá mostrar la siguiente interfaz
@@ -96,13 +73,13 @@ public class MenuUsuarioPanel extends JPanel { // Ahora extiende JPanel
             System.out.println("Navegando a Ver Menú...");
         });
 
-        Boton botonVerMonedero = new Boton("Ver Monedero", e -> {
+        BotonMenuPanel botonVerMonedero = new BotonMenuPanel("Ver Monedero", e -> {
             this.setVisible(false);
             //com.ucveats.view.verMonederoInterface.mostrarVentanaVerMonedero();
             System.out.println("Navegando a Ver Monedero...");
         });
 
-        Boton botonCerrarSesion = new Boton("Cerrar Sesión", e -> {
+        BotonMenuPanel botonCerrarSesion = new BotonMenuPanel("Cerrar Sesión", e -> {
             this.setVisible(false);
             // La ventana actual que contiene este menú se encarga de mostrar la siguiente interfaz
             // Por ejemplo, MyFrame.this.ocultarVentana(); (si se llama desde la ventana contenedora)
