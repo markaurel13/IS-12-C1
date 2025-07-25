@@ -14,7 +14,7 @@ public class MonederoGlobal {
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
-        this.saldoTotal = 0;
+        this.saldoUsuarios = 0;
         this.saldoPagado = 0;
     }
 
@@ -24,6 +24,14 @@ public class MonederoGlobal {
             MonederoGlobal.instancia = new MonederoGlobal();
         }
         return MonederoGlobal.instancia;
+    }
+
+    public void recargarSaldo(int pago) {
+        this.saldoUsuarios += pago;
+    }
+
+    public void pagarComida(int pago) {
+        this.saldoPagado += pago;
     }
 
 }

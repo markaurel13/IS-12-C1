@@ -3,9 +3,11 @@
  */
 
 package com.ucveats.view;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import com.ucveats.controller.costoFijoService;
 import com.ucveats.controller.costoFijoService;
 
 public class CostosFijosUI extends MyFrame {
@@ -110,7 +112,8 @@ public class CostosFijosUI extends MyFrame {
             
             
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "ERROR: Valor inválido. Intente de nuevo.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "ERROR: Valor inválido. Intente de nuevo.", "Advertencia",
+                    JOptionPane.WARNING_MESSAGE);
         }
     }
 
@@ -121,4 +124,3 @@ public class CostosFijosUI extends MyFrame {
         new CostosFijosUI().mostrarVentana();
     }
 }
-
