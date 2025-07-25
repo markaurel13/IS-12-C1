@@ -2,10 +2,7 @@
 el focus de los botones que se ve en el de inicio y no en el de registro*/
 
 package com.ucveats.view;
-import com.ucveats.view.MyFrame;
 import javax.swing.*;
-import javax.swing.border.Border;
-import org.w3c.dom.events.MouseEvent;
 import java.awt.*;
 
 //este import se coloca unicamente para cablear el codigo y que los botones cambein de ventana
@@ -30,12 +27,8 @@ public class registroInterface extends JFrame {
         MyFrame frame = new MyFrame("Registro UCV Eats");
 
         // boton superior de iniciar sesion en el top panel de MyFrame
-        JButton botonIniciarSesion = new JButton("Iniciar Sesión");
+        BotonPanel botonIniciarSesion = new BotonPanel("Iniciar Sesión",30, 15);
         botonIniciarSesion.setFont(new Font("Segoe UI", Font.BOLD, 12));
-        botonIniciarSesion.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        botonIniciarSesion.setBackground(Color.decode("#87cc2e"));
-        botonIniciarSesion.setForeground(Color.decode("#2f3829"));
-        botonIniciarSesion.setFocusPainted(false);
         botonIniciarSesion.addActionListener(e -> {
             ((JFrame) SwingUtilities.getWindowAncestor(botonIniciarSesion)).dispose(); // Cierra la ventana actual
             com.ucveats.view.inicioSesionInterface.mostrarVentanaInicioSesion(); // Abre la ventana de inicio de sesión
@@ -82,13 +75,9 @@ public class registroInterface extends JFrame {
             y += 40;
         }
 
-        JButton botonRegistrar = new JButton("REGISTRAR");
+        BotonPanel botonRegistrar = new BotonPanel("REGISTRAR", 200, 40);
         botonRegistrar.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        botonRegistrar.setBackground(Color.decode("#87cc2e"));
-        botonRegistrar.setForeground(Color.decode("#2f3829"));
-        botonRegistrar.setFocusPainted(false);
         botonRegistrar.setBounds(80, y + 10, 200, 40);
-        botonRegistrar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         botonRegistrar.setBorder(BorderFactory.createLineBorder(Color.decode("#2f3829"), 2, true));
         botonRegistrar.addActionListener(e -> {
             JOptionPane.showMessageDialog(null, "¡Registro exitoso!");

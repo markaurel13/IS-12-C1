@@ -1,99 +1,147 @@
+/*
+* Averiguar porque el boton no se le configura el alto y porque queda tan abajo 
+* se comentaron los elementos que se comunican con monedeoVirtual porque daban errores en el archivo Monedero Virtual
+* se quito el pago de bandeja porque eso no se paga aqui, eso se paga al momento de ingresar al comedor 
+*/
 package com.ucveats.view;
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
+//import java.awt.event.ActionEvent;
+//import com.ucveats.model.MonederoVirtual;
+//import java.text.DecimalFormat;
 
-public class MonederoUI extends JFrame {
-    private final MonederoVirtual monedero;
+public class MonederoUI extends MyFrame {
+    //private final MonederoVirtual monedero;
     private final JLabel saldoLabel;
     private final JTextField campoMonto;
 
+    double saldoDisponible = 0.0; // Inicializar el saldo disponible
+
     public MonederoUI() {
-        monedero = new MonederoVirtual();
+        super("Monedero Virtual UCVeats 💳");
 
-        setTitle("💳 Monedero Virtual UCVeats");
-        setSize(380, 580);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        setResizable(false);
-        setLayout(new BorderLayout());
-        getContentPane().setBackground(Color.decode("#f4f6f8"));
+        //monedero = new MonederoVirtual();
 
-        // Panel Superior
-        JPanel topPanel = new JPanel(new BorderLayout());
-        topPanel.setBackground(Color.decode("#353535"));
-        topPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
-        JLabel logoUCV = new JLabel("UCVeats");
-        logoUCV.setFont(new Font("Segoe UI", Font.BOLD, 20));
-        logoUCV.setForeground(Color.decode("#ffffff"));
+        // Panel content
+        JPanel contentPanel = new JPanel();
+        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+        contentPanel.setBackground(Color.decode("#ffffff"));
 
-        saldoLabel = new JLabel("SALDO: Bs. 0.00", SwingConstants.RIGHT);
-        saldoLabel.setFont(new Font("Segoe UI", Font.BOLD, 12));
-        saldoLabel.setForeground(Color.decode("#ffffff"));
-        Border borde = BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(Color.decode("#ffffff"), 2, true),
-                BorderFactory.createEmptyBorder(2, 6, 2, 6));
-        saldoLabel.setBorder(borde);
+        JLabel tituloPanel = new JLabel("Disponible (BsS.)");
+        tituloPanel.setFont(new Font("Segoe UI", Font.ITALIC, 14));
+        tituloPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        topPanel.add(logoUCV, BorderLayout.WEST);
-        topPanel.add(saldoLabel, BorderLayout.EAST);
 
-        // Panel Central
-        JPanel centralPanel = new JPanel(null);
-        centralPanel.setBackground(Color.decode("#ffffff"));
+        saldoLabel = new JLabel(String.format("%.2f", saldoDisponible));
+        saldoLabel.setFont(new Font("Segoe UI", Font.BOLD, 80));
+        saldoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel titulo = new JLabel("RECARGA DE MONEDERO");
-        titulo.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        titulo.setBounds(50, 70, 280, 25);
-        titulo.setHorizontalAlignment(SwingConstants.CENTER);
-        centralPanel.add(titulo);
 
+        JPanel panelRecarga = new JPanel();
+        panelRecarga.setBackground(Color.decode("#ffffff"));
+        panelRecarga.setLayout(new FlowLayout());
+        panelRecarga.setPreferredSize(new Dimension(540, 40));
         JLabel etiquetaMonto = new JLabel("Monto a recargar:");
-        etiquetaMonto.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-        etiquetaMonto.setBounds(40, 120, 150, 25);
-        centralPanel.add(etiquetaMonto);
+        etiquetaMonto.setFont(new Font("Segoe ui", Font.ITALIC, 14));
+        panelRecarga.add(etiquetaMonto);
 
         campoMonto = new JTextField();
         campoMonto.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-        campoMonto.setBounds(180, 120, 150, 25);
-        centralPanel.add(campoMonto);
+        campoMonto.setPreferredSize(new Dimension(150, 25));
+        panelRecarga.add(campoMonto);
 
-        JButton btnRecargar = new JButton("RECARGAR");
+
+
+        BotonPanel btnRecargar = new BotonPanel("Recargar Saldo", 200, 40 , e -> validarCampo());
         btnRecargar.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        btnRecargar.setBackground(Color.decode("#87cc2e"));
-        btnRecargar.setForeground(Color.decode("#2f3829"));
-        btnRecargar.setFocusPainted(false);
-        btnRecargar.setBounds(73, 170, 220, 40);
-        btnRecargar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnRecargar.setBorder(BorderFactory.createLineBorder(Color.decode("#2f3829"), 2, true));
-        btnRecargar.addActionListener(this::recargarSaldo);
-        centralPanel.add(btnRecargar);
+        btnRecargar.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel textoPago = new JLabel("PAGO DE BANDEJA");
-        textoPago.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        textoPago.setBounds(100, 240, 170, 25);
-        textoPago.setHorizontalAlignment(SwingConstants.CENTER);
-        centralPanel.add(textoPago);
 
-        JButton btnFacial = new JButton("PAGAR BANDEJA");
-        btnFacial.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        btnFacial.setBackground(Color.decode("#87cc2e"));
-        btnFacial.setForeground(Color.decode("#2f3829"));
-        btnFacial.setFocusPainted(false);
-        btnFacial.setBounds(70, 280, 220, 40);
-        btnFacial.setBorder(BorderFactory.createLineBorder(Color.decode("#2f3829"), 2, true));
-        btnFacial.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        btnFacial.addActionListener(this::simularPagoFacial);
-        centralPanel.add(btnFacial);
 
-        add(topPanel, BorderLayout.NORTH);
-        add(centralPanel, BorderLayout.CENTER);
-        setVisible(true);
+        contentPanel.add(Box.createVerticalStrut(10));
+        contentPanel.add(tituloPanel);
+        contentPanel.add(Box.createVerticalStrut(5));
+        contentPanel.add(saldoLabel);
+        contentPanel.add(Box.createVerticalStrut(15));
+        contentPanel.add(panelRecarga);
+        contentPanel.add(Box.createVerticalStrut(10));
+        contentPanel.add(btnRecargar);
+        contentPanel.add(Box.createVerticalStrut(50));
+
+        // --- Activar el botón de menú y el panel flotante ---
+        //Crea una instancia de tu MenuUsuarioPanel
+        MenuUsuarioPanel menuUsuarioPanel = new MenuUsuarioPanel();
+        // Pásale esta instancia a MyFrame para que MyFrame la gestione como panel flotante
+        setFloatingMenuPanel(menuUsuarioPanel); 
+        
+        // Activa el botón de menú en el topPanel de MyFrame
+        // La acción de este botón será simplemente alternar la visibilidad del 'menuUsuarioPanel'.
+        addMenuButton("/icono_lineas.png", e -> {
+            // No necesitas añadir lógica aquí si toggleFloatingMenu() ya hace el trabajo.
+            // Puedes añadir un System.out.println() si es solo para depurar.
+            // System.out.println("Botón de menú en 'Ver Menú' clicado.");
+        });
+
+        
+        getMyPanel().add(contentPanel, BorderLayout.CENTER); // Añadir el contentPanel al MyPanel de MyFrame
+
     }
 
-    private void recargarSaldo(ActionEvent e) {
+    private void simularPagoMovil() {
+        JProgressBar barra = new JProgressBar();
+        barra.setIndeterminate(true);
+        barra.setPreferredSize(new Dimension(300, 20));
+        JLabel label = new JLabel("Procesando Pago Movil");
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.add(label, BorderLayout.NORTH);
+        panel.add(barra, BorderLayout.CENTER);
+
+        JDialog dialog = new JDialog(this, "Procesador de Pago", true);
+        dialog.getContentPane().add(panel);
+        dialog.setSize(300, 63);
+        dialog.setLocationRelativeTo(this);
+        dialog.setUndecorated(true);
+
+        Timer timer = new Timer(2000, event -> {
+            dialog.dispose();
+            //procesarPago();
+        });
+
+        timer.setRepeats(false);
+        timer.start();
+        dialog.setVisible(true);
+    }
+
+    private void validarCampo() {
+        String valorIngresado = campoMonto.getText().trim();
+        if (valorIngresado.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "ERROR: Campo vacío.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+        else {
+
+            valorIngresado = valorIngresado.replace(",", "."); // Reemplazar coma por punto para el formato decimal
+
+            if (!valorIngresado.matches("^-?\\d+(\\.\\d+)?$")) {
+                JOptionPane.showMessageDialog(this, "ERROR: Campo inválido. Solo se permiten números.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                
+            } 
+            else if (Double.parseDouble(valorIngresado) <= 0) {
+                JOptionPane.showMessageDialog(this, "ERROR: Monto inválido. Debe ser mayor a 0.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            } 
+            else {
+                simularPagoMovil();
+                JOptionPane.showMessageDialog(this, "¡Pago Movil exitoso! Pago por Bs. " + valorIngresado, "Proceso Completado", JOptionPane.PLAIN_MESSAGE);
+                saldoDisponible += Double.parseDouble(valorIngresado);
+                saldoLabel.setText(String.format("%.2f", saldoDisponible));
+            }
+        }
+        campoMonto.setText(""); // Limpiar el campo después de procesar el pago
+    }
+
+
+    /*private void recargarSaldo(ActionEvent e) {
         try {
             double monto = Double.parseDouble(campoMonto.getText());
             if (monto <= 0) {
@@ -106,51 +154,16 @@ public class MonederoUI extends JFrame {
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "ERROR: Campo vacío o monto inválido.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
-    }
+    }*/
 
-    private void simularPagoFacial(ActionEvent e) {
-        JProgressBar barra = new JProgressBar();
-        barra.setIndeterminate(true);
-        barra.setPreferredSize(new Dimension(300, 20));
-        JLabel label = new JLabel("Escaneando rostro...");
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.add(label, BorderLayout.NORTH);
-        panel.add(barra, BorderLayout.CENTER);
-
-        JDialog dialog = new JDialog(this, "Escaneo Facial", true);
-        dialog.getContentPane().add(panel);
-        dialog.setSize(300, 30);
-        dialog.setLocationRelativeTo(this);
-        dialog.setUndecorated(true);
-
-        Timer timer = new Timer(2000, event -> {
-            dialog.dispose();
-            procesarPagoFacial();
-        });
-
-        timer.setRepeats(false);
-        timer.start();
-        dialog.setVisible(true);
-    }
-
-    private void procesarPagoFacial() {
-        double costoBandeja = 1000;
-        if (monedero.pagarBandeja(costoBandeja)) {
-            actualizarSaldo();
-            JOptionPane.showMessageDialog(this, "✅ ¡Escaneo exitoso! Pago por Bs. " + costoBandeja + " ✅", "Proceso Completado", JOptionPane.PLAIN_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(this, "ERROR: Saldo insuficiente. Costo de bandeja: Bs." + costoBandeja, "Advertencia", JOptionPane.WARNING_MESSAGE);
-        }
-    }
-
-    private void actualizarSaldo() {
+    /*private void actualizarSaldo() {
         saldoLabel.setText("Saldo: BsS. " + String.format("%.2f", monedero.getSaldo()));
-    }
+    }*/
 
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
         } catch (Exception ignored) {}
-        new MonederoUI();
+        new MonederoUI().mostrarVentana();
     }
 }

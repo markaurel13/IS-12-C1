@@ -1,5 +1,4 @@
 package com.ucveats.view;
-import com.ucveats.view.MyFrame;
 import javax.swing.*;
 import java.awt.*;
 
@@ -49,14 +48,8 @@ public class inicioSesionInterface {
         campoContrasena.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         campoContrasena.setMaximumSize(new Dimension(300, 30));
 
-        JButton botonIniciarSesion = new JButton("Iniciar Sesión");
-        botonIniciarSesion.setAlignmentX(Component.CENTER_ALIGNMENT);
+        BotonPanel botonIniciarSesion = new BotonPanel("Iniciar Sesión", 220, 40);
         botonIniciarSesion.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        botonIniciarSesion.setBackground(Color.decode("#87cc2e"));
-        botonIniciarSesion.setForeground(Color.decode("#2f3829"));
-        botonIniciarSesion.setFocusPainted(false);
-        botonIniciarSesion.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        botonIniciarSesion.setMaximumSize(new Dimension(220, 40));
         botonIniciarSesion.setBorder(BorderFactory.createLineBorder(Color.decode("#2f3829"), 2, true));
         botonIniciarSesion.addActionListener(e -> JOptionPane.showMessageDialog(null, "✅ ¡Sesión iniciada!"));
 
@@ -66,14 +59,8 @@ public class inicioSesionInterface {
         sinCuenta.setForeground(Color.decode("#2f3829"));
         sinCuenta.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0));
 
-        JButton botonRegistrarse = new JButton("Registrarse");
-        botonRegistrarse.setAlignmentX(Component.CENTER_ALIGNMENT);
+        BotonPanel botonRegistrarse = new BotonPanel("Registrarse", 200, 35);
         botonRegistrarse.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        botonRegistrarse.setBackground(Color.decode("#ffffff"));
-        botonRegistrarse.setForeground(Color.decode("#2f3829"));
-        botonRegistrarse.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        botonRegistrarse.setFocusPainted(false);
-        botonRegistrarse.setMaximumSize(new Dimension(200, 35));
         botonRegistrarse.setBorder(BorderFactory.createLineBorder(Color.decode("#2f3829"), 1, true));
         botonRegistrarse.addActionListener(e -> {
             ((JFrame) SwingUtilities.getWindowAncestor(botonRegistrarse)).dispose(); // Cierra la ventana actual

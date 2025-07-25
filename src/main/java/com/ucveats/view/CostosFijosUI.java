@@ -1,3 +1,7 @@
+/*
+ * intenter poner un manejador de layout 
+ */
+
 package com.ucveats.view;
 
 import javax.swing.*;
@@ -5,78 +9,75 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import com.ucveats.controller.costoFijoService;
 
-public class CostosFijosUI extends JFrame {
+
+public class CostosFijosUI extends MyFrame {
     private final JTextField campoManoObra, campoMantenimiento, campoAlquiler;
     private final JLabel totalLabel;
+    double totalCostosFijos = 0.0; // Inicializar el total de costos
     private final costoFijoService servicioCostos;
 
     public CostosFijosUI() {
+        super("Registro de Costos Fijos");
         
-        setTitle("Registro de Costos Fijos");
-        setSize(380, 580);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        setResizable(false);
-        setLayout(new BorderLayout());
-        getContentPane().setBackground(Color.decode("#f4f6f8"));
 
-        // Panel Superior: logo izquierda + saldo derecha
-        JPanel topPanel = new JPanel(new BorderLayout());
-        topPanel.setBackground(Color.decode("#353535"));
-        topPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        // Panel contentPanel
+        JPanel contentPanel = new JPanel();
+        contentPanel.setLayout(null);
+        contentPanel.setBackground(Color.decode("#f4f6f8"));
 
-        JLabel logoUCV = new JLabel("UCVeats");
-        logoUCV.setFont(new Font("Segoe UI", Font.BOLD, 20));
-        logoUCV.setForeground(Color.decode("#ffffff"));
+        
+        totalLabel = new JLabel("Costo Actual Bs. " + totalCostosFijos);
+        totalLabel.setFont(new Font("Segoe UI", Font.BOLD, 25));
+        totalLabel.setForeground(Color.decode("#2f3829"));
+        totalLabel.setBounds(60, 30, 340, 30);
+        contentPanel.add(totalLabel);
 
-        totalLabel = new JLabel("Total: Bs. 0.00", SwingConstants.RIGHT);
-        totalLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        totalLabel.setForeground(Color.WHITE);
-        totalLabel.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(Color.white, 2, true),
-                BorderFactory.createEmptyBorder(5, 10, 5, 10)));
+        JLabel tituloRegistro = new JLabel("Registrar Nuevos Costos Fijos");
+        tituloRegistro.setFont(new Font("Montserrat", Font.BOLD, 16));
+        tituloRegistro.setBounds(60, 80, 300, 25);
+        contentPanel.add(tituloRegistro);
 
-        topPanel.add(logoUCV, BorderLayout.WEST);
-        topPanel.add(totalLabel, BorderLayout.EAST);
+        campoManoObra = crearCampo("Mano de Obra:", 130, contentPanel);
+        campoMantenimiento = crearCampo("Mantenimiento:", 180, contentPanel);
+        campoAlquiler = crearCampo("Alquiler:", 230, contentPanel);
 
-        // Panel central
-        JPanel central = new JPanel(null);
-        central.setBackground(Color.decode("#f4f6f8"));
-
-        JLabel titulo = new JLabel("Registrar Costos Fijos");
-        titulo.setFont(new Font("Montserrat", Font.BOLD, 18));
-        titulo.setBounds(60, 30, 300, 25);
-        central.add(titulo);
-
-        campoManoObra = crearCampo("Mano de Obra:", 80, central);
-        campoMantenimiento = crearCampo("Mantenimiento:", 130, central);
-        campoAlquiler = crearCampo("Alquiler:", 180, central);
-
-        JButton btnGuardar = new JButton("Guardar Costos");
-        btnGuardar.setBounds(100, 250, 180, 40);
-        btnGuardar.setBackground(Color.decode("#87cc2e"));
-        btnGuardar.setForeground(Color.decode("#2f3829"));
+        BotonPanel btnGuardar = new BotonPanel("Guardar Costos");
+        btnGuardar.setBounds(100, 300, 180, 40);
         btnGuardar.setFont(new Font("Segoe UI", Font.BOLD, 15));
-        btnGuardar.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        btnGuardar.setFocusPainted(false);
         btnGuardar.setBorder(BorderFactory.createLineBorder(Color.decode("#2f3829"), 2, true));
         btnGuardar.addActionListener(this::guardarCostos);
-        central.add(btnGuardar);
+        contentPanel.add(btnGuardar);
 
-        add(topPanel, BorderLayout.NORTH);
-        add(central, BorderLayout.CENTER);
 
-this.servicioCostos = new costoFijoService();
-double total = servicioCostos.getCostoFijoTotal();
-    totalLabel.setText(String.format("Total: Bs. %.2f", total));
+        this.servicioCostos = new costoFijoService();
+        totalCostosFijos = servicioCostos.getCostoFijoTotal();
+        totalLabel.setText("Costo Actual Bs. " + totalCostosFijos);
 
-        setVisible(true);
+
+
+
+        // --- Activar el botón de menú y el panel flotante ---
+        //Crea una instancia de tu MenuUsuarioPanel
+        MenuAdminPanel menuAdminPanel = new MenuAdminPanel();
+        // Pásale esta instancia a MyFrame para que MyFrame la gestione como panel flotante
+        setFloatingMenuPanel(menuAdminPanel); 
         
+        // Activa el botón de menú en el topPanel de MyFrame
+        // La acción de este botón será simplemente alternar la visibilidad del 'menuUsuarioPanel'.
+        addMenuButton("/icono_lineas.png", e -> {
+            // No necesitas añadir lógica aquí si toggleFloatingMenu() ya hace el trabajo.
+            // Puedes añadir un System.out.println() si es solo para depurar.
+            // System.out.println("Botón de menú en 'Ver Menú' clicado.");
+        });
+
+        
+        getMyPanel().add(contentPanel, BorderLayout.CENTER); // Añadir el contentPanel al MyPanel de MyFrame
+
     }
 
     private JTextField crearCampo(String etiqueta, int y, JPanel panel) {
         JLabel label = new JLabel(etiqueta);
-        label.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        label.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         label.setBounds(40, y, 120, 25);
         panel.add(label);
 
@@ -92,10 +93,10 @@ double total = servicioCostos.getCostoFijoTotal();
             double manoObra = Double.parseDouble(campoManoObra.getText());
             double mantenimiento = Double.parseDouble(campoMantenimiento.getText());
             double alquiler = Double.parseDouble(campoAlquiler.getText());
-            
+
             servicioCostos.guardarCostos(manoObra, mantenimiento, alquiler);
-            double total = servicioCostos.getCostoFijoTotal();
-            totalLabel.setText(String.format("Total: Bs. %.2f", total));
+            totalCostosFijos = servicioCostos.getCostoFijoTotal();
+            totalLabel.setText("Costo Actual Bs. " + totalCostosFijos);
 
             /*JOptionPane.showMessageDialog(this,
                     "✅ ¡Costos registrados exitosamente! ✅" +
@@ -104,7 +105,8 @@ double total = servicioCostos.getCostoFijoTotal();
                             "\n Alquiler: (" + alquiler + ")"
 
                     , "Proceso Exitoso", JOptionPane.PLAIN_MESSAGE); */
-
+            
+            
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "ERROR: Valor inválido. Intente de nuevo.", "Advertencia",
                     JOptionPane.WARNING_MESSAGE);
@@ -114,8 +116,7 @@ double total = servicioCostos.getCostoFijoTotal();
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-        } catch (Exception ignored) {
-        }
-        new CostosFijosUI();
+        } catch (Exception ignored) {}
+        new CostosFijosUI().mostrarVentana();
     }
 }
