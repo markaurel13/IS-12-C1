@@ -1,46 +1,40 @@
-/*
- * hay que colocar los respectivos botones para cerrar sesion y aceder al menu ademas de ver el saldo que tengo disponible y el usuario que 
- * esta registrado
- */
-
 package com.ucveats.view;
-//import com.ucveats.view.MyFrame;
+
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDate;
 import java.net.URL;
 
+// Importar Boton si está en un archivo separado
+// import com.ucveats.view.Boton;
 
-public class verMenuInterface {
+public class verMenuInterface extends MyFrame { // <-- Esta clase debe extender MyFrame
 
-    // Clase para llamar al main desde el menú de usuario, se coloca unicamente para cablear el código y que los botones cambien de ventana
+    // Método para mostrar la ventana del menú. Es el punto de entrada principal para esta interfaz.
     public static void mostrarVentanaVerMenu() {
-        main(new String[0]);
+        SwingUtilities.invokeLater(() -> new verMenuInterface().mostrarVentana());
     }
 
     // Clase interna para representar un elemento del menú
-    // Cada elemento del menú tiene un icono, nombre y descripción
     public static class elementoMenu extends JPanel {
-
         private ImageIcon iconoPlato;
         private JLabel labelIcono;
         private JLabel nombrePlato;
         private JLabel descripcionPlato;
 
-        // Constructor de la clase elementoMenu
-        // Recibe la ruta del icono, el nombre del plato y una breve descripción
-        public elementoMenu (String rutaIcono, String nombre, String descripcion) {
-
-            URL imageUrl = getClass().getResource(rutaIcono); // Intenta cargar el recurso
+        public elementoMenu(String rutaIcono, String nombre, String descripcion) {
+            URL imageUrl = getClass().getResource(rutaIcono);
             if (imageUrl != null) {
-                this.iconoPlato = new ImageIcon(imageUrl);
+                // Opcional: Redimensionar iconos de elementos del menú si son muy grandes
+                Image img = new ImageIcon(imageUrl).getImage();
+                // Por ejemplo, escalar a 80x80. Ajusta el tamaño según tus iconos y diseño.
+                Image scaledImg = img.getScaledInstance(80, 80, Image.SCALE_SMOOTH); 
+                this.iconoPlato = new ImageIcon(scaledImg);
             } else {
-                // Manejar el caso en que la imagen no se encuentre
                 System.err.println("Advertencia: Imagen no encontrada en el classpath: " + rutaIcono);
-                this.iconoPlato = new ImageIcon(); // Icono vacío o un icono predeterminado de error
+                this.iconoPlato = new ImageIcon();
             }
             
-            //this.iconoPlato = new ImageIcon(rutaIcono);
             this.labelIcono = new JLabel(iconoPlato);
             this.nombrePlato = new JLabel(nombre);
             this.descripcionPlato = new JLabel(descripcion);
@@ -66,42 +60,31 @@ public class verMenuInterface {
             this.add(descripcionPlato);
             this.add(Box.createVerticalStrut(10));
         }
-
-
     }
     
+    // --- Constructor de la Interfaz verMenuInterface ---
+    public verMenuInterface() {
+        // 1. Llama al constructor de MyFrame para configurar la ventana base
+        super("Menú Disponible", MyFrame.DEFAULT_WIDTH, MyFrame.DEFAULT_HEIGHT); // Usa los anchos y altos predeterminados
 
-    public static void main(String[] args) {
-        try {
-            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-        } catch (Exception ignored) {}
+        // 2. Panel para el contenido central del menú (antes era el 'centerPanel' en tu main)
+        JPanel contentPanel = new JPanel();
+        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+        contentPanel.setBackground(Color.decode("#ffffff"));
 
-        MyFrame frame = new MyFrame("Menú Disponible");
-
-
-        // Panel Central
-        JPanel centerPanel = new JPanel();
-        centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
-        centerPanel.setBackground(Color.decode("#ffffff"));
-
+        // Tu lógica de labels y elementos del menú va aquí
         JLabel labelTitulo = new JLabel("Menú del Día");
         labelTitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
         labelTitulo.setFont(new Font("Segoe UI", Font.BOLD, 20));
         labelTitulo.setForeground(Color.decode("#2f3829"));
         labelTitulo.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
 
-        // Obtener la fecha actual
         LocalDate fechaHoy = LocalDate.now();
-        int dia = fechaHoy.getDayOfMonth();
-        int mes = fechaHoy.getMonthValue();
-        int año = fechaHoy.getYear();
-        // Formatear la fecha como "dd/mm/yyyy"
-        JLabel labelFecha = new JLabel("Fecha: " + dia + "/" + mes + "/" + año);
+        JLabel labelFecha = new JLabel("Fecha: " + fechaHoy.getDayOfMonth() + "/" + fechaHoy.getMonthValue() + "/" + fechaHoy.getYear());
         labelFecha.setAlignmentX(Component.CENTER_ALIGNMENT);
         labelFecha.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         labelFecha.setForeground(Color.decode("#2f3829"));
 
-        // titulo de desayuno y elemento del desayuno
         JLabel tituloDesayuno = new JLabel("Desayuno");
         tituloDesayuno.setAlignmentX(Component.CENTER_ALIGNMENT);
         tituloDesayuno.setFont(new Font("Segoe UI", Font.BOLD, 18));
@@ -109,7 +92,6 @@ public class verMenuInterface {
 
         elementoMenu desayuno = new elementoMenu("/desayuno.png", "Huevos con Tocino", "Deliciosos Huevos con tocino crujiente y pan");
 
-        // titulo de almuerzo y elemento del almuerzo
         JLabel tituloAlmuerzo = new JLabel("Almuerzo");
         tituloAlmuerzo.setAlignmentX(Component.CENTER_ALIGNMENT);
         tituloAlmuerzo.setFont(new Font("Segoe UI", Font.BOLD, 18));
@@ -117,22 +99,49 @@ public class verMenuInterface {
 
         elementoMenu almuerzo = new elementoMenu("/almuerzo.png", "Pato a la Naranja", "Delicioso pato con salsa de naranja");
 
-        // Agregar los elementos colocados en central panel a un panel que tiene scroll
-        JScrollPane scrollPane = new JScrollPane(centerPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        // Añadir los elementos al contentPanel
+        contentPanel.add(labelTitulo);
+        contentPanel.add(labelFecha);
+        contentPanel.add(Box.createVerticalStrut(15));
+        contentPanel.add(tituloDesayuno);
+        contentPanel.add(Box.createVerticalStrut(10));
+        contentPanel.add(desayuno); 
+        contentPanel.add(Box.createVerticalStrut(40));
+        contentPanel.add(tituloAlmuerzo);
+        contentPanel.add(Box.createVerticalStrut(10));
+        contentPanel.add(almuerzo);
+        contentPanel.add(Box.createVerticalStrut(20));
 
-        centerPanel.add(labelTitulo);
-        centerPanel.add(labelFecha);
-        centerPanel.add(Box.createVerticalStrut(15));
-        centerPanel.add(tituloDesayuno);
-        centerPanel.add(Box.createVerticalStrut(10));
-        centerPanel.add(desayuno); 
-        centerPanel.add(Box.createVerticalStrut(40));
-        centerPanel.add(tituloAlmuerzo);
-        centerPanel.add(Box.createVerticalStrut(10));
-        centerPanel.add(almuerzo);
-        centerPanel.add(Box.createVerticalStrut(20));
+        // 3. Crear un JScrollPane para el contentPanel y añadirlo al MyPanel de MyFrame
+        JScrollPane scrollPane = new JScrollPane(contentPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder()); // Eliminar el borde predeterminado del scrollPane
+        getMyPanel().add(scrollPane, BorderLayout.CENTER); // Añadir el scrollPane al centro de MyPanel
 
-        frame.getMyPanel().add(scrollPane);
-        frame.mostrarVentana();
+
+        // --- Activar el botón de menú y el panel flotante ---
+        // 4. Crea una instancia de tu MenuUsuarioPanel
+        MenuUsuarioPanel menuUsuarioPanel = new MenuUsuarioPanel();
+        // 5. Pásale esta instancia a MyFrame para que MyFrame la gestione como panel flotante
+        setFloatingMenuPanel(menuUsuarioPanel); 
+        
+        // 6. Activa el botón de menú en el topPanel de MyFrame
+        // La acción de este botón será simplemente alternar la visibilidad del 'menuUsuarioPanel'.
+        addMenuButton("/icono_lineas.png", e -> {
+            // No necesitas añadir lógica aquí si toggleFloatingMenu() ya hace el trabajo.
+            // Puedes añadir un System.out.println() si es solo para depurar.
+            // System.out.println("Botón de menú en 'Ver Menú' clicado.");
+        });
+
+        // La llamada a mostrarVentana() se hace externamente desde mostrarVentanaVerMenu()
+        // o desde el main si es la ventana principal de la aplicación.
+    }
+
+    // El método main para ejecutar directamente esta interfaz para pruebas
+    public static void main(String[] args) {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); // Mejor apariencia nativa
+        } catch (Exception ignored) {}
+
+        mostrarVentanaVerMenu(); // Llama al método estático para mostrar la ventana
     }
 }
