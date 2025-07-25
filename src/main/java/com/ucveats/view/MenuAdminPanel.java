@@ -81,7 +81,7 @@ public class MenuAdminPanel extends JPanel { // Ahora extiende JPanel
             // Por ejemplo, MyFrame.this.ocultarVentana(); (si se llama desde la ventana contenedora)
             // o directamente com.ucveats.view.inicioSesionInterface.mostrarVentanaInicioSesion();
             System.out.println("Cerrando Sesión...");
-            com.ucveats.view.inicioSesionInterface.mostrarVentanaInicioSesion(); 
+            com.ucveats.view.inicioSesionInterface.main(null);; 
         });
 
         // --- Añadir los componentes a este JPanel (antes era 'centralPanel') ---

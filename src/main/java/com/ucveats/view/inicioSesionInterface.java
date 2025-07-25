@@ -5,19 +5,12 @@ import java.awt.*;
 //este import se coloca unicamente para cablear el codigo y que los botones cambein de ventana
 //import main.java.com.ucveats.view.registroInterface;
 
-public class inicioSesionInterface {
+public class inicioSesionInterface extends MyFrame {
 
-    //clase para llamar al main desde registro de usuario, se coloca unucamente para cablear el codigo y que los botones cambein de ventana
-    public static void mostrarVentanaInicioSesion() {
-        main(new String[0]);
-    }
-    public static void main(String[] args) {
-        // no se que hace esta verga
-        try {
-            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-        } catch (Exception ignored) {}
 
-        MyFrame frame = new MyFrame("Inicio de Sesión UCVeats");
+    public inicioSesionInterface() {
+        
+        super("Inicio de Sesión UCVeats");
     
         // Panel Central
         JPanel centerPanel = new JPanel();
@@ -64,7 +57,7 @@ public class inicioSesionInterface {
         botonRegistrarse.setBorder(BorderFactory.createLineBorder(Color.decode("#2f3829"), 1, true));
         botonRegistrarse.addActionListener(e -> {
             ((JFrame) SwingUtilities.getWindowAncestor(botonRegistrarse)).dispose(); // Cierra la ventana actual
-            com.ucveats.view.registroInterface.mostrarVentanaRegistro(); // Muestra la ventana de registro
+            com.ucveats.view.registroInterface.main(null);; // Muestra la ventana de registro
             JOptionPane.showMessageDialog(null, "¡Bienvenido a la ventana de registro!");
         });
 
@@ -81,7 +74,17 @@ public class inicioSesionInterface {
         centerPanel.add(sinCuenta);
         centerPanel.add(botonRegistrarse);
 
-        frame.getMyPanel().add(centerPanel, BorderLayout.CENTER);
-        frame.mostrarVentana();
+        getMyPanel().add(centerPanel, BorderLayout.CENTER);
+
+    }
+
+    //clase para llamar al main desde registro de usuario, se coloca unucamente para cablear el codigo y que los botones cambein de ventana
+    public static void main(String[] args) {
+        // no se que hace esta verga
+        try {
+            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+        } catch (Exception ignored) {}
+        new inicioSesionInterface().mostrarVentana();
+
     }
 }

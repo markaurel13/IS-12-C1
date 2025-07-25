@@ -1,3 +1,7 @@
+/*
+ * revisar linea 132 y 80 c0n la logica del .setTex
+ */
+
 package com.ucveats.view;
 
 import javax.swing.*;

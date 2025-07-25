@@ -9,32 +9,22 @@ import java.awt.*;
 //import main.vista.inicioSesionInterface;      REVISAR ESTE IMPORT SI NO FUNCIONA
 
 
-public class registroInterface extends JFrame {
-
-    //clase para llamar al main desde inicio de sesion, se coloca para cablear el codigo y que los botones cambein de ventana
-    public static void mostrarVentanaRegistro() {
-        main(new String[0]);
-    }
+public class registroInterface extends MyFrame {
 
 
-    public static void main(String[] args) {
+    public registroInterface() {
 
-        // no se que hace esta verga
-        try {
-            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-        } catch (Exception ignored) {}
-        
-        MyFrame frame = new MyFrame("Registro UCV Eats");
+        super("Registro UCV Eats");
 
         // boton superior de iniciar sesion en el top panel de MyFrame
         BotonPanel botonIniciarSesion = new BotonPanel("Iniciar Sesión",30, 15);
         botonIniciarSesion.setFont(new Font("Segoe UI", Font.BOLD, 12));
         botonIniciarSesion.addActionListener(e -> {
             ((JFrame) SwingUtilities.getWindowAncestor(botonIniciarSesion)).dispose(); // Cierra la ventana actual
-            com.ucveats.view.inicioSesionInterface.mostrarVentanaInicioSesion(); // Abre la ventana de inicio de sesión
+            com.ucveats.view.inicioSesionInterface.main(null);; // Abre la ventana de inicio de sesión
         });
 
-        frame.getTopPanel().add(botonIniciarSesion, BorderLayout.EAST);
+        getTopPanel().add(botonIniciarSesion, BorderLayout.EAST);
 
 
         // Panel Central
@@ -87,9 +77,19 @@ public class registroInterface extends JFrame {
 
        
        
-        frame.getMyPanel().add(centralPanel, BorderLayout.CENTER);
-        frame.mostrarVentana();
+        getMyPanel().add(centralPanel, BorderLayout.CENTER);
+      
+    }
+
+ 
 
 
+    public static void main(String[] args) {
+
+        try {
+            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+        } catch (Exception ignored) {}
+        new registroInterface().mostrarVentana();;
+    
     }
 }
