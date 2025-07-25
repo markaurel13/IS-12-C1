@@ -18,6 +18,6 @@ public class Comensal extends Usuario {
     public Comensal(String cedula, String correo, String telefono, String passwordHash) {
         super(cedula, correo, telefono, passwordHash, Usuario.RolUsuario.COMENSAL);
         // Creacion del monedero virtual asignado a este usuario
-        Monedero = MonederoVirtual.MonederoVirtual(); 
+        Monedero = new MonederoVirtual();
     }
 }

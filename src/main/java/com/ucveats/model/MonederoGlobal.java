@@ -4,7 +4,7 @@ import java.text.DecimalFormat;
 
 // creada con patron Singleton (un solo monedero global)
 public class MonederoGlobal {
-    private double saldoTotal;
+    private double saldoUsuarios;
     private double saldoPagado;
     private static MonederoGlobal instancia = null;
 
@@ -20,17 +20,17 @@ public class MonederoGlobal {
 
     // luisangel anadio el tipo MonederoGlobal a la clase get instancia porque habia un error
     public static MonederoGlobal getInstancia() {
-        if (MonederoGlobal.instancia == null){
-            MonederoGlobal.instancia = new MonederoGlobal();
+        if (instancia == null){
+            instancia = new MonederoGlobal();
         }
-        return MonederoGlobal.instancia;
+        return instancia;
     }
 
-    public void recargarSaldo(int pago) {
+    public void recargarSaldo(double pago) {
         this.saldoUsuarios += pago;
     }
 
-    public void pagarComida(int pago) {
+    public void pagarComida(double pago) {
         this.saldoPagado += pago;
     }
 

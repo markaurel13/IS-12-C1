@@ -10,10 +10,10 @@ public MonederoVirtual() {
     MonederoGlobal.getInstancia();
 }
 
-public double getSaldo() {
-    string moneda = "BsS. "; 
-    string saldoRounded = new DecimalFormat("#.0#").format(saldo);
-    string textoSaldo = moneda + saldoRounded;
+public String getSaldo() {
+    String moneda = "BsS. "; 
+    String saldoRounded = new DecimalFormat("#.0#").format(saldo);
+    String textoSaldo = moneda + saldoRounded;
     return textoSaldo;
 }
 
@@ -23,15 +23,15 @@ public void recargar(double recarga) {
     }
     else {
         saldo += recarga;
-        MonederoGlobal.recargarSaldo(recarga);
-        system.out.println("Recarga exitosa.");
+        MonederoGlobal.getInstancia().recargarSaldo(recarga);
+        System.out.println("Recarga exitosa.");
     }
 }
 
 public boolean pagarBandeja(double costo) {
     if (saldo >= costo) {
         saldo -= costo;
-        MonederoGlobal.pagarComida(costo);
+        MonederoGlobal.getInstancia().pagarComida(costo);
         return true;
     }
     return false;
