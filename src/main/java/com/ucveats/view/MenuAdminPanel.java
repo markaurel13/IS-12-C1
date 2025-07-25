@@ -1,9 +1,6 @@
 package com.ucveats.view;
 
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.Border;
-
 import java.awt.*;
 import java.net.URL;
 
@@ -19,11 +16,7 @@ public class MenuAdminPanel extends JPanel { // Ahora extiende JPanel
         setBackground(Color.decode("#ffffff"));
 
         // Opcional: Añade un borde para que se vea como un panel flotante
-        Border bordeCompuesto = BorderFactory.createCompoundBorder(
-            BorderFactory.createMatteBorder(0, 1, 0, 0, Color.GRAY),
-            BorderFactory.createBevelBorder(BevelBorder.LOWERED, Color.GRAY, Color.WHITE)
-        );
-        setBorder(bordeCompuesto); 
+        setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.decode("#2f3829"))); // Borde izquierdo
         // Define un tamaño preferido para que el LayoutManager lo posicione correctamente
         setPreferredSize(new Dimension(200, 580)); // Ancho y alto para tu menú
         setMaximumSize(new Dimension(200, 580));
