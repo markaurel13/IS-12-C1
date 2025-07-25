@@ -65,7 +65,7 @@ public class MenuAdminPanel extends JPanel { // Ahora extiende JPanel
         // Aquí, simplemente ocultamos ESTE PANEL. La lógica de 'mostrar otra ventana'
         // deberá ser manejada por la clase que contenga este panel o por un controlador.
 
-        BotonMenuPanel botonVerMenu = new BotonMenuPanel("Costos Fijos", e -> {
+        BotonPanel botonVerCostosF = new BotonPanel("Costos Fijos", 180, 35, e -> {
             // Al hacer clic, ocultamos este mismo panel
             this.setVisible(false); 
             // La ventana actual que contiene este menú deberá mostrar la siguiente interfaz
@@ -75,14 +75,14 @@ public class MenuAdminPanel extends JPanel { // Ahora extiende JPanel
             System.out.println("Navegando a Costos Fijos...");
         });
 
-        BotonMenuPanel botonVerMonedero = new BotonMenuPanel("Costos Variables", e -> {
+        BotonPanel botonVerCostosV = new BotonPanel("Costos Variables", 180, 35, e -> {
             this.setVisible(false);
             //com.ucveats.view.verMonederoInterface.mostrarVentanaVerMonedero();
-            com.ucveats.view.costoVariableUI.main(null);
+            //com.ucveats.view.costoVariableUI.main(null);
             System.out.println("Navegando a Costos Variables...");
         });
 
-        BotonMenuPanel botonCerrarSesion = new BotonMenuPanel("Cerrar Sesión", e -> {
+        BotonPanel botonCerrarSesion = new BotonPanel("Cerrar Sesión", 180, 35, e -> {
             this.setVisible(false);
             // La ventana actual que contiene este menú se encarga de mostrar la siguiente interfaz
             // Por ejemplo, MyFrame.this.ocultarVentana(); (si se llama desde la ventana contenedora)
@@ -99,9 +99,9 @@ public class MenuAdminPanel extends JPanel { // Ahora extiende JPanel
         this.add(Box.createVerticalStrut(5));
         this.add(tipoLabel);
         this.add(Box.createVerticalStrut(50));
-        this.add(botonVerMenu);
+        this.add(botonVerCostosF);
         this.add(Box.createVerticalStrut(10));
-        this.add(botonVerMonedero);
+        this.add(botonVerCostosV);
         this.add(Box.createVerticalStrut(80));
         this.add(botonCerrarSesion);
         

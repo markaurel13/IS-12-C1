@@ -64,7 +64,7 @@ public class MenuUsuarioPanel extends JPanel { // Ahora extiende JPanel
         // Aquí, simplemente ocultamos ESTE PANEL. La lógica de 'mostrar otra ventana'
         // deberá ser manejada por la clase que contenga este panel o por un controlador.
 
-        BotonMenuPanel botonVerMenu = new BotonMenuPanel("Ver Menu", e -> {
+        BotonPanel botonVerMenu = new BotonPanel("Ver Menu", 180, 35, e -> {
             // Al hacer clic, ocultamos este mismo panel
             this.setVisible(false); 
             // La ventana actual que contiene este menú deberá mostrar la siguiente interfaz
@@ -73,13 +73,13 @@ public class MenuUsuarioPanel extends JPanel { // Ahora extiende JPanel
             System.out.println("Navegando a Ver Menú...");
         });
 
-        BotonMenuPanel botonVerMonedero = new BotonMenuPanel("Ver Monedero", e -> {
+        BotonPanel botonVerMonedero = new BotonPanel("Ver Monedero", 180, 35, e -> {
             this.setVisible(false);
             //com.ucveats.view.verMonederoInterface.mostrarVentanaVerMonedero();
             System.out.println("Navegando a Ver Monedero...");
         });
 
-        BotonMenuPanel botonCerrarSesion = new BotonMenuPanel("Cerrar Sesión", e -> {
+        BotonPanel botonCerrarSesion = new BotonPanel("Cerrar Sesión", 180, 35, e -> {
             this.setVisible(false);
             // La ventana actual que contiene este menú se encarga de mostrar la siguiente interfaz
             // Por ejemplo, MyFrame.this.ocultarVentana(); (si se llama desde la ventana contenedora)

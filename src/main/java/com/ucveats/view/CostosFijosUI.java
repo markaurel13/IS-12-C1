@@ -41,13 +41,9 @@ public class CostosFijosUI extends MyFrame {
         campoMantenimiento = crearCampo("Mantenimiento:", 180, contentPanel);
         campoAlquiler = crearCampo("Alquiler:", 230, contentPanel);
 
-        JButton btnGuardar = new JButton("Guardar Costos");
+        BotonPanel btnGuardar = new BotonPanel("Guardar Costos");
         btnGuardar.setBounds(100, 300, 180, 40);
-        btnGuardar.setBackground(Color.decode("#87cc2e"));
-        btnGuardar.setForeground(Color.decode("#2f3829"));
         btnGuardar.setFont(new Font("Segoe UI", Font.BOLD, 15));
-        btnGuardar.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        btnGuardar.setFocusPainted(false);
         btnGuardar.setBorder(BorderFactory.createLineBorder(Color.decode("#2f3829"), 2, true));
         btnGuardar.addActionListener(this::guardarCostos);
         contentPanel.add(btnGuardar);

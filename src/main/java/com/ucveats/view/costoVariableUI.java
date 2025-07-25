@@ -31,7 +31,7 @@ public class costoVariableUI extends MyFrame {
 
         JLabel tituloRegistro = new JLabel("Registrar Costos Variables");
         tituloRegistro.setFont(new Font("Montserrat", Font.BOLD, 16));
-        tituloRegistro.setBounds(60, 30, 300, 25);
+        tituloRegistro.setBounds(60, 80, 300, 25);
         contentPanel.add(tituloRegistro);
 
         campoProteinas = crearCampo("Proteínas:", 130, contentPanel);
@@ -66,13 +66,9 @@ public class costoVariableUI extends MyFrame {
         campoFecha.setMinSelectableDate(minCal.getTime());
         contentPanel.add(campoFecha);
 
-        JButton btnGuardar = new JButton("Guardar Costos");
-        btnGuardar.setBounds(110, 360, 180, 40);
-        btnGuardar.setBackground(Color.decode("#87cc2e"));
-        btnGuardar.setForeground(Color.decode("#2f3829"));
+        BotonPanel btnGuardar = new BotonPanel("Guardar Costos");
+        btnGuardar.setBounds(100, 360, 180, 40);
         btnGuardar.setFont(new Font("Segoe UI", Font.BOLD, 15));
-        btnGuardar.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        btnGuardar.setFocusPainted(false);
         btnGuardar.setBorder(BorderFactory.createLineBorder(Color.decode("#2f3829"), 2, true));
         btnGuardar.addActionListener(this::guardarCostos);
         contentPanel.add(btnGuardar);
