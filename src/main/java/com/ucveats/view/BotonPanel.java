@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-class BotonPanel extends JButton { 
+public class BotonPanel extends JButton { 
 
     // --- Configuraciones Predeterminadas (pueden personalizarse) ---
     public static final int DEFAULT_WIDTH = 180;   // Ancho predeterminado de la ventana

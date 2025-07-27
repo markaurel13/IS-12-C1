@@ -1,4 +1,5 @@
 package com.ucveats.view;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -10,13 +11,15 @@ public class MyFrame extends JFrame {
     public static final int DEFAULT_WIDTH = 380;   // Ancho predeterminado de la ventana
     public static final int DEFAULT_HEIGHT = 580;  // Alto predeterminado
     private static final String DEFAULT_TITLE = "Configura el titulo de la ventana"; // Título por defecto
-    
-    private JPanel MyPanel, topPanel;
+
+    // Manteniendo el nombre 'MyPanel'
+    private JPanel MyPanel; // Este es el panel que contendrá dinámicamente tus otras interfaces.
+    private JPanel topPanel;
     private JLabel logoUCVeast;
     private JLabel menuButonLabel;
 
-    // --- Nuevo: Referencia al panel de menú flotante ---
-    private JPanel floatingMenuPanel; // Usaremos 'JPanel' ya que MenuUsuarioPanel extiende JPanel
+    // --- Referencia al panel de menú flotante ---
+    private JPanel floatingMenuPanel; 
     private boolean isFloatingMenuVisible = false;
 
     public MyFrame() {
@@ -38,10 +41,7 @@ public class MyFrame extends JFrame {
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         
-        this.MyPanel = new JPanel();
-        MyPanel.setLayout(new BorderLayout());
-        MyPanel.setBackground(Color.decode("#ffffff")); 
-
+        // El topPanel se añade directamente al JFrame, en la parte superior.
         topPanel = new JPanel(new BorderLayout());
         topPanel.setBackground(Color.decode("#353535"));
         topPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
@@ -53,17 +53,49 @@ public class MyFrame extends JFrame {
         
         menuButonLabel = new JLabel();
         menuButonLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        //menuButonLabel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         menuButonLabel.setVisible(false); // Oculto por defecto
         topPanel.add(menuButonLabel, BorderLayout.EAST);
 
-        this.add(MyPanel);
-        this.MyPanel.add(topPanel, BorderLayout.NORTH);
+        //intento de colocar el boton de inicio de sesion en el top panel de registro
+        /*BotonPanel botonIniciarSesion = new BotonPanel("Iniciar Sesión",30, 15);
+        botonIniciarSesion.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        botonIniciarSesion.setVisible(false); // Oculto por defecto
+        botonIniciarSesion.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        botonIniciarSesion.addActionListener(e -> {
+            this.setContentPanel(new inicioSesionInterface(this)); // Cambia a la interfaz de inicio de sesión
+            // Puedes añadir lógica para remover el botón del topPanel si lo agregaste dinámicamente.
+        });*/
+        //topPanel.add(botonIniciarSesion, BorderLayout.EAST);
+
+        // Añade el topPanel directamente al JFrame en la posición NORTH
+        this.add(topPanel, BorderLayout.NORTH);
+
+        // Inicializa el panel que contendrá el contenido dinámico, manteniendo el nombre MyPanel
+        this.MyPanel = new JPanel();
+        this.MyPanel.setLayout(new BorderLayout()); // Usa BorderLayout para el contenido
+        this.MyPanel.setBackground(Color.decode("#ffffff")); 
         
-        // --- Importante: No inicializamos 'floatingMenuPanel' aquí ---
-        // Se asignará externamente a través de setFloatingMenuPanel()
+        // Añade el MyPanel al centro del JFrame.
+        this.add(MyPanel, BorderLayout.CENTER);
+
+        // El 'floatingMenuPanel' se asignará externamente a través de setFloatingMenuPanel()
     }
 
-    public JPanel getMyPanel() {
+    /**
+     * Reemplaza el contenido actual de MyPanel con un nuevo JPanel.
+     * Este es el método clave para cambiar de interfaces sin abrir nuevas ventanas.
+     * @param newPanel El JPanel que representa la nueva interfaz/vista a mostrar.
+     */
+    public void setContentPanel(JPanel newPanel) {
+        MyPanel.removeAll(); // Elimina todos los componentes del panel actual
+        MyPanel.add(newPanel, BorderLayout.CENTER); // Añade el nuevo panel
+        MyPanel.revalidate(); // Recalcula el layout
+        MyPanel.repaint(); // Redibuja el panel
+    }
+
+    // Métodos getter
+    public JPanel getMyPanel() { // Getter para MyPanel
         return MyPanel;
     }
 
@@ -83,6 +115,21 @@ public class MyFrame extends JFrame {
         setVisible(false);
     }
 
+    
+    //intento de colocar el boton de inicio de sesion en el top panel de registro
+    /*public void setVisibleInicioButton (){
+        // Este método se puede usar para mostrar u ocultar el botón de inicio de sesión
+        for (Component comp : topPanel.getComponents()) {
+            if (comp instanceof BotonPanel) {
+                comp.setVisible(true); // Muestra el botón de inicio de sesión
+            
+                this.getTopPanel().add(comp, BorderLayout.EAST);
+                this.getTopPanel().revalidate(); // Recalcula el layout del topPanel
+                this.getTopPanel().repaint(); // Redibuja el topPanel
+            }
+        }
+    }*/
+
     /**
      * Establece el panel de menú flotante externo que MyFrame gestionará.
      * Debe llamarse antes de usar el botón de menú para que el panel se active.
@@ -101,6 +148,7 @@ public class MyFrame extends JFrame {
             ImageIcon icono = new ImageIcon(imageUrl);
             menuButonLabel.setIcon(icono);
             
+            // Remueve listeners anteriores para evitar duplicados
             for (MouseListener ml : menuButonLabel.getMouseListeners()) {
                 if (ml instanceof MouseAdapter) {
                     menuButonLabel.removeMouseListener(ml);
@@ -116,9 +164,6 @@ public class MyFrame extends JFrame {
                     } else {
                         System.err.println("Advertencia: El panel de menú flotante no ha sido establecido. Llama a setFloatingMenuPanel() primero.");
                     }
-                    // La 'accion' original del botón se puede ejecutar aquí si quieres una acción adicional,
-                    // además de mostrar/ocultar el menú. Si solo quieres alternar el menú, puedes eliminar esta línea.
-                    // accion.actionPerformed(new ActionEvent(menuButonLabel, ActionEvent.ACTION_PERFORMED, "menuButton"));
                 }
             });
             menuButonLabel.setVisible(true);
@@ -136,10 +181,11 @@ public class MyFrame extends JFrame {
         menuButonLabel.setIcon(null);
         menuButonLabel.setVisible(false);
         
+        // Remueve todos los MouseListeners para limpiar
         for (MouseListener ml : menuButonLabel.getMouseListeners()) {
              if (ml instanceof MouseAdapter) {
-                menuButonLabel.removeMouseListener(ml);
-            }
+                 menuButonLabel.removeMouseListener(ml);
+             }
         }
         topPanel.revalidate(); 
         topPanel.repaint();
@@ -147,7 +193,7 @@ public class MyFrame extends JFrame {
 
     /**
      * Alterna la visibilidad del panel de menú flotante.
-     * Al hacer visible, lo posiciona cerca del botón de menú.
+     * Al hacerlo visible, lo posiciona cerca del botón de menú.
      */
     private void toggleFloatingMenu() {
         // Asegurarse de que el panel ha sido establecido antes de intentar manipularlo
@@ -161,13 +207,11 @@ public class MyFrame extends JFrame {
 
         if (isFloatingMenuVisible) {
             // Posicionar el panel flotante en relación al botón de menú
-            // (Obtenido de la posición en pantalla del botón)
             Point buttonLocationInFrame = SwingUtilities.convertPoint(menuButonLabel.getParent(), menuButonLabel.getLocation(), MyFrame.this.getLayeredPane());
             
             // Calcula la posición para que el menú aparezca a la derecha del botón
             // y justo debajo del topPanel.
-            // Puedes ajustar 'x' y 'y' para moverlo a tu gusto.
-            int x = buttonLocationInFrame.x - floatingMenuPanel.getPreferredSize().width + menuButonLabel.getWidth(); // Alinea a la derecha del botón
+            int x = buttonLocationInFrame.x - floatingMenuPanel.getPreferredSize().width + menuButonLabel.getWidth(); 
             int y = topPanel.getHeight(); 
 
             floatingMenuPanel.setBounds(x, y, 
@@ -176,32 +220,24 @@ public class MyFrame extends JFrame {
             floatingMenuPanel.revalidate();
             floatingMenuPanel.repaint();
             
-            // --- Añadir MouseListener al JLayeredPane para ocultar al hacer clic fuera ---
-            // Es mejor añadir el listener al JLayeredPane o al contentPane del frame,
-            // ya que son los que cubren toda la ventana y capturan clics "fuera" del menú.
-            // Para evitar conflictos con otros listeners, se puede usar un listener específico.
+            // Añadir MouseListener al JLayeredPane para ocultar al hacer clic fuera del menú o del botón
             getLayeredPane().addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    // Convertir el punto de clic al sistema de coordenadas del panel flotante
                     Point clickPointInPanel = SwingUtilities.convertPoint(MyFrame.this.getLayeredPane(), e.getPoint(), floatingMenuPanel);
                     
-                    // Si el menú está visible y el clic no fue dentro del panel flotante
                     if (isFloatingMenuVisible && !floatingMenuPanel.contains(clickPointInPanel)) {
-                        // También verificar si el clic no fue en el botón de menú mismo
                         Point clickPointInButton = SwingUtilities.convertPoint(MyFrame.this.getLayeredPane(), e.getPoint(), menuButonLabel);
                         if (!menuButonLabel.contains(clickPointInButton)) {
-                             toggleFloatingMenu(); // Oculta el menú
-                             // Remover este MouseListener del JLayeredPane después de ocultar
-                             MyFrame.this.getLayeredPane().removeMouseListener(this); 
+                            toggleFloatingMenu(); // Oculta el menú
+                            MyFrame.this.getLayeredPane().removeMouseListener(this); // Remueve este MouseListener
                         }
                     }
                 }
             });
 
         } else {
-            // Si el menú se está ocultando, removemos el MouseListener de clic fuera que se agregó
-            // Solo removemos la instancia específica del MouseAdapter temporal
+            // Si el menú se está ocultando, removemos el MouseListener de clic fuera
             for (MouseListener ml : getLayeredPane().getMouseListeners()) {
                 if (ml instanceof MouseAdapter && ml.getClass().getName().contains("$") && ml.getClass().getName().contains("MyFrame")) { 
                     getLayeredPane().removeMouseListener(ml);

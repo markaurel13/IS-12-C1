@@ -10,43 +10,45 @@ import java.awt.event.ActionEvent;
 import com.ucveats.controller.costoFijoService;
 
 
-public class CostosFijosUI extends MyFrame {
+public class CostosFijosUI extends JPanel {
     private final JTextField campoManoObra, campoMantenimiento, campoAlquiler;
     private final JLabel totalLabel;
     double totalCostosFijos = 0.0; // Inicializar el total de costos
     private final costoFijoService servicioCostos;
+    private MyFrame parentFrame; // Referencia a la ventana principal
 
-    public CostosFijosUI() {
-        super("Registro de Costos Fijos");
+    public CostosFijosUI(MyFrame frame) {
+        this.parentFrame = frame; // Guarda la referencia a la ventana principal
+        
         
 
-        // Panel contentPanel
-        JPanel contentPanel = new JPanel();
-        contentPanel.setLayout(null);
-        contentPanel.setBackground(Color.decode("#f4f6f8"));
+        // Panel this
+        /*JPanel this = new JPanel();*/
+        this.setLayout(null);
+        this.setBackground(Color.decode("#f4f6f8"));
 
         
         totalLabel = new JLabel("Costo Actual Bs. " + totalCostosFijos);
         totalLabel.setFont(new Font("Segoe UI", Font.BOLD, 25));
         totalLabel.setForeground(Color.decode("#2f3829"));
         totalLabel.setBounds(60, 30, 340, 30);
-        contentPanel.add(totalLabel);
+        this.add(totalLabel);
 
         JLabel tituloRegistro = new JLabel("Registrar Nuevos Costos Fijos");
         tituloRegistro.setFont(new Font("Montserrat", Font.BOLD, 16));
         tituloRegistro.setBounds(60, 80, 300, 25);
-        contentPanel.add(tituloRegistro);
+        this.add(tituloRegistro);
 
-        campoManoObra = crearCampo("Mano de Obra:", 130, contentPanel);
-        campoMantenimiento = crearCampo("Mantenimiento:", 180, contentPanel);
-        campoAlquiler = crearCampo("Alquiler:", 230, contentPanel);
+        campoManoObra = crearCampo("Mano de Obra:", 130, this);
+        campoMantenimiento = crearCampo("Mantenimiento:", 180, this);
+        campoAlquiler = crearCampo("Alquiler:", 230, this);
 
         BotonPanel btnGuardar = new BotonPanel("Guardar Costos");
         btnGuardar.setBounds(100, 300, 180, 40);
         btnGuardar.setFont(new Font("Segoe UI", Font.BOLD, 15));
         btnGuardar.setBorder(BorderFactory.createLineBorder(Color.decode("#2f3829"), 2, true));
         btnGuardar.addActionListener(this::guardarCostos);
-        contentPanel.add(btnGuardar);
+        this.add(btnGuardar);
 
 
         this.servicioCostos = new costoFijoService();
@@ -56,22 +58,10 @@ public class CostosFijosUI extends MyFrame {
 
 
 
-        // --- Activar el botón de menú y el panel flotante ---
-        //Crea una instancia de tu MenuUsuarioPanel
-        MenuAdminPanel menuAdminPanel = new MenuAdminPanel();
-        // Pásale esta instancia a MyFrame para que MyFrame la gestione como panel flotante
-        setFloatingMenuPanel(menuAdminPanel); 
-        
-        // Activa el botón de menú en el topPanel de MyFrame
-        // La acción de este botón será simplemente alternar la visibilidad del 'menuUsuarioPanel'.
-        addMenuButton("/icono_lineas.png", e -> {
-            // No necesitas añadir lógica aquí si toggleFloatingMenu() ya hace el trabajo.
-            // Puedes añadir un System.out.println() si es solo para depurar.
-            // System.out.println("Botón de menú en 'Ver Menú' clicado.");
+        parentFrame.removeMenuButton(); // Opcional: Asegúrate de que no haya otro botón configurado
+        parentFrame.addMenuButton("/icono_lineas.png", e -> {
+            // No se necesita lógica adicional aquí, ya que MyFrame.toggleFloatingMenu() gestiona la visibilidad.
         });
-
-        
-        getMyPanel().add(contentPanel, BorderLayout.CENTER); // Añadir el contentPanel al MyPanel de MyFrame
 
     }
 
@@ -113,10 +103,10 @@ public class CostosFijosUI extends MyFrame {
         }
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
         } catch (Exception ignored) {}
         new CostosFijosUI().mostrarVentana();
-    }
+    }*/
 }

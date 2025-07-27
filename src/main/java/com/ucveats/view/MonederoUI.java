@@ -1,47 +1,44 @@
-/*
-* Averiguar porque el boton no se le configura el alto y porque queda tan abajo 
-* se comentaron los elementos que se comunican con monedeoVirtual porque daban errores en el archivo Monedero Virtual
-* se quito el pago de bandeja porque eso no se paga aqui, eso se paga al momento de ingresar al comedor 
-*/
 package com.ucveats.view;
+
 import javax.swing.*;
 import java.awt.*;
-//import java.awt.event.ActionEvent;
-//import com.ucveats.model.MonederoVirtual;
+// Los imports comentados se mantienen así según tus instrucciones
+//import com.ucveats.model.MonederoVirtual; 
 //import java.text.DecimalFormat;
 
-public class MonederoUI extends MyFrame {
-    //private final MonederoVirtual monedero;
+// IMPORTANTE: Esta clase ahora extiende JPanel, no MyFrame
+public class MonederoUI extends JPanel { 
+    // private final MonederoVirtual monedero; // Mantenido comentado
     private final JLabel saldoLabel;
     private final JTextField campoMonto;
 
     double saldoDisponible = 0.0; // Inicializar el saldo disponible
 
-    public MonederoUI() {
-        super("Monedero Virtual UCVeats 💳");
+    private MyFrame parentFrame; // Necesitamos una referencia a MyFrame
 
-        //monedero = new MonederoVirtual();
+    // Constructor modificado para recibir la instancia de MyFrame
+    public MonederoUI(MyFrame frame) {
+        this.parentFrame = frame;
 
+        // Configura este JPanel directamente.
+        // Ya no llamas a super("titulo") ni estableces tamaño, etc.,
+        // porque estas propiedades las maneja MyFrame.
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); 
+        this.setBackground(Color.decode("#ffffff"));
 
-        // Panel content
-        JPanel contentPanel = new JPanel();
-        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
-        contentPanel.setBackground(Color.decode("#ffffff"));
-
+        // --- Componentes de la interfaz del Monedero ---
         JLabel tituloPanel = new JLabel("Disponible (BsS.)");
         tituloPanel.setFont(new Font("Segoe UI", Font.ITALIC, 14));
         tituloPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
 
         saldoLabel = new JLabel(String.format("%.2f", saldoDisponible));
         saldoLabel.setFont(new Font("Segoe UI", Font.BOLD, 80));
         saldoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-
         JPanel panelRecarga = new JPanel();
         panelRecarga.setBackground(Color.decode("#ffffff"));
         panelRecarga.setLayout(new FlowLayout());
-        panelRecarga.setPreferredSize(new Dimension(540, 40));
+        panelRecarga.setMaximumSize(new Dimension(540, 40));
         JLabel etiquetaMonto = new JLabel("Monto a recargar:");
         etiquetaMonto.setFont(new Font("Segoe ui", Font.ITALIC, 14));
         panelRecarga.add(etiquetaMonto);
@@ -51,42 +48,29 @@ public class MonederoUI extends MyFrame {
         campoMonto.setPreferredSize(new Dimension(150, 25));
         panelRecarga.add(campoMonto);
 
-
-
-        BotonPanel btnRecargar = new BotonPanel("Recargar Saldo", 200, 40 , e -> validarCampo());
+        // Se asume que BotonPanel tiene un constructor que acepta un ActionListener
+        BotonPanel btnRecargar = new BotonPanel("Recargar Saldo", 200, 40, e -> validarCampo());
         btnRecargar.setFont(new Font("Segoe UI", Font.BOLD, 14));
         btnRecargar.setBorder(BorderFactory.createLineBorder(Color.decode("#2f3829"), 2, true));
         btnRecargar.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        this.add(Box.createVerticalStrut(10));
+        this.add(tituloPanel);
+        this.add(Box.createVerticalStrut(5));
+        this.add(saldoLabel);
+        this.add(Box.createVerticalStrut(15));
+        this.add(panelRecarga);
+        this.add(Box.createVerticalStrut(10));
+        this.add(btnRecargar);
+        this.add(Box.createVerticalStrut(50));
 
-
-        contentPanel.add(Box.createVerticalStrut(10));
-        contentPanel.add(tituloPanel);
-        contentPanel.add(Box.createVerticalStrut(5));
-        contentPanel.add(saldoLabel);
-        contentPanel.add(Box.createVerticalStrut(15));
-        contentPanel.add(panelRecarga);
-        contentPanel.add(Box.createVerticalStrut(10));
-        contentPanel.add(btnRecargar);
-        contentPanel.add(Box.createVerticalStrut(50));
-
-        // --- Activar el botón de menú y el panel flotante ---
-        //Crea una instancia de tu MenuUsuarioPanel
-        MenuUsuarioPanel menuUsuarioPanel = new MenuUsuarioPanel();
-        // Pásale esta instancia a MyFrame para que MyFrame la gestione como panel flotante
-        setFloatingMenuPanel(menuUsuarioPanel); 
-        
-        // Activa el botón de menú en el topPanel de MyFrame
-        // La acción de este botón será simplemente alternar la visibilidad del 'menuUsuarioPanel'.
-        addMenuButton("/icono_lineas.png", e -> {
-            // No necesitas añadir lógica aquí si toggleFloatingMenu() ya hace el trabajo.
-            // Puedes añadir un System.out.println() si es solo para depurar.
-            // System.out.println("Botón de menú en 'Ver Menú' clicado.");
+        // --- Activar el botón de menú en el topPanel de MyFrame ---
+        // Este código activa el botón de menú en la barra superior cuando esta vista está activa.
+        // La instancia de MenuUsuarioPanel y su asociación con MyFrame ya se hacen una vez en App.java.
+        parentFrame.removeMenuButton(); // Opcional: Asegúrate de que no haya otro botón configurado
+        parentFrame.addMenuButton("/icono_lineas.png", e -> {
+            // No se necesita lógica adicional aquí, ya que MyFrame.toggleFloatingMenu() gestiona la visibilidad.
         });
-
-        
-        getMyPanel().add(contentPanel, BorderLayout.CENTER); // Añadir el contentPanel al MyPanel de MyFrame
-
     }
 
     private void simularPagoMovil() {
@@ -98,15 +82,16 @@ public class MonederoUI extends MyFrame {
         panel.add(label, BorderLayout.NORTH);
         panel.add(barra, BorderLayout.CENTER);
 
-        JDialog dialog = new JDialog(this, "Procesador de Pago", true);
+        // Es importante pasar el parentFrame como 'owner' del JDialog
+        JDialog dialog = new JDialog(parentFrame, "Procesador de Pago", true); 
         dialog.getContentPane().add(panel);
         dialog.setSize(300, 63);
-        dialog.setLocationRelativeTo(this);
+        dialog.setLocationRelativeTo(parentFrame); // Centrar en el MyFrame principal
         dialog.setUndecorated(true);
 
         Timer timer = new Timer(2000, event -> {
             dialog.dispose();
-            //procesarPago();
+            //procesarPago(); // Mantenido comentado
         });
 
         timer.setRepeats(false);
@@ -118,19 +103,14 @@ public class MonederoUI extends MyFrame {
         String valorIngresado = campoMonto.getText().trim();
         if (valorIngresado.isEmpty()) {
             JOptionPane.showMessageDialog(this, "ERROR: Campo vacío.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        }
-        else {
-
+        } else {
             valorIngresado = valorIngresado.replace(",", "."); // Reemplazar coma por punto para el formato decimal
 
             if (!valorIngresado.matches("^-?\\d+(\\.\\d+)?$")) {
                 JOptionPane.showMessageDialog(this, "ERROR: Campo inválido. Solo se permiten números.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                
-            } 
-            else if (Double.parseDouble(valorIngresado) <= 0) {
+            } else if (Double.parseDouble(valorIngresado) <= 0) {
                 JOptionPane.showMessageDialog(this, "ERROR: Monto inválido. Debe ser mayor a 0.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            } 
-            else {
+            } else {
                 simularPagoMovil();
                 JOptionPane.showMessageDialog(this, "¡Pago Movil exitoso! Pago por Bs. " + valorIngresado, "Proceso Completado", JOptionPane.PLAIN_MESSAGE);
                 saldoDisponible += Double.parseDouble(valorIngresado);
@@ -140,30 +120,11 @@ public class MonederoUI extends MyFrame {
         campoMonto.setText(""); // Limpiar el campo después de procesar el pago
     }
 
+    // Los métodos 'recargarSaldo' y 'actualizarSaldo' se mantienen comentados según tus instrucciones.
+    /*private void recargarSaldo(ActionEvent e) { ... }*/
+    /*private void actualizarSaldo() { ... }*/
 
-    /*private void recargarSaldo(ActionEvent e) {
-        try {
-            double monto = Double.parseDouble(campoMonto.getText());
-            if (monto <= 0) {
-                throw new NumberFormatException();
-            }
-            monedero.recargar(monto);
-            campoMonto.setText("");
-            actualizarSaldo();
-            JOptionPane.showMessageDialog(this, "¡Recarga exitosa! Agregaste Bs. " + String.format("%.2f", monto));
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "ERROR: Campo vacío o monto inválido.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        }
-    }*/
-
-    /*private void actualizarSaldo() {
-        saldoLabel.setText("Saldo: BsS. " + String.format("%.2f", monedero.getSaldo()));
-    }*/
-
-    public static void main(String[] args) {
-        try {
-            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-        } catch (Exception ignored) {}
-        new MonederoUI().mostrarVentana();
-    }
+    // NOTA IMPORTANTE: El método main() original ha sido eliminado.
+    // Esta clase es ahora un JPanel, no una ventana independiente,
+    // y su visibilidad y carga son gestionadas por MyFrame a través de la clase App.java.
 }

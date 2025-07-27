@@ -12,52 +12,55 @@ import com.ucveats.controller.costoVariableService;
 import java.util.Calendar;
 import java.util.Date;
 
-public class costoVariableUI extends MyFrame {
+public class costoVariableUI extends JPanel {
     private final JTextField campoProteinas, campoCarbohidratos, campoEnergia;
     private final JComboBox<String> campoTipoBandeja;
     private final JDateChooser campoFecha;
     private final costoVariableService servicioCostos;
     private final JLabel totalLabel;
     double totalCostosVariables = 0.0; // Inicializar el total de costos
+    private MyFrame parentFrame; // Referencia a la ventana principal
 
-    public costoVariableUI() {
-        super("Registro de Costos Variables");
+    public costoVariableUI(MyFrame frame) {
+        //super("Registro de Costos Variables");
+        this.parentFrame = frame;
 
-        // Panel contentPanel
-        JPanel contentPanel = new JPanel(null);
-        contentPanel.setBackground(Color.decode("#f4f6f8"));
+        // Panel this
+        //JPanel this = new JPanel(null);
+        this.setLayout(null);
+        this.setBackground(Color.decode("#f4f6f8"));
 
         totalLabel = new JLabel("Costo Actual Bs. " + totalCostosVariables);
         totalLabel.setFont(new Font("Segoe UI", Font.BOLD, 25));
         totalLabel.setForeground(Color.decode("#2f3829"));
         totalLabel.setBounds(60, 30, 340, 30);
-        contentPanel.add(totalLabel);
+        this.add(totalLabel);
 
         JLabel tituloRegistro = new JLabel("Registrar Costos Variables");
         tituloRegistro.setFont(new Font("Montserrat", Font.BOLD, 16));
         tituloRegistro.setBounds(60, 80, 300, 25);
-        contentPanel.add(tituloRegistro);
+        this.add(tituloRegistro);
 
-        campoProteinas = crearCampo("Proteínas:", 130, contentPanel);
-        campoCarbohidratos = crearCampo("Carbohidratos:", 180, contentPanel);
-        campoEnergia = crearCampo("Energía:", 230, contentPanel);
+        campoProteinas = crearCampo("Proteínas:", 130, this);
+        campoCarbohidratos = crearCampo("Carbohidratos:", 180, this);
+        campoEnergia = crearCampo("Energía:", 230, this);
 
         // Creacion de JComboBox
         JLabel labelTipoBandeja = new JLabel("Tipo de Bandeja:");
         labelTipoBandeja.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         labelTipoBandeja.setBounds(40, 310, 140, 25);
-        contentPanel.add(labelTipoBandeja);
+        this.add(labelTipoBandeja);
 
         String[] opcionesBandeja = { "Desayuno", "Almuerzo"};
         campoTipoBandeja = new JComboBox<>(opcionesBandeja);
         campoTipoBandeja.setBounds(190, 310, 150, 25);
         campoTipoBandeja.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        contentPanel.add(campoTipoBandeja);
+        this.add(campoTipoBandeja);
 
         JLabel labelFecha = new JLabel("Fecha:");
         labelFecha.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         labelFecha.setBounds(40, 260, 140, 25);
-        contentPanel.add(labelFecha);
+        this.add(labelFecha);
 
         campoFecha = new JDateChooser();
         campoFecha.setBounds(190, 260, 150, 25);
@@ -68,14 +71,14 @@ public class costoVariableUI extends MyFrame {
         Calendar minCal = Calendar.getInstance();
         minCal.set(2000, Calendar.JANUARY, 1); // 01/01/2000
         campoFecha.setMinSelectableDate(minCal.getTime());
-        contentPanel.add(campoFecha);
+        this.add(campoFecha);
 
         BotonPanel btnGuardar = new BotonPanel("Guardar Costos");
         btnGuardar.setBounds(100, 360, 180, 40);
         btnGuardar.setFont(new Font("Segoe UI", Font.BOLD, 15));
         btnGuardar.setBorder(BorderFactory.createLineBorder(Color.decode("#2f3829"), 2, true));
         btnGuardar.addActionListener(this::guardarCostos);
-        contentPanel.add(btnGuardar);
+        this.add(btnGuardar);
 
 
 
@@ -85,21 +88,10 @@ public class costoVariableUI extends MyFrame {
 
         
         // --- Activar el botón de menú y el panel flotante ---
-        //Crea una instancia de tu MenuUsuarioPanel
-        MenuAdminPanel menuAdminPanel = new MenuAdminPanel();
-        // Pásale esta instancia a MyFrame para que MyFrame la gestione como panel flotante
-        setFloatingMenuPanel(menuAdminPanel); 
-        
-        // Activa el botón de menú en el topPanel de MyFrame
-        // La acción de este botón será simplemente alternar la visibilidad del 'menuUsuarioPanel'.
-        addMenuButton("/icono_lineas.png", e -> {
-            // No necesitas añadir lógica aquí si toggleFloatingMenu() ya hace el trabajo.
-            // Puedes añadir un System.out.println() si es solo para depurar.
-            // System.out.println("Botón de menú en 'Ver Menú' clicado.");
+        parentFrame.removeMenuButton(); // Opcional: Asegúrate de que no haya otro botón configurado
+        parentFrame.addMenuButton("/icono_lineas.png", e -> {
+            // No se necesita lógica adicional aquí, ya que MyFrame.toggleFloatingMenu() gestiona la visibilidad.
         });
-
-        
-        getMyPanel().add(contentPanel, BorderLayout.CENTER); // Añadir el contentPanel al MyPanel de MyFrame
     }
 
     private JTextField crearCampo(String etiqueta, int y, JPanel panel) {
@@ -151,10 +143,10 @@ public class costoVariableUI extends MyFrame {
         }
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
         } catch (Exception ignored) {}
         new costoVariableUI().mostrarVentana();
-    }
+    }*/
 }
