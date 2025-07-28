@@ -12,6 +12,8 @@ public class HomePage extends JPanel{
     public HomePage(MyFrame frame) {
         this.parentFrame = frame;
 
+        this.setBackground(Color.decode("#ffffff"));
+
         JLabel labelTitulo = new JLabel("Bienvenido " + nombreUsiario);
         labelTitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
         labelTitulo.setFont(new Font("Segoe UI", Font.BOLD, 26));

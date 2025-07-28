@@ -7,13 +7,12 @@ import java.net.URL;
 
 public class MyFrame extends JFrame {
 
-    // --- Configuraciones Predeterminadas (pueden personalizarse) ---
+    // --- Configuraciones Predeterminadas ---
     public static final int DEFAULT_WIDTH = 380;   // Ancho predeterminado de la ventana
     public static final int DEFAULT_HEIGHT = 580;  // Alto predeterminado
     private static final String DEFAULT_TITLE = "Configura el titulo de la ventana"; // Título por defecto
 
-    // Manteniendo el nombre 'MyPanel'
-    private JPanel MyPanel; // Este es el panel que contendrá dinámicamente tus otras interfaces.
+    private JPanel MyPanel; // Este es el panel que contendrá dinámicamente las otras interfaces.
     private JPanel topPanel;
     private JLabel logoUCVeast;
     private JLabel menuButonLabel;
@@ -53,25 +52,12 @@ public class MyFrame extends JFrame {
         
         menuButonLabel = new JLabel();
         menuButonLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        //menuButonLabel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         menuButonLabel.setVisible(false); // Oculto por defecto
         topPanel.add(menuButonLabel, BorderLayout.EAST);
 
-        //intento de colocar el boton de inicio de sesion en el top panel de registro
-        /*BotonPanel botonIniciarSesion = new BotonPanel("Iniciar Sesión",30, 15);
-        botonIniciarSesion.setFont(new Font("Segoe UI", Font.BOLD, 12));
-        botonIniciarSesion.setVisible(false); // Oculto por defecto
-        botonIniciarSesion.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        botonIniciarSesion.addActionListener(e -> {
-            this.setContentPanel(new inicioSesionInterface(this)); // Cambia a la interfaz de inicio de sesión
-            // Puedes añadir lógica para remover el botón del topPanel si lo agregaste dinámicamente.
-        });*/
-        //topPanel.add(botonIniciarSesion, BorderLayout.EAST);
-
-        // Añade el topPanel directamente al JFrame en la posición NORTH
         this.add(topPanel, BorderLayout.NORTH);
 
-        // Inicializa el panel que contendrá el contenido dinámico, manteniendo el nombre MyPanel
+        // Inicializa el panel que contendrá el contenido dinámico
         this.MyPanel = new JPanel();
         this.MyPanel.setLayout(new BorderLayout()); // Usa BorderLayout para el contenido
         this.MyPanel.setBackground(Color.decode("#ffffff")); 
@@ -79,7 +65,6 @@ public class MyFrame extends JFrame {
         // Añade el MyPanel al centro del JFrame.
         this.add(MyPanel, BorderLayout.CENTER);
 
-        // El 'floatingMenuPanel' se asignará externamente a través de setFloatingMenuPanel()
     }
 
     /**
@@ -95,7 +80,7 @@ public class MyFrame extends JFrame {
     }
 
     // Métodos getter
-    public JPanel getMyPanel() { // Getter para MyPanel
+    public JPanel getMyPanel() { 
         return MyPanel;
     }
 
@@ -115,20 +100,6 @@ public class MyFrame extends JFrame {
         setVisible(false);
     }
 
-    
-    //intento de colocar el boton de inicio de sesion en el top panel de registro
-    /*public void setVisibleInicioButton (){
-        // Este método se puede usar para mostrar u ocultar el botón de inicio de sesión
-        for (Component comp : topPanel.getComponents()) {
-            if (comp instanceof BotonPanel) {
-                comp.setVisible(true); // Muestra el botón de inicio de sesión
-            
-                this.getTopPanel().add(comp, BorderLayout.EAST);
-                this.getTopPanel().revalidate(); // Recalcula el layout del topPanel
-                this.getTopPanel().repaint(); // Redibuja el topPanel
-            }
-        }
-    }*/
 
     /**
      * Establece el panel de menú flotante externo que MyFrame gestionará.

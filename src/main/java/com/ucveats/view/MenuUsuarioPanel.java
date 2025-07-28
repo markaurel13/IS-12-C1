@@ -8,7 +8,6 @@ public class MenuUsuarioPanel extends JPanel {
 
     private MyFrame parentFrame; // Necesitamos una referencia a MyFrame
 
-    // Constructor de MenuUsuarioPanel, modificado para recibir la instancia de MyFrame
     public MenuUsuarioPanel(MyFrame frame) { 
         this.parentFrame = frame; // Guarda la referencia a la ventana principal
 
@@ -16,11 +15,8 @@ public class MenuUsuarioPanel extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBackground(Color.decode("#ffffff"));
 
-        // Opcional: Añade un borde para que se vea como un panel flotante
         setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.decode("#2f3829"))); // Borde izquierdo
         
-        // Define un tamaño preferido para que el LayoutManager lo posicione correctamente
-        // Es importante que este tamaño sea consistente con cómo MyFrame lo posiciona
         setPreferredSize(new Dimension(200, MyFrame.DEFAULT_HEIGHT)); 
         setMaximumSize(new Dimension(200, MyFrame.DEFAULT_HEIGHT));
         
@@ -52,27 +48,28 @@ public class MenuUsuarioPanel extends JPanel {
         tipoLabel.setForeground(Color.decode("#2f3829"));
 
         // --- Botones del Menú ---
-        // Sus acciones ahora usan parentFrame.setContentPanel() para cambiar la vista
         BotonPanel botonVerMenu = new BotonPanel("Ver Menu", 180, 35, e -> {
             this.setVisible(false); // Oculta este panel flotante
+
             parentFrame.setContentPanel(new verMenuInterface(parentFrame)); // Cambia el contenido de MyPanel
             System.out.println("Navegando a Ver Menú...");
         });
 
         BotonPanel botonVerMonedero = new BotonPanel("Ver Monedero", 180, 35, e -> {
             this.setVisible(false); // Oculta este panel flotante
+
             parentFrame.setContentPanel(new MonederoUI(parentFrame)); // Cambia el contenido de MyPanel
             System.out.println("Navegando a Ver Monedero...");
         });
 
         BotonPanel botonCerrarSesion = new BotonPanel("Cerrar Sesión", 180, 35, e -> {
             this.setVisible(false); // Oculta este panel flotante
+
             parentFrame.setContentPanel(new inicioSesionInterface(parentFrame)); // Vuelve a la pantalla de inicio de sesión
             parentFrame.removeMenuButton(); // Quita el botón de menú del topPanel
             System.out.println("Cerrando Sesión...");
         });
 
-        // --- Añadir los componentes a este JPanel ---
         this.add(Box.createVerticalStrut(20));
         this.add(imagenLabel);
         this.add(Box.createVerticalStrut(20));
@@ -87,6 +84,4 @@ public class MenuUsuarioPanel extends JPanel {
         this.add(botonCerrarSesion);
     }
     
-    // Al ser un JPanel y no la aplicación principal, no necesita un método main().
-    // public static void main(String[] args) { ... }
 }

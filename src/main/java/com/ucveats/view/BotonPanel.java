@@ -1,3 +1,6 @@
+/*
+ * hay que revisar esta clase a ver si se puede colocar como clase de utilidad
+ */
 package com.ucveats.view;
 
 import javax.swing.*;

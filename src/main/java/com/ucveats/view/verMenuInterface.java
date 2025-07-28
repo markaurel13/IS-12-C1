@@ -1,20 +1,21 @@
+/*
+ * habria que biscar la manera de que cuadno se carga un meni se pueda instancias la clase aqui para poder 
+ * ver lo elementos en la pagina
+ */
 package com.ucveats.view;
 
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDate;
 
-// IMPORTANTE: Esta clase ahora extiende JPanel, no MyFrame
+
 public class verMenuInterface extends JPanel {
 
     private MyFrame parentFrame; // Necesitamos una referencia a MyFrame
 
-    // Constructor modificado para recibir la instancia de MyFrame
     public verMenuInterface(MyFrame frame) {
         this.parentFrame = frame;
 
-        // Este JPanel usará un BorderLayout para organizar su contenido principal
-        // y permitir el JScrollPane en el centro.
         this.setLayout(new BorderLayout()); 
         this.setBackground(Color.decode("#ffffff"));
 
@@ -45,7 +46,7 @@ public class verMenuInterface extends JPanel {
         tituloDesayuno.setFont(new Font("Segoe UI", Font.BOLD, 18));
         tituloDesayuno.setForeground(Color.decode("#2f3829"));
 
-        // Instancia de la clase interna elementoMenu
+        // Instancia de la clase  elementoMenu
         elementoMenu desayuno = new elementoMenu("/desayuno.png", "Huevos con Tocino", "Deliciosos Huevos con tocino crujiente y pan");
 
         JLabel tituloAlmuerzo = new JLabel("Almuerzo");
@@ -53,7 +54,7 @@ public class verMenuInterface extends JPanel {
         tituloAlmuerzo.setFont(new Font("Segoe UI", Font.BOLD, 18));
         tituloAlmuerzo.setForeground(Color.decode("#2f3829"));
 
-        // Instancia de la clase interna elementoMenu
+        // Instancia de la clase  elementoMenu
         elementoMenu almuerzo = new elementoMenu("/almuerzo.png", "Pato a la Naranja", "Delicioso pato con salsa de naranja");
 
         // Añadir los elementos al panel interno con desplazamiento
@@ -69,12 +70,12 @@ public class verMenuInterface extends JPanel {
         contentInternalPanel.add(almuerzo);
         contentInternalPanel.add(Box.createVerticalStrut(20));
 
-        // 3. Crear un JScrollPane para el contentInternalPanel y añadirlo a 'this' (el JPanel verMenuInterface)
-        JScrollPane scrollPane = new JScrollPane(contentInternalPanel, 
+        //  Crear un JScrollPane para el contentInternalPanel y añadirlo a 'this' (el JPanel verMenuInterface)
+        JScrollPane scrollPanel = new JScrollPane(contentInternalPanel, 
                                                  JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, 
                                                  JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setBorder(BorderFactory.createEmptyBorder()); // Eliminar el borde predeterminado del scrollPane
-        this.add(scrollPane, BorderLayout.CENTER); // Añadir el scrollPane al centro de este JPanel
+        scrollPanel.setBorder(BorderFactory.createEmptyBorder()); // Eliminar el borde predeterminado del scrollPanel
+        this.add(scrollPanel, BorderLayout.CENTER); // Añadir el scrollPanel al centro de este JPanel
 
 
         // --- Activar el botón de menú en el topPanel de MyFrame ---
@@ -87,9 +88,4 @@ public class verMenuInterface extends JPanel {
     }
 
   
-    
-    
-    // NOTA IMPORTANTE: Los métodos main() y mostrarVentanaVerMenu() originales han sido eliminados.
-    // Esta clase es ahora un JPanel, no una ventana independiente,
-    // y su visibilidad y carga son gestionadas por MyFrame a través de la clase App.java.
 }

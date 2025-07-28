@@ -1,5 +1,5 @@
 /*
- * intenter poner un manejador de layout 
+ * intentar poner un manejador de layout 
  */
 
 package com.ucveats.view;

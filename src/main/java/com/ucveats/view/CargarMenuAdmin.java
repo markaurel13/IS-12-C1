@@ -1,14 +1,19 @@
+/*
+ * aqui hay que manejar que al cargar la iamgen y los datos esta infromacion sirva para alimentar
+ * la interface de ver menu
+ */
 package com.ucveats.view;
-import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
+import com.ucveats.controller.ImageUtilities;
+import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 
 public class CargarMenuAdmin extends JPanel {
 
     private MyFrame parentFrame;
-    JLabel status;
+    private File archivo = null;
+    private JLabel etiquetaStatus;
 
     public CargarMenuAdmin(MyFrame frame) {
         this.parentFrame = frame;
@@ -47,22 +52,33 @@ public class CargarMenuAdmin extends JPanel {
         campoDescripcion.setPreferredSize(new Dimension(150, 25));
         panelCampos.add(campoDescripcion);
 
-        JLabel etiquetaStatus = new JLabel("Seleccione un archivo:");
-        etiquetaStatus.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        JLabel etiquetaSelecionar = new JLabel("Seleccione un archivo:");
+        etiquetaSelecionar.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 
-        panelCampos.add(etiquetaStatus);
+        panelCampos.add(etiquetaSelecionar);
+
+
+        etiquetaStatus = new JLabel(" ");
+        etiquetaStatus.setFont(new Font("Segoe UI", Font.ITALIC, 14));
+        etiquetaStatus.setAlignmentX(Component.CENTER_ALIGNMENT);
+        etiquetaStatus.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
 
         JButton botonCargarImagen = new JButton("Cargar Imagen");
-        botonCargarImagen.addActionListener(e -> selectorImagen());
-        panelCampos.add(botonCargarImagen);
+        botonCargarImagen.addActionListener(e -> {
+            archivo =ImageUtilities.selectorImagen(this);
 
-        status = new JLabel(" ");
-        status.setFont(new Font("Segoe UI", Font.ITALIC, 14));
-        status.setAlignmentX(Component.CENTER_ALIGNMENT);
-        status.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
+             if (archivo != null) {
+                etiquetaStatus.setText("<html><p style='width: 250px;'>Archivo seleccionado: " + archivo.getAbsolutePath() + "</p></html>");
+            } else {
+                etiquetaStatus.setText("Selección de archivo cancelada.");
+            }
+        });
+        panelCampos.add(botonCargarImagen);
 
 
         BotonPanel botonCargarMenu = new BotonPanel("Cargar Menu", 200, 40, e -> {
+            archivo = null;
+            etiquetaStatus.setText("");
             JOptionPane.showMessageDialog(this, "✅ ¡Plato añadido al menú!");
         });
         botonCargarMenu.setFont(new Font("Segoe UI", Font.BOLD, 16));
@@ -72,7 +88,7 @@ public class CargarMenuAdmin extends JPanel {
         this.add(Box.createVerticalStrut(20));
         this.add(panelCampos);
         this.add(Box.createVerticalStrut(10));
-        this.add(status);
+        this.add(etiquetaStatus);
         this.add(Box.createVerticalStrut(30));
         this.add(botonCargarMenu);
 
@@ -85,37 +101,4 @@ public class CargarMenuAdmin extends JPanel {
         });
     }
 
-    public void selectorImagen() {
-        // 1. Crear una instancia de JFileChooser
-        JFileChooser selectorArchivo = new JFileChooser();
-        selectorArchivo.setDialogTitle("Seleccionar Imagen");
-
-        //Filtrar tipos de archivos (ej. solo archivos de texto)
-        FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos de imagen", "jpg", "jpeg", "png");
-        selectorArchivo.addChoosableFileFilter(filtro);
-        selectorArchivo.setFileFilter(filtro); // Establecer el filtro por defecto
-
-        // 2. Mostrar el cuadro de diálogo de selección de archivo
-        // showOpenDialog() es para seleccionar un archivo para abrir/cargar
-        // showSaveDialog() es para seleccionar un lugar para guardar un archivo
-        int resultado = selectorArchivo.showOpenDialog(this); // 'this' se refiere a la ventana JFrame
-
-        // 3. Procesar la selección del usuario
-        if (resultado == JFileChooser.APPROVE_OPTION) {
-            // El usuario seleccionó un archivo y presionó "Abrir"
-            File archivoSelecionado = selectorArchivo.getSelectedFile();
-            //String rutaArchivo = archivoSelecionado.getAbsolutePath();
-            status.setText("<html><p style='width: 250px;'>Archivo seleccionado: " + archivoSelecionado.getAbsolutePath()+ "</p></html>");
-            System.out.println("Archivo seleccionado: " + archivoSelecionado.getAbsolutePath());
-
-            // Aquí es donde típicamente leerías el archivo
-            // y operar el archivo seleccionado
-
-
-        } else if (resultado == JFileChooser.CANCEL_OPTION) {
-            // El usuario cerró el diálogo sin seleccionar un archivo
-            status.setText("Selección de archivo cancelada.");
-            System.out.println("Selección de archivo cancelada.");
-        }
-    }
 }

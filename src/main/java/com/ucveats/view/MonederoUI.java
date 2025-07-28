@@ -1,12 +1,13 @@
+/*
+ * hay que revisar la conexion de esta interface con el monedero
+ * ademas de podria extraer la funcion de validar el campo como una utilities para reusarla en los distintos formularios
+ */
 package com.ucveats.view;
 
 import javax.swing.*;
 import java.awt.*;
-// Los imports comentados se mantienen así según tus instrucciones
-//import com.ucveats.model.MonederoVirtual; 
-//import java.text.DecimalFormat;
 
-// IMPORTANTE: Esta clase ahora extiende JPanel, no MyFrame
+
 public class MonederoUI extends JPanel { 
     // private final MonederoVirtual monedero; // Mantenido comentado
     private final JLabel saldoLabel;
@@ -16,13 +17,10 @@ public class MonederoUI extends JPanel {
 
     private MyFrame parentFrame; // Necesitamos una referencia a MyFrame
 
-    // Constructor modificado para recibir la instancia de MyFrame
     public MonederoUI(MyFrame frame) {
         this.parentFrame = frame;
 
-        // Configura este JPanel directamente.
-        // Ya no llamas a super("titulo") ni estableces tamaño, etc.,
-        // porque estas propiedades las maneja MyFrame.
+ 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); 
         this.setBackground(Color.decode("#ffffff"));
 
@@ -48,7 +46,6 @@ public class MonederoUI extends JPanel {
         campoMonto.setPreferredSize(new Dimension(150, 25));
         panelRecarga.add(campoMonto);
 
-        // Se asume que BotonPanel tiene un constructor que acepta un ActionListener
         BotonPanel btnRecargar = new BotonPanel("Recargar Saldo", 200, 40, e -> validarCampo());
         btnRecargar.setFont(new Font("Segoe UI", Font.BOLD, 14));
         btnRecargar.setBorder(BorderFactory.createLineBorder(Color.decode("#2f3829"), 2, true));
@@ -91,7 +88,6 @@ public class MonederoUI extends JPanel {
 
         Timer timer = new Timer(2000, event -> {
             dialog.dispose();
-            //procesarPago(); // Mantenido comentado
         });
 
         timer.setRepeats(false);
@@ -120,11 +116,4 @@ public class MonederoUI extends JPanel {
         campoMonto.setText(""); // Limpiar el campo después de procesar el pago
     }
 
-    // Los métodos 'recargarSaldo' y 'actualizarSaldo' se mantienen comentados según tus instrucciones.
-    /*private void recargarSaldo(ActionEvent e) { ... }*/
-    /*private void actualizarSaldo() { ... }*/
-
-    // NOTA IMPORTANTE: El método main() original ha sido eliminado.
-    // Esta clase es ahora un JPanel, no una ventana independiente,
-    // y su visibilidad y carga son gestionadas por MyFrame a través de la clase App.java.
 }
