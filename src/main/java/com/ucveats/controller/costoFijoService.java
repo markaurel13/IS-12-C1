@@ -8,7 +8,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Locale;
 
-
 public class costoFijoService {
     private CostoFijo costoFijo;
     private static final String FILE_PATH = "src/main/resources/costosFijos.txt";
@@ -50,16 +49,16 @@ public class costoFijoService {
         costoFijo.setAlquiler(alquiler);
         guardarEnArchivo();
     }
+
     /**
-     * Guarda los datos del modelo CostoFijo en el archivo.
+     * Guarda los datos del modelo CostoFijo en el archivo como una nueva línea.
      * @throws IOException si ocurre un error durante la escritura del archivo.
      */
-
     public void guardarEnArchivo() throws IOException {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH))) {
-            String costoFijoData = String.format(Locale.US,"%.2f,%.2f,%.2f", costoFijo.getManoObra(), costoFijo.getMantenimiento(), costoFijo.getAlquiler());
-            bw.write(costoFijoData);
-            bw.newLine();
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH, true))) { // true para modo append
+            String costoFijoData = String.format(Locale.US, "%.2f,%.2f,%.2f", costoFijo.getManoObra(), costoFijo.getManoObra(), costoFijo.getAlquiler());
+            bw.write(costoFijoData); // Escribe la nueva línea
+            bw.newLine(); // Añade un salto de línea
         } catch (IOException e) {
             // Relanzamos la excepción para que la capa superior (la vista/main) decida cómo manejarla.
             throw new IOException("Error al guardar los datos de costos fijos.", e);
