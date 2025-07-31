@@ -63,11 +63,22 @@ public class AuthService {
      */
     public static boolean registrar(String cedula, String correo, String telefono, String password)
             throws IllegalArgumentException, IOException {
-        // 1. Se revisa primero si el usuario ya existe para fallar rápido.
+        
+        // Nueva validación: Comprobar la longitud de la contraseña en texto plano.
+        if (password == null || password.length() < 8) {
+            throw new IllegalArgumentException("La contraseña debe tener al menos 8 caracteres.");
+        }
+
+        // 1. Se revisa si la cédula o el correo ya existen.
         List<String[]> usuarios = FileManager.leerUsuarios();
         for (String[] u : usuarios) {
             if (u[0].equals(cedula)) { // Verifica por cédula
                 return false;
+            }
+            // Nueva validación: Comprobar si el correo ya está en uso (ignorando mayúsculas/minúsculas).
+            // Asume que el correo está en la segunda columna (índice 1).
+            if (u.length > 1 && u[1].equalsIgnoreCase(correo)) {
+                throw new IllegalArgumentException("El correo electrónico ya está registrado.");
             }
         }
 
