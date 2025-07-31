@@ -2,11 +2,18 @@ package com.ucveats.view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.net.URL;
 
 public class MenuUsuarioPanel extends JPanel {
 
     private MyFrame parentFrame; // Necesitamos una referencia a MyFrame
+
+    private BotonPanel botonVerMenu;
+    private BotonPanel botonVerMonedero;
+    private BotonPanel botonCerrarSesion;
+    private JLabel nombreLabel;
+    private JLabel tipoLabel;
 
     public MenuUsuarioPanel(MyFrame frame) { 
         this.parentFrame = frame; // Guarda la referencia a la ventana principal
@@ -36,39 +43,20 @@ public class MenuUsuarioPanel extends JPanel {
         imagenLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         // Datos de usuario de ejemplo
-        String tipoUsuario = "Tipo Prueba", nombreUsuario = "Nombre", apelldoUsuario = "Apellido";
-        JLabel nombreLabel = new JLabel(nombreUsuario + " " + apelldoUsuario);
+        nombreLabel = new JLabel("Nombre Apellido");
         nombreLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         nombreLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
         nombreLabel.setForeground(Color.decode("#2f3829"));
 
-        JLabel tipoLabel = new JLabel(tipoUsuario);
+        tipoLabel = new JLabel("Comensal");
         tipoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         tipoLabel.setFont(new Font("Segoe UI", Font.ITALIC, 14));
         tipoLabel.setForeground(Color.decode("#2f3829"));
 
         // --- Botones del Menú ---
-        BotonPanel botonVerMenu = new BotonPanel("Ver Menu", 180, 35, e -> {
-            this.setVisible(false); // Oculta este panel flotante
-
-            parentFrame.setContentPanel(new verMenuInterface(parentFrame)); // Cambia el contenido de MyPanel
-            System.out.println("Navegando a Ver Menú...");
-        });
-
-        BotonPanel botonVerMonedero = new BotonPanel("Ver Monedero", 180, 35, e -> {
-            this.setVisible(false); // Oculta este panel flotante
-
-            parentFrame.setContentPanel(new MonederoUI(parentFrame)); // Cambia el contenido de MyPanel
-            System.out.println("Navegando a Ver Monedero...");
-        });
-
-        BotonPanel botonCerrarSesion = new BotonPanel("Cerrar Sesión", 180, 35, e -> {
-            this.setVisible(false); // Oculta este panel flotante
-
-            parentFrame.setContentPanel(new inicioSesionInterface(parentFrame)); // Vuelve a la pantalla de inicio de sesión
-            parentFrame.removeMenuButton(); // Quita el botón de menú del topPanel
-            System.out.println("Cerrando Sesión...");
-        });
+        botonVerMenu = new BotonPanel("Ver Menu", 180, 35);
+        botonVerMonedero = new BotonPanel("Ver Monedero", 180, 35);
+        botonCerrarSesion = new BotonPanel("Cerrar Sesión", 180, 35);
 
         this.add(Box.createVerticalStrut(20));
         this.add(imagenLabel);
@@ -82,6 +70,22 @@ public class MenuUsuarioPanel extends JPanel {
         this.add(botonVerMonedero);
         this.add(Box.createVerticalStrut(80));
         this.add(botonCerrarSesion);
+    }
+
+    public void setDatosUsuario(String nombre, String rol) {
+        nombreLabel.setText(nombre);
+        tipoLabel.setText(rol);
+    }
+
+    public void addVerMenuListener(ActionListener listener) {
+        botonVerMenu.addActionListener(listener);
+    }
+
+    public void addVerMonederoListener(ActionListener listener) {
+        botonVerMonedero.addActionListener(listener);
+    }
+    public void addCerrarSesionListener(ActionListener listener) {
+        botonCerrarSesion.addActionListener(listener);
     }
     
 }

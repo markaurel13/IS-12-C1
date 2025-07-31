@@ -190,18 +190,54 @@ public class Main {
                 }
             });
 
-            // --- NAVEGACIÓN DESDE MENÚS (Actualizando vistas antes de mostrarlas) ---
-            // La navegación se define en los propios paneles de menú, pero aquí se podría añadir lógica
-            // para actualizar las vistas antes de mostrarlas. Por ejemplo:
-            // En MenuUsuarioPanel, el botón "Ver Monedero" podría hacer:
-            // botonVerMonedero.addActionListener(e -> {
-            //     if (currentUser instanceof Comensal) {
-            //         monederoView.setSaldo(((Comensal) currentUser).getMonedero().getSaldo());
-            //     }
-            //     mainFrame.setContentPanel(monederoView);
-            // });
-            // Por simplicidad, esta lógica se puede añadir directamente en los listeners de los menús si se prefiere.
+            // --- NAVEGACIÓN CENTRALIZADA DESDE MENÚS ---
 
+            // Navegación Menú Comensal
+            menuUsuarioPanel.addVerMenuListener(e -> {
+                menuView.mostrarMenu(bandejaService.getBandejas());
+                mainFrame.setContentPanel(menuView);
+                menuUsuarioPanel.setVisible(false);
+            });
+
+            menuUsuarioPanel.addVerMonederoListener(e -> {
+                if (currentUser instanceof Comensal) {
+                    monederoView.setSaldo(((Comensal) currentUser).getMonedero().getSaldo());
+                }
+                mainFrame.setContentPanel(monederoView);
+                menuUsuarioPanel.setVisible(false);
+            });
+
+            menuUsuarioPanel.addCerrarSesionListener(e -> {
+                currentUser = null;
+                mainFrame.setContentPanel(loginView);
+                mainFrame.removeMenuButton();
+                menuUsuarioPanel.setVisible(false);
+            });
+
+            // Navegación Menú Admin
+            menuAdminPanel.addCostosFijosListener(e -> {
+                costosFijosView.setTotal(costoFijoService.getCostoFijoTotal());
+                mainFrame.setContentPanel(costosFijosView);
+                menuAdminPanel.setVisible(false);
+            });
+
+            menuAdminPanel.addCostosVariablesListener(e -> {
+                costoVariableView.setTotal(costoVariableService.getCostoVariableTotal());
+                mainFrame.setContentPanel(costoVariableView);
+                menuAdminPanel.setVisible(false);
+            });
+
+            menuAdminPanel.addCargarMenuListener(e -> {
+                mainFrame.setContentPanel(cargarMenuView);
+                menuAdminPanel.setVisible(false);
+            });
+            
+            menuAdminPanel.addCerrarSesionListener(e -> {
+                currentUser = null;
+                mainFrame.setContentPanel(loginView);
+                mainFrame.removeMenuButton();
+                menuAdminPanel.setVisible(false);
+            });
 
             // --- 3. INICIO DE LA APLICACIÓN ---
 

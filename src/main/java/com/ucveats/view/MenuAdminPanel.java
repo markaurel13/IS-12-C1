@@ -2,14 +2,18 @@ package com.ucveats.view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.net.URL;
-
-
-
 
 public class MenuAdminPanel extends JPanel { 
 
-private MyFrame parentFrame; // Necesitamos una referencia a MyFrame
+    private MyFrame parentFrame; // Necesitamos una referencia a MyFrame
+    private BotonPanel botonVerCostosF;
+    private BotonPanel botonVerCostosV;
+    private BotonPanel botonCargarMenu;
+    private BotonPanel botonCerrarSesion;
+    private JLabel nombreLabel;
+    private JLabel tipoLabel;
 
 
     public MenuAdminPanel(MyFrame frame) { 
@@ -40,51 +44,22 @@ private MyFrame parentFrame; // Necesitamos una referencia a MyFrame
         imagenLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         // Datos de usuario de ejemplo
-        String tipoUsuario = "Tipo Prueba", nombreUsuario = "Nombre", apelldoUsuario = "Apellido";
-        JLabel nombreLabel = new JLabel(nombreUsuario + " " + apelldoUsuario);
+        nombreLabel = new JLabel("Nombre Apellido");
         nombreLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         nombreLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
         nombreLabel.setForeground(Color.decode("#2f3829"));
 
-        JLabel tipoLabel = new JLabel(tipoUsuario);
+        tipoLabel = new JLabel("Administrador");
         tipoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         tipoLabel.setFont(new Font("Segoe UI", Font.ITALIC, 14));
         tipoLabel.setForeground(Color.decode("#2f3829"));
 
 
         // --- Botones del Menú ---
-        BotonPanel botonVerCostosF = new BotonPanel("Costos Fijos", 180, 35, e -> {
-            // Al hacer clic, ocultamos este mismo panel
-            this.setVisible(false); 
-
-            parentFrame.setContentPanel(new CostosFijosUI(parentFrame)); // Cambia el contenido de MyPanel
-            System.out.println("Navegando a Costos Fijos...");
-        });
-
-        BotonPanel botonVerCostosV = new BotonPanel("Costos Variables", 180, 35, e -> {
-            this.setVisible(false);
-
-            // Descomentar la linea de abajo para que funcione la navegacion a costo variable
-            //si da error por la libreria del calendario comentar y probar el resto de interfaces
-
-            //parentFrame.setContentPanel(new costoVariableUI(parentFrame)); // Cambia el contenido de MyPanel a costo varaible, descomentar para que funcione
-            System.out.println("Navegando a Costos Variables...");
-        });
-
-        BotonPanel botonCargarMenu = new BotonPanel("Cargar Menú", 180, 35, e -> {
-            this.setVisible(false);
-
-            parentFrame.setContentPanel(new CargarMenuAdmin(parentFrame)); // Cambia el contenido de MyPanel
-            System.out.println("Navegando a Cargar Menú...");
-        });
-
-        BotonPanel botonCerrarSesion = new BotonPanel("Cerrar Sesión", 180, 35, e -> {
-            this.setVisible(false);
-
-            parentFrame.setContentPanel(new inicioSesionInterface(parentFrame)); // Vuelve a la pantalla de inicio de sesión
-            parentFrame.removeMenuButton(); // Quita el botón de menú del topPanel
-            System.out.println("Cerrando Sesión...");
-        });
+        botonVerCostosF = new BotonPanel("Costos Fijos", 180, 35);
+        botonVerCostosV = new BotonPanel("Costos Variables", 180, 35);
+        botonCargarMenu = new BotonPanel("Cargar Menú", 180, 35);
+        botonCerrarSesion = new BotonPanel("Cerrar Sesión", 180, 35);
 
         this.add(Box.createVerticalStrut(20));
         this.add(imagenLabel);
@@ -100,8 +75,26 @@ private MyFrame parentFrame; // Necesitamos una referencia a MyFrame
         this.add(botonCargarMenu);
         this.add(Box.createVerticalStrut(70));
         this.add(botonCerrarSesion);
-        
     }
 
+    public void setDatosUsuario(String nombre, String rol) {
+        nombreLabel.setText(nombre);
+        tipoLabel.setText(rol);
+    }
+
+    public void addCostosFijosListener(ActionListener listener) {
+        botonVerCostosF.addActionListener(listener);
+    }
+
+    public void addCostosVariablesListener(ActionListener listener) {
+        botonVerCostosV.addActionListener(listener);
+    }
+
+    public void addCargarMenuListener(ActionListener listener) {
+        botonCargarMenu.addActionListener(listener);
+    }
+    public void addCerrarSesionListener(ActionListener listener) {
+        botonCerrarSesion.addActionListener(listener);
+    }
 
 }
