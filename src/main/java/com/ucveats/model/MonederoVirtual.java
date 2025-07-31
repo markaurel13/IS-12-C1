@@ -10,11 +10,8 @@ public MonederoVirtual() {
     MonederoGlobal.getInstancia();
 }
 
-public String getSaldo() {
-    String moneda = "BsS. "; 
-    String saldoRounded = new DecimalFormat("#.0#").format(saldo);
-    String textoSaldo = moneda + saldoRounded;
-    return textoSaldo;
+public double getSaldo() {
+    return saldo;
 }
 
 public void recargar(double recarga) {
@@ -24,7 +21,6 @@ public void recargar(double recarga) {
     else {
         saldo += recarga;
         MonederoGlobal.getInstancia().recargarSaldo(recarga);
-        System.out.println("Recarga exitosa.");
     }
 }
 
@@ -38,5 +34,3 @@ public boolean pagarBandeja(double costo) {
 }
 
 }
-
-

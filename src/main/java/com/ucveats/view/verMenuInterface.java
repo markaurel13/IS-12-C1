@@ -7,11 +7,15 @@ package com.ucveats.view;
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import com.ucveats.model.Bandeja;
 
 
 public class verMenuInterface extends JPanel {
 
     private MyFrame parentFrame; // Necesitamos una referencia a MyFrame
+    private JPanel contentInternalPanel;
 
     public verMenuInterface(MyFrame frame) {
         this.parentFrame = frame;
@@ -20,7 +24,7 @@ public class verMenuInterface extends JPanel {
         this.setBackground(Color.decode("#ffffff"));
 
         // Panel interno para el contenido del menú, que irá dentro del JScrollPane
-        JPanel contentInternalPanel = new JPanel(); 
+        contentInternalPanel = new JPanel(); 
         contentInternalPanel.setLayout(new BoxLayout(contentInternalPanel, BoxLayout.Y_AXIS));
         contentInternalPanel.setBackground(Color.decode("#ffffff"));
 
@@ -32,43 +36,14 @@ public class verMenuInterface extends JPanel {
         labelTitulo.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
 
         LocalDate fechaHoy = LocalDate.now();
-        JLabel labelFecha = new JLabel("Fecha: " + fechaHoy.getDayOfMonth() + "/" + fechaHoy.getMonthValue() + "/" + fechaHoy.getYear());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        JLabel labelFecha = new JLabel("Fecha: " + fechaHoy.format(formatter));
         labelFecha.setAlignmentX(Component.CENTER_ALIGNMENT);
         labelFecha.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         labelFecha.setForeground(Color.decode("#2f3829"));
-
-        /*
-         * deberia agregar aca un precio de la bandeja
-         */
-
-        JLabel tituloDesayuno = new JLabel("Desayuno");
-        tituloDesayuno.setAlignmentX(Component.CENTER_ALIGNMENT);
-        tituloDesayuno.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        tituloDesayuno.setForeground(Color.decode("#2f3829"));
-
-        // Instancia de la clase  elementoMenu
-        elementoMenu desayuno = new elementoMenu("/desayuno.png", "Huevos con Tocino", "Deliciosos Huevos con tocino crujiente y pan");
-
-        JLabel tituloAlmuerzo = new JLabel("Almuerzo");
-        tituloAlmuerzo.setAlignmentX(Component.CENTER_ALIGNMENT);
-        tituloAlmuerzo.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        tituloAlmuerzo.setForeground(Color.decode("#2f3829"));
-
-        // Instancia de la clase  elementoMenu
-        elementoMenu almuerzo = new elementoMenu("/almuerzo.png", "Pato a la Naranja", "Delicioso pato con salsa de naranja");
-
-        // Añadir los elementos al panel interno con desplazamiento
+  
         contentInternalPanel.add(labelTitulo);
         contentInternalPanel.add(labelFecha);
-        contentInternalPanel.add(Box.createVerticalStrut(15));
-        contentInternalPanel.add(tituloDesayuno);
-        contentInternalPanel.add(Box.createVerticalStrut(10));
-        contentInternalPanel.add(desayuno); 
-        contentInternalPanel.add(Box.createVerticalStrut(40));
-        contentInternalPanel.add(tituloAlmuerzo);
-        contentInternalPanel.add(Box.createVerticalStrut(10));
-        contentInternalPanel.add(almuerzo);
-        contentInternalPanel.add(Box.createVerticalStrut(20));
 
         //  Crear un JScrollPane para el contentInternalPanel y añadirlo a 'this' (el JPanel verMenuInterface)
         JScrollPane scrollPanel = new JScrollPane(contentInternalPanel, 
@@ -87,5 +62,27 @@ public class verMenuInterface extends JPanel {
         });
     }
 
-  
+    public void mostrarMenu(List<Bandeja> bandejas) {
+        // Limpiar cualquier menú anterior
+        // Se mantienen el título y la fecha
+        Component[] components = contentInternalPanel.getComponents();
+        for (int i = 2; i < components.length; i++) {
+            contentInternalPanel.remove(components[i]);
+        }
+
+        if (bandejas == null || bandejas.isEmpty()) {
+            JLabel noHayMenu = new JLabel("No hay menú disponible para hoy.");
+            noHayMenu.setAlignmentX(Component.CENTER_ALIGNMENT);
+            contentInternalPanel.add(noHayMenu);
+        } else {
+            for (Bandeja bandeja : bandejas) {
+                // Asumimos que tienes una imagen por defecto o lógica para encontrar la imagen
+                elementoMenu item = new elementoMenu("/almuerzo.png", bandeja.getNombreBandeja(), bandeja.getDescripcionBandeja());
+                contentInternalPanel.add(item);
+                contentInternalPanel.add(Box.createVerticalStrut(20));
+            }
+        }
+        contentInternalPanel.revalidate();
+        contentInternalPanel.repaint();
+    }
 }

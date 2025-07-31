@@ -3,7 +3,6 @@ package com.ucveats.model;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import com.ucveats.view.inicioSesionInterface;
 
 public class Bandeja {
     // Expresiones regulares para validación:
@@ -11,24 +10,11 @@ public class Bandeja {
     private static final String NOMBRE_REGEX = "[\\w \\,\\.]{4,}";
     private static final String DATE_REGEX = "\\d{2}/\\d{2}/\\d{4}";
 
-    private static int identifierNumber = 0;
-
     private String ID;
     private String nombreBandeja;
     private double costo;
     private String descripcionBandeja;
     private LocalDate fecha;
-
-    private String crearID(int id) {
-        String numberID = Integer.toString(id);
-        while (numberID.length() < 5) {
-            numberID = "0" + numberID;
-        }
-        if (!numberID.matches(ID_REGEX)) {
-            throw new IllegalArgumentException("ID inválida.");
-        }
-        return numberID;
-    }
 
     private LocalDate crearFecha(String fechaString) {
         if (fechaString == null || !fechaString.matches(DATE_REGEX)) {
@@ -38,7 +24,10 @@ public class Bandeja {
         return LocalDate.parse(fechaString, formatter);
     }
 
-    public Bandeja(int identifierNumber, String nombre, double costo, String date, String descripcion) {
+    public Bandeja(String id, String nombre, double costo, String date, String descripcion) {
+        if (id == null || id.trim().isEmpty()) {
+            throw new IllegalArgumentException("El ID no puede ser nulo o vacío.");
+        }
         if (nombre == null || !nombre.matches(NOMBRE_REGEX)) {
             throw new IllegalArgumentException("Nombre inválido. Debe tener al menos 4 caracteres alfanuméricos");
         }
@@ -49,16 +38,11 @@ public class Bandeja {
             throw new IllegalArgumentException("Fecha inválida. Debe estar en formato DD/MM/YYYY");
         }
 
-        this.ID = crearID(identifierNumber);
+        this.ID = id;
         this.nombreBandeja = nombre;
         this.costo = costo;
         this.fecha = crearFecha(date);
         this.descripcionBandeja = descripcion;
-        Bandeja.identifierNumber++;
-    }
-
-    public Bandeja(int identifierNumber, String nombre, double costo, String date) {
-        this(identifierNumber, nombre, costo, date, "No hay una descripción disponible para este platillo.");
     }
 
     // Getters

@@ -3,15 +3,13 @@
 package com.ucveats.controller;
 
 import com.ucveats.model.CostoVariable;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import javax.swing.JOptionPane;
 import java.util.Locale;
 
 public class costoVariableService {
@@ -21,7 +19,7 @@ public class costoVariableService {
     public costoVariableService() {
         this.costoVariable = cargarCostosVariables();
         if (costoVariable == null) {
-            this.costoVariable = new CostoVariable(0, 0, 0, null, "");
+            this.costoVariable = new CostoVariable(0, 0, 0, LocalDate.now(), "");
         }
     }
 
@@ -33,59 +31,39 @@ private CostoVariable cargarCostosVariables() {
             String[] partes = linea.split(",");
                 
                 if (partes.length >= 5) {
-                    return new CostoVariable(
-                            Double.parseDouble(partes[0]),
-                            Double.parseDouble(partes[1]),
-                            Double.parseDouble(partes[2]),
-                            new SimpleDateFormat("dd/MM/yyyy").parse(partes[3]), // fecha
-                            partes[4]  // tipoBandeja
-                    );
-                }
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                return new CostoVariable(
+                        Double.parseDouble(partes[0]),
+                        Double.parseDouble(partes[1]),
+                        Double.parseDouble(partes[2]),
+                        LocalDate.parse(partes[3], formatter), // fecha
+                        partes[4]  // tipoBandeja
+                );
+            }
 
         }
-    } catch (IOException | NumberFormatException | ParseException e)
- {
-        /*JOptionPane.showMessageDialog(null, 
-            "❌ Error al cargar los costos variables.\nSe iniciará con valores por defecto.", 
-            "Error", JOptionPane.ERROR_MESSAGE); */
+    } catch (Exception e) { // Captura más genérica para parseo de fecha también
+        System.err.println("Error al cargar los costos variables: " + e.getMessage());
     }
     return null;
 }
 
-public void guardarCostos(double proteinas, double carbohidratos, double energia, Date fecha,
-        String tipoBandeja) {
+public void guardarCostos(double proteinas, double carbohidratos, double energia, LocalDate fecha,
+        String tipoBandeja) throws IllegalArgumentException, IOException {
     if (proteinas < 0 || carbohidratos < 0 || energia < 0) {
-        JOptionPane.showMessageDialog(null, "Por favor ingrese un valor numérico positivo.", "Error",
-                JOptionPane.ERROR_MESSAGE);
-        return;
+        throw new IllegalArgumentException("Por favor ingrese un valor numérico positivo.");
     }
 
-    if (fecha == null || tipoBandeja.isEmpty()) {
-        JOptionPane.showMessageDialog(null, "Complete todos los campos obligatorios.", "Error",
-                JOptionPane.ERROR_MESSAGE);
-        return;
+    if (fecha == null || tipoBandeja == null || tipoBandeja.trim().isEmpty()) {
+        throw new IllegalArgumentException("Complete todos los campos obligatorios.");
     }
 
-    // Validación de formato y límites de fecha
-    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-    sdf.setLenient(false); // para que no acepte cosas como 32/01/2024
-
-
-    Date fechaMinima;
-    Date fechaMaxima;
-    try {
-
-        fechaMinima = sdf.parse("01/01/2000");
-        fechaMaxima = sdf.parse("01/01/2035");
-
-        if (fecha.before(fechaMinima) || fecha.after(fechaMaxima)) {
-            JOptionPane.showMessageDialog(null, "La fecha debe estar entre 01/01/2000 y 01/01/2035.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-    } catch (ParseException e) {
-        JOptionPane.showMessageDialog(null, "La fecha ingresada no tiene un formato válido (dd/MM/yyyy).", "Error", JOptionPane.ERROR_MESSAGE);
-        return;
+    // Validación de límites de fecha usando java.time
+    LocalDate fechaMinima = LocalDate.of(2000, 1, 1);
+    LocalDate fechaMaxima = LocalDate.of(2035, 1, 1);
+    
+    if (fecha.isBefore(fechaMinima) || fecha.isAfter(fechaMaxima)) {
+        throw new IllegalArgumentException("La fecha debe estar entre 01/01/2000 y 01/01/2035.");
     }
 
     // Si pasó todas las validaciones
@@ -95,13 +73,17 @@ public void guardarCostos(double proteinas, double carbohidratos, double energia
     costoVariable.setFecha(fecha);
     costoVariable.setTipoBandeja(tipoBandeja);
     this.guardarEnArchivo();
-    JOptionPane.showMessageDialog(null, "Costos variables registrados correctamente.", "Éxito",
-            JOptionPane.INFORMATION_MESSAGE);
 }
 
-    public void guardarEnArchivo() {
+    /**
+     * Guarda los datos del modelo CostoVariable en el archivo.
+     * @throws IOException si ocurre un error durante la escritura del archivo.
+     */
+
+    public void guardarEnArchivo() throws IOException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH))) {
-            String fechaFormateada = new SimpleDateFormat("dd/MM/yyyy").format(costoVariable.getFecha());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            String fechaFormateada = costoVariable.getFecha().format(formatter);
 
             String costoFijoData = String.format(Locale.US, "%.2f,%.2f,%.2f,%s,%s", costoVariable.getProteinas(),
                     costoVariable.getCarbohidratos(), costoVariable.getEnergia(), fechaFormateada
@@ -109,7 +91,7 @@ public void guardarCostos(double proteinas, double carbohidratos, double energia
             bw.write(costoFijoData);
             bw.newLine();
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error al guardar los datos.", "Error", JOptionPane.ERROR_MESSAGE);
+            throw new IOException("Error al guardar los datos de costos variables.", e);
         }
     }
 

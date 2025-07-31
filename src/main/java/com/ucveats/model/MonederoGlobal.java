@@ -9,28 +9,23 @@ public class MonederoGlobal {
     private static MonederoGlobal instancia = null;
 
     private MonederoGlobal() { // Constructor privado
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        }
         this.saldoUsuarios = 0;
         this.saldoPagado = 0;
     }
 
-    // luisangel anadio el tipo MonederoGlobal a la clase get instancia porque habia un error
-    public static MonederoGlobal getInstancia() {
+    // Se añade 'synchronized' para hacerlo seguro en entornos con múltiples hilos (thread-safe).
+    public static synchronized MonederoGlobal getInstancia() {
         if (instancia == null){
             instancia = new MonederoGlobal();
         }
         return instancia;
     }
 
-    public void recargarSaldo(double pago) {
+    public synchronized void recargarSaldo(double pago) {
         this.saldoUsuarios += pago;
     }
 
-    public void pagarComida(double pago) {
+    public synchronized void pagarComida(double pago) {
         this.saldoPagado += pago;
     }
 

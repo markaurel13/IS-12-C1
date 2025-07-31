@@ -6,21 +6,21 @@ package com.ucveats.view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 
 public class MonederoUI extends JPanel { 
-    // private final MonederoVirtual monedero; // Mantenido comentado
     private final JLabel saldoLabel;
     private final JTextField campoMonto;
 
-    double saldoDisponible = 0.0; // Inicializar el saldo disponible
+    private final BotonPanel btnRecargar;
 
     private MyFrame parentFrame; // Necesitamos una referencia a MyFrame
 
     public MonederoUI(MyFrame frame) {
         this.parentFrame = frame;
-
  
+        // monedero = ... // El monedero debe ser inyectado por el controlador
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); 
         this.setBackground(Color.decode("#ffffff"));
 
@@ -29,7 +29,7 @@ public class MonederoUI extends JPanel {
         tituloPanel.setFont(new Font("Segoe UI", Font.ITALIC, 14));
         tituloPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        saldoLabel = new JLabel(String.format("%.2f", saldoDisponible));
+        saldoLabel = new JLabel("0.00");
         saldoLabel.setFont(new Font("Segoe UI", Font.BOLD, 80));
         saldoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -46,7 +46,7 @@ public class MonederoUI extends JPanel {
         campoMonto.setPreferredSize(new Dimension(150, 25));
         panelRecarga.add(campoMonto);
 
-        BotonPanel btnRecargar = new BotonPanel("Recargar Saldo", 200, 40, e -> validarCampo());
+        btnRecargar = new BotonPanel("Recargar Saldo", 200, 40);
         btnRecargar.setFont(new Font("Segoe UI", Font.BOLD, 14));
         btnRecargar.setBorder(BorderFactory.createLineBorder(Color.decode("#2f3829"), 2, true));
         btnRecargar.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -70,7 +70,7 @@ public class MonederoUI extends JPanel {
         });
     }
 
-    private void simularPagoMovil() {
+    public void simularPagoMovil() {
         JProgressBar barra = new JProgressBar();
         barra.setIndeterminate(true);
         barra.setPreferredSize(new Dimension(300, 20));
@@ -95,25 +95,22 @@ public class MonederoUI extends JPanel {
         dialog.setVisible(true);
     }
 
-    private void validarCampo() {
-        String valorIngresado = campoMonto.getText().trim();
-        if (valorIngresado.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "ERROR: Campo vacío.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        } else {
-            valorIngresado = valorIngresado.replace(",", "."); // Reemplazar coma por punto para el formato decimal
+    // --- MÉTODOS PARA EL CONTROLADOR EXTERNO ---
+    public String getMontoRecarga() {
+    return campoMonto.getText();
+    }
 
-            if (!valorIngresado.matches("^-?\\d+(\\.\\d+)?$")) {
-                JOptionPane.showMessageDialog(this, "ERROR: Campo inválido. Solo se permiten números.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            } else if (Double.parseDouble(valorIngresado) <= 0) {
-                JOptionPane.showMessageDialog(this, "ERROR: Monto inválido. Debe ser mayor a 0.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            } else {
-                simularPagoMovil();
-                JOptionPane.showMessageDialog(this, "¡Pago Movil exitoso! Pago por Bs. " + valorIngresado, "Proceso Completado", JOptionPane.PLAIN_MESSAGE);
-                saldoDisponible += Double.parseDouble(valorIngresado);
-                saldoLabel.setText(String.format("%.2f", saldoDisponible));
-            }
-        }
-        campoMonto.setText(""); // Limpiar el campo después de procesar el pago
+    public void addRecargarListener(ActionListener listener) {
+        btnRecargar.addActionListener(listener);
+    }
+
+    public void setSaldo(double nuevoSaldo) {
+        saldoLabel.setText(String.format("%.2f", nuevoSaldo));
+        campoMonto.setText("");
+    }
+
+    public void mostrarMensaje(String mensaje, String titulo, int tipoMensaje) {
+        JOptionPane.showMessageDialog(this, mensaje, titulo, tipoMensaje);
     }
 
 }

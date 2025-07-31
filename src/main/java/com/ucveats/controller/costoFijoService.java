@@ -1,7 +1,6 @@
 package com.ucveats.controller;
 
 import com.ucveats.model.CostoFijo;
-import javax.swing.JOptionPane;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -33,41 +32,37 @@ public class costoFijoService {
                 );
             }
         } catch (IOException | NumberFormatException e) {
-            //JOptionPane.showMessageDialog(null, "Error al cargar los costos fijos. Se iniciará con valores por defecto.", "Error", JOptionPane.ERROR_MESSAGE);
+            // En una aplicación real, aquí se podría registrar el error en un log.
+            System.err.println("Error al cargar los costos fijos: " + e.getMessage());
         }
         return null;
     }
 
-    public void guardarCostos(double manoObra, double mantenimiento, double alquiler) {
+    public void guardarCostos(double manoObra, double mantenimiento, double alquiler) throws IllegalArgumentException, IOException {
         if (manoObra < 0 || mantenimiento < 0 || alquiler < 0) {
-            JOptionPane.showMessageDialog(null, "Por favor ingrese un valor numérico positivo.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
+            throw new IllegalArgumentException("Por favor ingrese un valor numérico positivo.");
         }
         if (manoObra == 0 || mantenimiento == 0 || alquiler == 0) {
-            JOptionPane.showMessageDialog(null, "Complete todos los campos obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
+            throw new IllegalArgumentException("Complete todos los campos obligatorios.");
         }
         costoFijo.setManoObra(manoObra);
         costoFijo.setMantenimiento(mantenimiento);
         costoFijo.setAlquiler(alquiler);
         guardarEnArchivo();
-        JOptionPane.showMessageDialog(null,
-                    "✅ ¡Costos registrados exitosamente! ✅" +
-                            "\n Mano de Obra: (" + manoObra + ")" +
-                            "\n Mantenimiento: (" + mantenimiento + ")" +
-                            "\n Alquiler: (" + alquiler + ")"
-
-                    , "Proceso Exitoso", JOptionPane.PLAIN_MESSAGE);
-        //JOptionPane.showMessageDialog(null, "Costos fijos registrados correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
     }
+    /**
+     * Guarda los datos del modelo CostoFijo en el archivo.
+     * @throws IOException si ocurre un error durante la escritura del archivo.
+     */
 
-    public void guardarEnArchivo() {
+    public void guardarEnArchivo() throws IOException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH))) {
             String costoFijoData = String.format(Locale.US,"%.2f,%.2f,%.2f", costoFijo.getManoObra(), costoFijo.getMantenimiento(), costoFijo.getAlquiler());
             bw.write(costoFijoData);
             bw.newLine();
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error al guardar los datos.", "Error", JOptionPane.ERROR_MESSAGE);
+            // Relanzamos la excepción para que la capa superior (la vista/main) decida cómo manejarla.
+            throw new IOException("Error al guardar los datos de costos fijos.", e);
         }
     }
 

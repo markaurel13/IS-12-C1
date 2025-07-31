@@ -8,12 +8,20 @@ import com.ucveats.controller.ImageUtilities;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.awt.event.ActionListener;
+import com.toedter.calendar.JDateChooser;
+import java.util.Date;
 
 public class CargarMenuAdmin extends JPanel {
 
     private MyFrame parentFrame;
     private File archivo = null;
     private JLabel etiquetaStatus;
+    private JTextField campoTitulo;
+    private JTextField campoDescripcion;
+    private JTextField campoCosto;
+    private JDateChooser campoFecha;
+    private BotonPanel botonCargarMenu;
 
     public CargarMenuAdmin(MyFrame frame) {
         this.parentFrame = frame;
@@ -30,29 +38,46 @@ public class CargarMenuAdmin extends JPanel {
 
         JPanel panelCampos = new JPanel();
         panelCampos.setBackground(Color.decode("#ffffff"));
-        panelCampos.setLayout(new GridLayout(3, 2, 0, 10));
-        panelCampos.setMaximumSize(new Dimension(300, 115));
+        panelCampos.setLayout(new GridLayout(5, 2, 0, 10));
+        panelCampos.setMaximumSize(new Dimension(300, 200));
         
 
         JLabel etiquetaTitulo = new JLabel("Titulo:");
         etiquetaTitulo.setFont(new Font("Segoe ui", Font.PLAIN, 14));
         panelCampos.add(etiquetaTitulo);
 
-        JTextField campoTitulo = new JTextField();
+        campoTitulo = new JTextField();
         campoTitulo.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         campoTitulo.setPreferredSize(new Dimension(150, 25));
         panelCampos.add(campoTitulo);
+
+        JLabel etiquetaCosto = new JLabel("Costo (BsS.):");
+        etiquetaCosto.setFont(new Font("Segoe ui", Font.PLAIN, 14));
+        panelCampos.add(etiquetaCosto);
+
+        campoCosto = new JTextField();
+        campoCosto.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        campoCosto.setPreferredSize(new Dimension(150, 25));
+        panelCampos.add(campoCosto);
 
         JLabel etiquetaDescripcion = new JLabel("Descripcion:");
         etiquetaDescripcion.setFont(new Font("Segoe ui", Font.PLAIN, 14));
         panelCampos.add(etiquetaDescripcion);
 
-        JTextField campoDescripcion = new JTextField();
+        campoDescripcion = new JTextField();
         campoDescripcion.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         campoDescripcion.setPreferredSize(new Dimension(150, 25));
         panelCampos.add(campoDescripcion);
 
-        JLabel etiquetaSelecionar = new JLabel("Seleccione un archivo:");
+        JLabel etiquetaFecha = new JLabel("Fecha:");
+        etiquetaFecha.setFont(new Font("Segoe ui", Font.PLAIN, 14));
+        panelCampos.add(etiquetaFecha);
+
+        campoFecha = new JDateChooser();
+        campoFecha.setDateFormatString("dd/MM/yyyy");
+        panelCampos.add(campoFecha);
+
+        JLabel etiquetaSelecionar = new JLabel("Seleccione una imagen:");
         etiquetaSelecionar.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 
         panelCampos.add(etiquetaSelecionar);
@@ -76,14 +101,9 @@ public class CargarMenuAdmin extends JPanel {
         panelCampos.add(botonCargarImagen);
 
 
-        BotonPanel botonCargarMenu = new BotonPanel("Cargar Menu", 200, 40, e -> {
-            archivo = null;
-            etiquetaStatus.setText("");
-            JOptionPane.showMessageDialog(this, "✅ ¡Plato añadido al menú!");
-        });
+        botonCargarMenu = new BotonPanel("Cargar Menu", 200, 40);
         botonCargarMenu.setFont(new Font("Segoe UI", Font.BOLD, 16));
         
-
         this.add(Titulo);
         this.add(Box.createVerticalStrut(20));
         this.add(panelCampos);
@@ -92,13 +112,37 @@ public class CargarMenuAdmin extends JPanel {
         this.add(Box.createVerticalStrut(30));
         this.add(botonCargarMenu);
 
-
-
-
         parentFrame.removeMenuButton(); // Opcional: Asegúrate de que no haya otro botón configurado
         parentFrame.addMenuButton("/icono_lineas.png", e -> {
             // No se necesita lógica adicional aquí, ya que MyFrame.toggleFloatingMenu() gestiona la visibilidad.
         });
+    }
+
+    // --- MÉTODOS PARA EL CONTROLADOR EXTERNO ---
+
+    public String getTitulo() { return campoTitulo.getText(); }
+    public String getDescripcion() { return campoDescripcion.getText(); }
+    public String getCosto() { return campoCosto.getText(); }
+    public Date getFecha() { return campoFecha.getDate(); }
+    public File getArchivoImagen() { return archivo; }
+
+    public void addCargarMenuListener(ActionListener listener) {
+        botonCargarMenu.addActionListener(listener);
+    }
+
+    public void mostrarExito(String mensaje) {
+        JOptionPane.showMessageDialog(this, mensaje, "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        // Limpiar campos
+        campoTitulo.setText("");
+        campoDescripcion.setText("");
+        campoCosto.setText("");
+        campoFecha.setDate(null);
+        etiquetaStatus.setText(" ");
+        archivo = null;
+    }
+
+    public void mostrarError(String mensaje) {
+        JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
 }

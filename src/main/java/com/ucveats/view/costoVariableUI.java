@@ -8,29 +8,26 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import com.toedter.calendar.JDateChooser;
-import com.ucveats.controller.costoVariableService;
 import java.util.Calendar;
 import java.util.Date;
+import java.awt.event.ActionListener;
+
 
 public class costoVariableUI extends JPanel {
     private final JTextField campoProteinas, campoCarbohidratos, campoEnergia;
     private final JComboBox<String> campoTipoBandeja;
     private final JDateChooser campoFecha;
-    private final costoVariableService servicioCostos;
     private final JLabel totalLabel;
-    double totalCostosVariables = 0.0; // Inicializar el total de costos
+    private final BotonPanel btnGuardar;
     private MyFrame parentFrame; // Referencia a la ventana principal
 
     public costoVariableUI(MyFrame frame) {
-        //super("Registro de Costos Variables");
         this.parentFrame = frame;
 
-        // Panel this
-        //JPanel this = new JPanel(null);
         this.setLayout(null);
         this.setBackground(Color.decode("#f4f6f8"));
 
-        totalLabel = new JLabel("Costo Actual Bs. " + totalCostosVariables);
+        totalLabel = new JLabel("Costo Actual Bs. 0.00");
         totalLabel.setFont(new Font("Segoe UI", Font.BOLD, 25));
         totalLabel.setForeground(Color.decode("#2f3829"));
         totalLabel.setBounds(60, 30, 340, 30);
@@ -73,18 +70,11 @@ public class costoVariableUI extends JPanel {
         campoFecha.setMinSelectableDate(minCal.getTime());
         this.add(campoFecha);
 
-        BotonPanel btnGuardar = new BotonPanel("Guardar Costos");
+        btnGuardar = new BotonPanel("Guardar Costos"); 
         btnGuardar.setBounds(100, 360, 180, 40);
         btnGuardar.setFont(new Font("Segoe UI", Font.BOLD, 15));
         btnGuardar.setBorder(BorderFactory.createLineBorder(Color.decode("#2f3829"), 2, true));
-        btnGuardar.addActionListener(this::guardarCostos);
         this.add(btnGuardar);
-
-
-
-        this.servicioCostos = new costoVariableService();
-        totalCostosVariables = servicioCostos.getCostoVariableTotal();
-        totalLabel.setText("Costo Actual Bs. " + totalCostosVariables);
 
         
         // --- Activar el botón de menú y el panel flotante ---
@@ -107,46 +97,26 @@ public class costoVariableUI extends JPanel {
         return campo;
     }
 
-    private void guardarCostos(ActionEvent e) {
-        try {
-            double proteinas = Double.parseDouble(campoProteinas.getText());
-            double carbohidratos = Double.parseDouble(campoCarbohidratos.getText());
-            double energia = Double.parseDouble(campoEnergia.getText());
-            String tipoBandeja = (String) campoTipoBandeja.getSelectedItem();
+        // --- MÉTODOS PARA EL CONTROLADOR EXTERNO ---
+        public String getProteinas() { return campoProteinas.getText(); }
+        public String getCarbohidratos() { return campoCarbohidratos.getText(); }
+        public String getEnergia() { return campoEnergia.getText(); }
+        public String getTipoBandeja() { return (String) campoTipoBandeja.getSelectedItem(); }
+        public Date getFecha() { return campoFecha.getDate(); }
 
-
-            // Obtiene la fecha seleccionada en formato string
-            Date fechaSeleccionada = campoFecha.getDate();
-            if (fechaSeleccionada == null) {
-                JOptionPane.showMessageDialog(this, "Debe seleccionar una fecha válida.", "Error",
-                        JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            Date fecha = fechaSeleccionada;
-
-            servicioCostos.guardarCostos(proteinas, carbohidratos, energia, fecha, tipoBandeja);
-            totalLabel.setText("Total: Bs. " + String.format("%.2f", servicioCostos.getCostoVariableTotal()));
-
-            /*JOptionPane.showMessageDialog(this,
-                    "✅ ¡Costos variables registrados exitosamente! ✅\n\n" +
-                            "- Proteínas: " + proteinas +
-                            "\n- Carbohidratos: " + carbohidratos +
-                            "\n- Energía: " + energia +
-                            "\n- Fecha: " + fecha +
-                            "\n- Tipo de Bandeja: " + tipoBandeja,
-                    "Registro exitoso", JOptionPane.INFORMATION_MESSAGE);*/
-
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this,
-                    "ERROR: Valor inválido ingresado. Intente de nuevo.",
-                    "Advertencia", JOptionPane.ERROR_MESSAGE);
-        }
+        public void addGuardarListener(ActionListener listener) {
+        btnGuardar.addActionListener(listener);
     }
 
-    /*public static void main(String[] args) {
-        try {
-            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-        } catch (Exception ignored) {}
-        new costoVariableUI().mostrarVentana();
-    }*/
+    public void setTotal(double total) {
+        totalLabel.setText(String.format("Costo Actual Bs. %.2f", total));
+    }
+
+    public void mostrarError(String mensaje) {
+        JOptionPane.showMessageDialog(this, mensaje, "Error de Datos", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public void mostrarExito(String mensaje) {
+        JOptionPane.showMessageDialog(this, mensaje, "Éxito", JOptionPane.INFORMATION_MESSAGE);
+    }
 }
