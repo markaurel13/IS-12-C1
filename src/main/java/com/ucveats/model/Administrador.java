@@ -8,13 +8,15 @@ package com.ucveats.model;
 public class Administrador extends Usuario {
     /**
      * Crea una instancia de Administrador.
+     * @param nombre Nombre del administrador.
+     * @param apellido Apellido del administrador.
      * @param cedula Cédula del administrador.
      * @param correo Email válido del administrador.
      * @param telefono Teléfono del administrador.
      * @param passwordHash Contraseña hasheada.
      * @throws IllegalArgumentException Si algún dato es inválido.
      */
-    public Administrador(String cedula, String correo, String telefono, String passwordHash) {
-        super(cedula, correo, telefono, passwordHash, Usuario.RolUsuario.ADMIN);
+    public Administrador(String cedula, String nombre, String apellido, String correo, String telefono, String rolUcv, String passwordHash) {
+        super(cedula, nombre, apellido, correo, telefono, rolUcv, passwordHash, Usuario.RolUsuario.ADMIN);
     }
 }

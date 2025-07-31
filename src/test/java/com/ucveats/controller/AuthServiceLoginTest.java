@@ -16,6 +16,9 @@ public class AuthServiceLoginTest {
     private static final String TEST_FILE_PATH = "data/test_usuarios_login.txt";
     private final String testCedula = "20999888";
     private final String testPassword = "claveSegura123";
+    private final String testNombre = "Juan";
+    private final String testApellido = "Prueba";
+    private final String testRolUcv = "estudiante";
     private final double testSaldo = 123.45;
 
 
@@ -34,8 +37,8 @@ public class AuthServiceLoginTest {
         //    Esto nos da control total sobre los datos, incluyendo el saldo.
         String hashedPassword = SecurityUtils.hashPassword(testPassword);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(TEST_FILE_PATH))) {
-            // Formato: cedula,correo,telefono,password,rol,saldo
-            String testUserLine = String.join(",", testCedula, "login@test.com", "04121112233", hashedPassword, "COMENSAL", String.valueOf(testSaldo));
+            // Formato: cedula,nombre,apellido,correo,telefono,rolUcv,password,rol,saldo
+            String testUserLine = String.join(",", testCedula, testNombre, testApellido, "login@test.com", "04121112233", testRolUcv, hashedPassword, "COMENSAL", String.valueOf(testSaldo));
             writer.write(testUserLine);
             writer.newLine();
         }
@@ -72,5 +75,20 @@ public class AuthServiceLoginTest {
         Comensal comensal = (Comensal) usuario;
         assertEquals(testSaldo, comensal.getMonedero().getSaldo(), 0.001,
                 "El saldo del monedero no se cargó correctamente desde el archivo.");
+    }
+
+    @Test
+    public void testLoginCargaNombreYApellido() throws Exception {
+        Usuario usuario = AuthService.login(testCedula, testPassword);
+        assertNotNull(usuario, "El usuario debería poder iniciar sesión.");
+        assertEquals(testNombre, usuario.getNombre(), "El nombre no se cargó correctamente.");
+        assertEquals(testApellido, usuario.getApellido(), "El apellido no se cargó correctamente.");
+    }
+
+    @Test
+    public void testLoginCargaRolUcv() throws Exception {
+        Usuario usuario = AuthService.login(testCedula, testPassword);
+        assertNotNull(usuario, "El usuario debería poder iniciar sesión.");
+        assertEquals(testRolUcv, usuario.getRolUcv(), "El rol de la UCV no se cargó correctamente.");
     }
 }

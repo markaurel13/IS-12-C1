@@ -29,21 +29,26 @@ public class AuthService {
 
         for (String[] usuarioData : usuarios) {
             if (usuarioData[0].equals(cedula)) { // Compara con cédula
-                if (SecurityUtils.checkPassword(password, usuarioData[3])) { // Password en posición 3
-                    RolUsuario rol = RolUsuario.valueOf(usuarioData[4].toUpperCase()); // Rol en posición 4
+                // Formato nuevo: 0:cedula, 1:nombre, 2:apellido, 3:correo, 4:telefono, 5:rolUcv, 6:password, 7:rol, 8:saldo
+                if (usuarioData.length < 9) continue; // Ignora líneas con formato antiguo/incorrecto para evitar errores
+
+                    if (SecurityUtils.checkPassword(password, usuarioData[6])) { // Password en posición 6
+                    RolUsuario rol = RolUsuario.valueOf(usuarioData[7].toUpperCase()); // Rol en posición 7
 
                     if (rol == RolUsuario.COMENSAL) {
-                        Comensal comensal = new Comensal(usuarioData[0], usuarioData[1], usuarioData[2], usuarioData[3]);
-                        // Cargar saldo si existe (columna 6, índice 5)
-                        if (usuarioData.length > 5 && usuarioData[5] != null) {
+                        // Llama al constructor con 6 argumentos
+                        Comensal comensal = new Comensal(usuarioData[0], usuarioData[1], usuarioData[2], usuarioData[3], usuarioData[4], usuarioData[5], usuarioData[6]);
+                        // Cargar saldo si existe (columna 9, índice 8)
+                        if (usuarioData.length > 8 && usuarioData[8] != null) {
                             try {
-                                double saldo = Double.parseDouble(usuarioData[5]);
+                                double saldo = Double.parseDouble(usuarioData[8]);
                                 comensal.getMonedero().setSaldoInicial(saldo);
                             } catch (NumberFormatException e) { /* Saldo inválido, se mantiene en 0 */ }
                         }
                         return comensal;
                     } else {
-                        return new Administrador(usuarioData[0], usuarioData[1], usuarioData[2], usuarioData[3]);
+                        // Llama al constructor con 6 argumentos
+                        return new Administrador(usuarioData[0], usuarioData[1], usuarioData[2], usuarioData[3], usuarioData[4], usuarioData[5], usuarioData[6]);
                     }
                 }
             }
@@ -69,28 +74,36 @@ public class AuthService {
             throw new IllegalArgumentException("La contraseña debe tener al menos 8 caracteres.");
         }
 
-        // 1. Se revisa si la cédula o el correo ya existen.
+        // 1. Validar si la cédula pertenece a la comunidad UCV
+        String[] ucvData = FileManager.buscarEnUcvDb(cedula);
+        if (ucvData == null) {
+            throw new IllegalArgumentException("La cédula no pertenece a la comunidad UCV.");
+        }
+        String nombre = ucvData[0];
+        String apellido = ucvData[1];
+        String rolUcv = ucvData[2];
+
+        // 2. Se revisa si la cédula o el correo ya están registrados en la app.
         List<String[]> usuarios = FileManager.leerUsuarios();
         for (String[] u : usuarios) {
             if (u[0].equals(cedula)) { // Verifica por cédula
                 return false;
             }
-            // Nueva validación: Comprobar si el correo ya está en uso (ignorando mayúsculas/minúsculas).
-            // Asume que el correo está en la segunda columna (índice 1).
-            if (u.length > 1 && u[1].equalsIgnoreCase(correo)) {
+            // Asume que el correo está en la cuarta columna (índice 3) en el nuevo formato
+            if (u.length > 3 && u[3].equalsIgnoreCase(correo)) { // El correo sigue en la misma posición
                 throw new IllegalArgumentException("El correo electrónico ya está registrado.");
             }
         }
 
-        // 2. Se hashea la contraseña.
+        // 3. Se hashea la contraseña.
         String hashedPassword = SecurityUtils.hashPassword(password);
 
-        // 3. Se crea un objeto Comensal para forzar la validación del modelo.
+        // 4. Se crea un objeto Comensal para forzar la validación del modelo.
         //    El constructor de Usuario/Comensal lanzará una IllegalArgumentException si los datos son inválidos.
-        new Comensal(cedula, correo, telefono, hashedPassword);
+        new Comensal(cedula, nombre, apellido, correo, telefono, rolUcv, hashedPassword);
 
-        // 4. Si la validación es exitosa, se guarda el usuario.
-        FileManager.guardarUsuario(cedula, correo, telefono, hashedPassword, RolUsuario.COMENSAL, 0.0);
+        // 5. Si la validación es exitosa, se guarda el usuario.
+        FileManager.guardarUsuario(cedula, nombre, apellido, correo, telefono, rolUcv, hashedPassword, RolUsuario.COMENSAL, 0.0);
         return true;
     }
 
@@ -117,17 +130,35 @@ public class AuthService {
             String[] nuevosDatos;
             if (usuarioActualizado instanceof Comensal) {
                 Comensal comensal = (Comensal) usuarioActualizado;
-                // Formato: cedula,correo,telefono,password,rol,saldo
+                // Formato: cedula,nombre,apellido,correo,telefono,rolUcv,password,rol,saldo
                 nuevosDatos = new String[]{
                         comensal.getCedula(),
+                        comensal.getNombre(),
+                        comensal.getApellido(),
                         comensal.getCorreo(),
                         comensal.getTelefono(),
+                        comensal.getRolUcv(),
                         comensal.getPasswordHash(), // La contraseña ya está hasheada
-                        comensal.getRol().name(),
+                        comensal.getRol().name().toUpperCase(),
                         String.valueOf(comensal.getMonedero().getSaldo())
                 };
-            } else {
-                nuevosDatos = todosLosUsuarios.get(indexToUpdate); // No hay cambios para el admin por ahora
+            } else if (usuarioActualizado instanceof Administrador) {
+                Administrador admin = (Administrador) usuarioActualizado;
+                // Para un admin, el rolUcv siempre será N/A
+                nuevosDatos = new String[]{
+                        admin.getCedula(),
+                        admin.getNombre(),
+                        admin.getApellido(),
+                        admin.getCorreo(),
+                        admin.getTelefono(),
+                        "N/A", // Placeholder para el rol UCV del admin
+                        admin.getPasswordHash(),
+                        admin.getRol().name().toUpperCase()
+                        // Los admins no tienen saldo, así que no se añade la última columna.
+                };
+            }
+            else {
+                nuevosDatos = todosLosUsuarios.get(indexToUpdate);
             }
             todosLosUsuarios.set(indexToUpdate, nuevosDatos);
         }

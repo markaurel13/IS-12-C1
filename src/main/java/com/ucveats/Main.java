@@ -62,12 +62,16 @@ public class Main {
                     Usuario user = AuthService.login(cedula, password);
                     if (user != null) {
                         currentUser = user;
-                        homeView.setNombreUsuario(user.getCedula()); // Personaliza la bienvenida
+                        homeView.setNombreUsuario(user.getNombre() + " " + user.getApellido()); // Personaliza la bienvenida
 
                         // Configura el menú y la vista según el rol del usuario
                         if (user.getRol() == Usuario.RolUsuario.ADMIN) {
+                            menuAdminPanel.setDatosUsuario(user.getNombre() + " " + user.getApellido(), "Administrador");
                             mainFrame.setFloatingMenuPanel(menuAdminPanel);
                         } else {
+                            // Para comensal, usamos el rol específico de la UCV
+                            String rolMostrado = user.getRolUcv().substring(0, 1).toUpperCase() + user.getRolUcv().substring(1);
+                            menuUsuarioPanel.setDatosUsuario(user.getNombre() + " " + user.getApellido(), rolMostrado);
                             mainFrame.setFloatingMenuPanel(menuUsuarioPanel);
                         }
                         // Muestra el botón de menú, que ya tiene su funcionalidad asignada.

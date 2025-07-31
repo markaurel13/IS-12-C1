@@ -1,0 +1,3 @@
+Ana,Perez,estudiante,30181317
+Carlos,Gomez,profesor,12345678
+Johana,Flores,empleado,11410984

@@ -9,14 +9,16 @@ public class Comensal extends Usuario {
     private final MonederoVirtual monedero;
     /**
      * Crea una instancia de Comensal.
+     * @param nombre Nombre del comensal.
+     * @param apellido Apellido del comensal.
      * @param cedula Cédula del comensal.
      * @param correo Email válido del comensal.
      * @param telefono Teléfono del comensal.
      * @param passwordHash Contraseña hasheada.
      * @throws IllegalArgumentException Si algún dato es inválido.
      */
-    public Comensal(String cedula, String correo, String telefono, String passwordHash) {
-        super(cedula, correo, telefono, passwordHash, Usuario.RolUsuario.COMENSAL);
+    public Comensal(String cedula, String nombre, String apellido, String correo, String telefono, String rolUcv, String passwordHash) {
+        super(cedula, nombre, apellido, correo, telefono, rolUcv, passwordHash, Usuario.RolUsuario.COMENSAL);
         // Creacion del monedero virtual asignado a este usuario
         this.monedero = new MonederoVirtual();
     }
