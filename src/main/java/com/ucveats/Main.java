@@ -103,7 +103,8 @@ public class Main {
                 try {
                     boolean registrado = AuthService.registrar(cedula, correo, telefono, password);
                     if (registrado) {
-                        registerView.mostrarExito(); // Este método ya navega a la vista de login
+                        registerView.mostrarExito(); // Ahora solo muestra el mensaje y limpia los campos.
+                        mainFrame.setContentPanel(loginView); // El controlador se encarga de la navegación.
                     } else {
                         registerView.mostrarError("La cédula ya está registrada.");
                     }

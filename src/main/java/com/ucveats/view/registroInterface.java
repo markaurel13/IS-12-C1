@@ -82,8 +82,12 @@ public class registroInterface extends JPanel {
 
     public void mostrarExito() {
         JOptionPane.showMessageDialog(this, "¡Registro exitoso!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-        parentFrame.setContentPanel(new inicioSesionInterface(parentFrame));
-
-        
+        // Limpiar los campos después de un registro exitoso.
+        // La navegación ahora es manejada por el controlador principal (Main.java).
+        campoCedula.setText("");
+        campoCorreo.setText("");
+        campoTelefono.setText("");
+        campoPassword.setText("");
+        campoConfirmarPassword.setText("");
     }
 }
