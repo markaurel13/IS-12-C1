@@ -111,11 +111,6 @@ public class CargarMenuAdmin extends JPanel {
         this.add(etiquetaStatus);
         this.add(Box.createVerticalStrut(30));
         this.add(botonCargarMenu);
-
-        parentFrame.removeMenuButton(); // Opcional: Asegúrate de que no haya otro botón configurado
-        parentFrame.addMenuButton("/icono_lineas.png", e -> {
-            // No se necesita lógica adicional aquí, ya que MyFrame.toggleFloatingMenu() gestiona la visibilidad.
-        });
     }
 
     // --- MÉTODOS PARA EL CONTROLADOR EXTERNO ---

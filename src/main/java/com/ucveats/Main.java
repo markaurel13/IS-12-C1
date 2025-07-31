@@ -70,6 +70,8 @@ public class Main {
                         } else {
                             mainFrame.setFloatingMenuPanel(menuUsuarioPanel);
                         }
+                        // Muestra el botón de menú, que ya tiene su funcionalidad asignada.
+                        mainFrame.setMenuButtonVisible(true);
                         mainFrame.setContentPanel(homeView);
 
                     } else {
@@ -117,7 +119,16 @@ public class Main {
                     if (currentUser instanceof Comensal) {
                         monederoView.simularPagoMovil();
                         ((Comensal) currentUser).getMonedero().recargar(monto);
-                        monederoView.setSaldo(((Comensal) currentUser).getMonedero().getSaldo());
+                        double nuevoSaldo = ((Comensal) currentUser).getMonedero().getSaldo();
+                        monederoView.setSaldo(nuevoSaldo);
+
+                        // FIX: Persistir el cambio en el archivo
+                        try {
+                            AuthService.actualizarUsuario(currentUser);
+                            monederoView.mostrarMensaje("Recarga exitosa. Su nuevo saldo es: " + nuevoSaldo, "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                        } catch (IOException ex) {
+                            monederoView.mostrarMensaje("No se pudo guardar el nuevo saldo: " + ex.getMessage(), "Error de Guardado", JOptionPane.ERROR_MESSAGE);
+                        }
                     }
                 } catch (NumberFormatException ex) {
                     monederoView.mostrarMensaje("Por favor, ingrese un monto numérico válido.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
@@ -126,7 +137,6 @@ public class Main {
                 }
             });
 
-            // Lógica para Cargar Menú (Admin)
             cargarMenuView.addCargarMenuListener(e -> {
                 try {
                     String nombre = cargarMenuView.getTitulo();
@@ -196,7 +206,7 @@ public class Main {
             menuUsuarioPanel.addVerMenuListener(e -> {
                 menuView.mostrarMenu(bandejaService.getBandejas());
                 mainFrame.setContentPanel(menuView);
-                menuUsuarioPanel.setVisible(false);
+                mainFrame.hideFloatingMenu();
             });
 
             menuUsuarioPanel.addVerMonederoListener(e -> {
@@ -204,39 +214,39 @@ public class Main {
                     monederoView.setSaldo(((Comensal) currentUser).getMonedero().getSaldo());
                 }
                 mainFrame.setContentPanel(monederoView);
-                menuUsuarioPanel.setVisible(false);
+                mainFrame.hideFloatingMenu();
             });
 
             menuUsuarioPanel.addCerrarSesionListener(e -> {
                 currentUser = null;
                 mainFrame.setContentPanel(loginView);
-                mainFrame.removeMenuButton();
-                menuUsuarioPanel.setVisible(false);
+                mainFrame.setMenuButtonVisible(false); // Simplemente oculta el botón
+                mainFrame.hideFloatingMenu();
             });
 
             // Navegación Menú Admin
             menuAdminPanel.addCostosFijosListener(e -> {
                 costosFijosView.setTotal(costoFijoService.getCostoFijoTotal());
                 mainFrame.setContentPanel(costosFijosView);
-                menuAdminPanel.setVisible(false);
+                mainFrame.hideFloatingMenu();
             });
 
             menuAdminPanel.addCostosVariablesListener(e -> {
                 costoVariableView.setTotal(costoVariableService.getCostoVariableTotal());
                 mainFrame.setContentPanel(costoVariableView);
-                menuAdminPanel.setVisible(false);
+                mainFrame.hideFloatingMenu();
             });
 
             menuAdminPanel.addCargarMenuListener(e -> {
                 mainFrame.setContentPanel(cargarMenuView);
-                menuAdminPanel.setVisible(false);
+                mainFrame.hideFloatingMenu();
             });
             
             menuAdminPanel.addCerrarSesionListener(e -> {
                 currentUser = null;
                 mainFrame.setContentPanel(loginView);
-                mainFrame.removeMenuButton();
-                menuAdminPanel.setVisible(false);
+                mainFrame.setMenuButtonVisible(false); // Simplemente oculta el botón
+                mainFrame.hideFloatingMenu();
             });
 
             // --- 3. INICIO DE LA APLICACIÓN ---
@@ -249,4 +259,3 @@ public class Main {
         });
     }
 }
-

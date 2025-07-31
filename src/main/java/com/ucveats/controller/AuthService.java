@@ -31,9 +31,20 @@ public class AuthService {
             if (usuarioData[0].equals(cedula)) { // Compara con cédula
                 if (SecurityUtils.checkPassword(password, usuarioData[3])) { // Password en posición 3
                     RolUsuario rol = RolUsuario.valueOf(usuarioData[4].toUpperCase()); // Rol en posición 4
-                    return rol == RolUsuario.COMENSAL
-                            ? new Comensal(usuarioData[0], usuarioData[1], usuarioData[2], usuarioData[3])
-                            : new Administrador(usuarioData[0], usuarioData[1], usuarioData[2], usuarioData[3]);
+
+                    if (rol == RolUsuario.COMENSAL) {
+                        Comensal comensal = new Comensal(usuarioData[0], usuarioData[1], usuarioData[2], usuarioData[3]);
+                        // Cargar saldo si existe (columna 6, índice 5)
+                        if (usuarioData.length > 5 && usuarioData[5] != null) {
+                            try {
+                                double saldo = Double.parseDouble(usuarioData[5]);
+                                comensal.getMonedero().setSaldoInicial(saldo);
+                            } catch (NumberFormatException e) { /* Saldo inválido, se mantiene en 0 */ }
+                        }
+                        return comensal;
+                    } else {
+                        return new Administrador(usuarioData[0], usuarioData[1], usuarioData[2], usuarioData[3]);
+                    }
                 }
             }
         }
@@ -64,7 +75,49 @@ public class AuthService {
         }
 
         String hashedPassword = SecurityUtils.hashPassword(password);
-        FileManager.guardarUsuario(cedula, correo, telefono, hashedPassword, RolUsuario.COMENSAL);
+        // Los nuevos usuarios se registran con saldo 0.0
+        FileManager.guardarUsuario(cedula, correo, telefono, hashedPassword, RolUsuario.COMENSAL, 0.0);
         return true;
+    }
+
+    /**
+     * Actualiza la información de un usuario en el archivo de persistencia.
+     * @param usuarioActualizado El objeto Usuario con la información actualizada.
+     * @throws IOException Si ocurre un error de lectura o escritura en el archivo.
+     */
+    public static void actualizarUsuario(Usuario usuarioActualizado) throws IOException {
+        if (usuarioActualizado == null) {
+            return;
+        }
+
+        List<String[]> todosLosUsuarios = FileManager.leerUsuarios();
+        int indexToUpdate = -1;
+        for (int i = 0; i < todosLosUsuarios.size(); i++) {
+            if (todosLosUsuarios.get(i)[0].equals(usuarioActualizado.getCedula())) {
+                indexToUpdate = i;
+                break;
+            }
+        }
+
+        if (indexToUpdate != -1) {
+            String[] nuevosDatos;
+            if (usuarioActualizado instanceof Comensal) {
+                Comensal comensal = (Comensal) usuarioActualizado;
+                // Formato: cedula,correo,telefono,password,rol,saldo
+                nuevosDatos = new String[]{
+                        comensal.getCedula(),
+                        comensal.getCorreo(),
+                        comensal.getTelefono(),
+                        comensal.getPasswordHash(), // La contraseña ya está hasheada
+                        comensal.getRol().name(),
+                        String.valueOf(comensal.getMonedero().getSaldo())
+                };
+            } else {
+                nuevosDatos = todosLosUsuarios.get(indexToUpdate); // No hay cambios para el admin por ahora
+            }
+            todosLosUsuarios.set(indexToUpdate, nuevosDatos);
+        }
+
+        FileManager.reescribirUsuarios(todosLosUsuarios);
     }
 }

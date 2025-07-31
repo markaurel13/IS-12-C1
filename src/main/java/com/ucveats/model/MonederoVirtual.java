@@ -14,6 +14,15 @@ public double getSaldo() {
     return saldo;
 }
 
+/**
+ * Establece el saldo inicial del monedero sin afectar al MonederoGlobal.
+ * Se usa al cargar el estado del usuario desde un archivo.
+ * @param saldo El saldo a establecer.
+ */
+public void setSaldoInicial(double saldo) {
+    this.saldo = saldo;
+}
+
 public void recargar(double recarga) {
     if(recarga <= 0) {
         throw new IllegalArgumentException("Recargue un monto válido positivo.");

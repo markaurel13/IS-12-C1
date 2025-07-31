@@ -75,13 +75,6 @@ public class costoVariableUI extends JPanel {
         btnGuardar.setFont(new Font("Segoe UI", Font.BOLD, 15));
         btnGuardar.setBorder(BorderFactory.createLineBorder(Color.decode("#2f3829"), 2, true));
         this.add(btnGuardar);
-
-        
-        // --- Activar el botón de menú y el panel flotante ---
-        parentFrame.removeMenuButton(); // Opcional: Asegúrate de que no haya otro botón configurado
-        parentFrame.addMenuButton("/icono_lineas.png", e -> {
-            // No se necesita lógica adicional aquí, ya que MyFrame.toggleFloatingMenu() gestiona la visibilidad.
-        });
     }
 
     private JTextField crearCampo(String etiqueta, int y, JPanel panel) {

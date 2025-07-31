@@ -60,14 +60,6 @@ public class MonederoUI extends JPanel {
         this.add(Box.createVerticalStrut(10));
         this.add(btnRecargar);
         this.add(Box.createVerticalStrut(50));
-
-        // --- Activar el botón de menú en el topPanel de MyFrame ---
-        // Este código activa el botón de menú en la barra superior cuando esta vista está activa.
-        // La instancia de MenuUsuarioPanel y su asociación con MyFrame ya se hacen una vez en App.java.
-        parentFrame.removeMenuButton(); // Opcional: Asegúrate de que no haya otro botón configurado
-        parentFrame.addMenuButton("/icono_lineas.png", e -> {
-            // No se necesita lógica adicional aquí, ya que MyFrame.toggleFloatingMenu() gestiona la visibilidad.
-        });
     }
 
     public void simularPagoMovil() {

@@ -65,6 +65,19 @@ public class MyFrame extends JFrame {
         // Añade el MyPanel al centro del JFrame.
         this.add(MyPanel, BorderLayout.CENTER);
 
+        // --- CONFIGURACIÓN PERMANENTE DEL BOTÓN DE MENÚ ---
+        // El listener se añade una sola vez y para siempre.
+        menuButonLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (floatingMenuPanel != null) {
+                    toggleFloatingMenu();
+                } else {
+                    System.err.println("Advertencia: El panel de menú flotante no ha sido establecido.");
+                }
+            }
+        });
+
     }
 
     /**
@@ -107,59 +120,58 @@ public class MyFrame extends JFrame {
      * @param panel El JPanel (tu MenuUsuarioPanel) que actuará como menú flotante.
      */
     public void setFloatingMenuPanel(JPanel panel) {
+        // Si ya existe un panel de menú, lo removemos del JLayeredPane
+        // para evitar tener múltiples menús apilados y causar conflictos.
+        if (this.floatingMenuPanel != null) {
+            getLayeredPane().remove(this.floatingMenuPanel);
+        }
+
         this.floatingMenuPanel = panel;
         // Añadir el panel al JLayeredPane del frame para que esté "encima de todo"
         getLayeredPane().add(floatingMenuPanel, JLayeredPane.PALETTE_LAYER);
         floatingMenuPanel.setVisible(false); // Asegura que esté oculto al inicio
+
+        // Repintar el JLayeredPane para asegurar que los cambios se reflejen
+        getLayeredPane().revalidate();
+        getLayeredPane().repaint();
     }
 
-    public void addMenuButton ( String rutaIcono, ActionListener accion) {
+    /**
+     * Controla la visibilidad del botón de menú.
+     * @param visible true para mostrar el botón, false para ocultarlo.
+     */
+    public void setMenuButtonVisible(boolean visible) {
+        // Si se va a hacer visible, nos aseguramos de que tenga un ícono.
+        if (visible && menuButonLabel.getIcon() == null) {
+            setMenuIcon("/icono_lineas.png"); // Usa la ruta de tu ícono
+        }
+        menuButonLabel.setVisible(visible);
+        topPanel.revalidate();
+        topPanel.repaint();
+    }
+
+    private void setMenuIcon(String rutaIcono) {
         URL imageUrl = getClass().getResource(rutaIcono);
         if (imageUrl != null) {
             ImageIcon icono = new ImageIcon(imageUrl);
             menuButonLabel.setIcon(icono);
             
-            // Remueve listeners anteriores para evitar duplicados
-            for (MouseListener ml : menuButonLabel.getMouseListeners()) {
-                if (ml instanceof MouseAdapter) {
-                    menuButonLabel.removeMouseListener(ml);
-                }
-            }
-
-            menuButonLabel.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    // Si el panel flotante ha sido establecido, alternamos su visibilidad
-                    if (floatingMenuPanel != null) {
-                        toggleFloatingMenu();
-                    } else {
-                        System.err.println("Advertencia: El panel de menú flotante no ha sido establecido. Llama a setFloatingMenuPanel() primero.");
-                    }
-                }
-            });
-            menuButonLabel.setVisible(true);
-            topPanel.revalidate();
-            topPanel.repaint();
+            
         } else {
             System.err.println("Error: Icono de menú no encontrado en el classpath: " + rutaIcono);
         }
     }
 
     /**
-     * Desactiva y oculta el botón de menú.
+     * Oculta el panel de menú flotante si está visible.
+     * Este método asegura que el estado interno del frame se actualice correctamente.
      */
-    public void removeMenuButton() {
-        menuButonLabel.setIcon(null);
-        menuButonLabel.setVisible(false);
-        
-        // Remueve todos los MouseListeners para limpiar
-        for (MouseListener ml : menuButonLabel.getMouseListeners()) {
-             if (ml instanceof MouseAdapter) {
-                 menuButonLabel.removeMouseListener(ml);
-             }
+    public void hideFloatingMenu() {
+        if (isFloatingMenuVisible) {
+            // Reutiliza la lógica de toggle para asegurar que todo se limpie correctamente
+            // (como eliminar el listener de clic exterior).
+            toggleFloatingMenu();
         }
-        topPanel.revalidate(); 
-        topPanel.repaint();
     }
 
     /**

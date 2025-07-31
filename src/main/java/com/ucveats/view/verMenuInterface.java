@@ -51,15 +51,6 @@ public class verMenuInterface extends JPanel {
                                                  JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPanel.setBorder(BorderFactory.createEmptyBorder()); // Eliminar el borde predeterminado del scrollPanel
         this.add(scrollPanel, BorderLayout.CENTER); // Añadir el scrollPanel al centro de este JPanel
-
-
-        // --- Activar el botón de menú en el topPanel de MyFrame ---
-        // Este código activa el botón de menú en la barra superior cuando esta vista está activa.
-        // La instancia de MenuUsuarioPanel y su asociación con MyFrame ya se hacen una vez en App.java.
-        parentFrame.removeMenuButton(); // Opcional: Asegúrate de que no haya otro botón configurado
-        parentFrame.addMenuButton("/icono_lineas.png", e -> {
-            // No se necesita lógica adicional aquí, ya que MyFrame.toggleFloatingMenu() gestiona la visibilidad.
-        });
     }
 
     public void mostrarMenu(List<Bandeja> bandejas) {
