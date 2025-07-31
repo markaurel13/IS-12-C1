@@ -63,10 +63,7 @@ public class AuthService {
      */
     public static boolean registrar(String cedula, String correo, String telefono, String password)
             throws IllegalArgumentException, IOException {
-        if (cedula == null || correo == null || telefono == null || password == null) {
-            throw new IllegalArgumentException("Datos inválidos");
-        }
-
+        // 1. Se revisa primero si el usuario ya existe para fallar rápido.
         List<String[]> usuarios = FileManager.leerUsuarios();
         for (String[] u : usuarios) {
             if (u[0].equals(cedula)) { // Verifica por cédula
@@ -74,8 +71,14 @@ public class AuthService {
             }
         }
 
+        // 2. Se hashea la contraseña.
         String hashedPassword = SecurityUtils.hashPassword(password);
-        // Los nuevos usuarios se registran con saldo 0.0
+
+        // 3. Se crea un objeto Comensal para forzar la validación del modelo.
+        //    El constructor de Usuario/Comensal lanzará una IllegalArgumentException si los datos son inválidos.
+        new Comensal(cedula, correo, telefono, hashedPassword);
+
+        // 4. Si la validación es exitosa, se guarda el usuario.
         FileManager.guardarUsuario(cedula, correo, telefono, hashedPassword, RolUsuario.COMENSAL, 0.0);
         return true;
     }
