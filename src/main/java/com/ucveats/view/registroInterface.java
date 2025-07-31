@@ -15,7 +15,7 @@ public class registroInterface extends JPanel {
 
     //Necesitamos una referencia a MyFrame para poder cambiar el contenido.
     private MyFrame parentFrame;
-    private JTextField campoNombre, campoApellido, campoCedula, campoTelefono, campoCorreo;
+    private JTextField campoCedula, campoTelefono, campoCorreo;
     private JPasswordField campoPassword, campoConfirmarPassword;
     private BotonPanel botonRegistrar;
 
@@ -33,17 +33,15 @@ public class registroInterface extends JPanel {
         titulo.setBounds(70, 30, 250, 25);
         this.add(titulo); 
 
-        campoNombre = crearCampo("Nombre:", 80, false);
-        campoApellido = crearCampo("Apellido:", 120, false);
-        campoCedula = crearCampo("Cédula:", 160, false);
-        campoTelefono = crearCampo("Teléfono:", 200, false);
-        campoCorreo = crearCampo("Correo:", 240, false);
-        campoPassword = (JPasswordField) crearCampo("Contraseña:", 280, true);
-        campoConfirmarPassword = (JPasswordField) crearCampo("Confirmar Contraseña:", 320, true);
+        campoCedula = crearCampo("Cédula:", 80, false);
+        campoTelefono = crearCampo("Teléfono:", 120, false);
+        campoCorreo = crearCampo("Correo:", 160, false);
+        campoPassword = (JPasswordField) crearCampo("Contraseña:", 200, true);
+        campoConfirmarPassword = (JPasswordField) crearCampo("Confirmar Contraseña:", 240, true);
 
         botonRegistrar = new BotonPanel("REGISTRAR", 200, 40);
         botonRegistrar.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        botonRegistrar.setBounds(80, 380, 200, 40);
+        botonRegistrar.setBounds(80, 300, 200, 40);
         botonRegistrar.setBorder(BorderFactory.createLineBorder(Color.decode("#2f3829"), 2, true));
         this.add(botonRegistrar);
     }
