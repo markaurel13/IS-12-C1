@@ -227,6 +227,7 @@ public class Main {
                 mainFrame.setContentPanel(loginView);
                 mainFrame.setMenuButtonVisible(false); // Simplemente oculta el botón
                 mainFrame.hideFloatingMenu();
+                loginView.limpiarCampos();
             });
 
             // Navegación Menú Admin
@@ -252,6 +253,7 @@ public class Main {
                 mainFrame.setContentPanel(loginView);
                 mainFrame.setMenuButtonVisible(false); // Simplemente oculta el botón
                 mainFrame.hideFloatingMenu();
+                loginView.limpiarCampos();
             });
 
             // --- 3. INICIO DE LA APLICACIÓN ---

@@ -1,31 +1,31 @@
-C:\Users\Flores\Desktop\Repo\IS-12-C1\src\main\java\com\ucveats\controller\costoFijoService.java
-C:\Users\Flores\Desktop\Repo\IS-12-C1\src\main\java\com\ucveats\controller\BandejaService.java
-C:\Users\Flores\Desktop\Repo\IS-12-C1\src\main\java\com\ucveats\model\CostoFijo.java
-C:\Users\Flores\Desktop\Repo\IS-12-C1\src\main\java\com\ucveats\controller\AuthService.java
-C:\Users\Flores\Desktop\Repo\IS-12-C1\src\main\java\com\ucveats\Main.java
-C:\Users\Flores\Desktop\Repo\IS-12-C1\src\main\java\com\ucveats\view\MenuUsuarioPanel.java
-C:\Users\Flores\Desktop\Repo\IS-12-C1\src\main\java\com\ucveats\view\costoVariableUI.java
-C:\Users\Flores\Desktop\Repo\IS-12-C1\src\main\java\com\ucveats\model\CostoVariable.java
-C:\Users\Flores\Desktop\Repo\IS-12-C1\src\main\java\com\ucveats\view\MenuAdminPanel.java
-C:\Users\Flores\Desktop\Repo\IS-12-C1\src\main\java\com\ucveats\controller\costoVariableService.java
-C:\Users\Flores\Desktop\Repo\IS-12-C1\src\main\java\com\ucveats\controller\FileManager.java
-C:\Users\Flores\Desktop\Repo\IS-12-C1\src\main\java\com\ucveats\view\cobroServicio.java
-C:\Users\Flores\Desktop\Repo\IS-12-C1\src\main\java\com\ucveats\view\registroInterface.java
-C:\Users\Flores\Desktop\Repo\IS-12-C1\src\main\java\com\ucveats\view\HomePage.java
-C:\Users\Flores\Desktop\Repo\IS-12-C1\src\main\java\com\ucveats\model\MonederoVirtual.java
-C:\Users\Flores\Desktop\Repo\IS-12-C1\src\main\java\com\ucveats\view\seleccionInicio.java
-C:\Users\Flores\Desktop\Repo\IS-12-C1\src\main\java\com\ucveats\view\verMenuInterface.java
-C:\Users\Flores\Desktop\Repo\IS-12-C1\src\main\java\com\ucveats\model\Usuario.java
-C:\Users\Flores\Desktop\Repo\IS-12-C1\src\main\java\com\ucveats\controller\ImageUtilities.java
-C:\Users\Flores\Desktop\Repo\IS-12-C1\src\main\java\com\ucveats\model\Bandeja.java
-C:\Users\Flores\Desktop\Repo\IS-12-C1\src\main\java\com\ucveats\model\Comensal.java
-C:\Users\Flores\Desktop\Repo\IS-12-C1\src\main\java\com\ucveats\view\CostosFijosUI.java
-C:\Users\Flores\Desktop\Repo\IS-12-C1\src\main\java\com\ucveats\controller\SecurityUtils.java
-C:\Users\Flores\Desktop\Repo\IS-12-C1\src\main\java\com\ucveats\view\MonederoUI.java
-C:\Users\Flores\Desktop\Repo\IS-12-C1\src\main\java\com\ucveats\view\elementoMenu.java
-C:\Users\Flores\Desktop\Repo\IS-12-C1\src\main\java\com\ucveats\view\CargarMenuAdmin.java
-C:\Users\Flores\Desktop\Repo\IS-12-C1\src\main\java\com\ucveats\model\Administrador.java
-C:\Users\Flores\Desktop\Repo\IS-12-C1\src\main\java\com\ucveats\model\MonederoGlobal.java
-C:\Users\Flores\Desktop\Repo\IS-12-C1\src\main\java\com\ucveats\view\BotonPanel.java
-C:\Users\Flores\Desktop\Repo\IS-12-C1\src\main\java\com\ucveats\view\inicioSesionInterface.java
-C:\Users\Flores\Desktop\Repo\IS-12-C1\src\main\java\com\ucveats\view\MyFrame.java
+D:\archivos\Documents\01 UCV\01-2025\ing software\IS-12-C1\src\main\java\com\ucveats\model\MonederoVirtual.java
+D:\archivos\Documents\01 UCV\01-2025\ing software\IS-12-C1\src\main\java\com\ucveats\view\verMenuInterface.java
+D:\archivos\Documents\01 UCV\01-2025\ing software\IS-12-C1\src\main\java\com\ucveats\view\CargarMenuAdmin.java
+D:\archivos\Documents\01 UCV\01-2025\ing software\IS-12-C1\src\main\java\com\ucveats\controller\SecurityUtils.java
+D:\archivos\Documents\01 UCV\01-2025\ing software\IS-12-C1\src\main\java\com\ucveats\model\Usuario.java
+D:\archivos\Documents\01 UCV\01-2025\ing software\IS-12-C1\src\main\java\com\ucveats\view\elementoMenu.java
+D:\archivos\Documents\01 UCV\01-2025\ing software\IS-12-C1\src\main\java\com\ucveats\controller\costoVariableService.java
+D:\archivos\Documents\01 UCV\01-2025\ing software\IS-12-C1\src\main\java\com\ucveats\model\MonederoGlobal.java
+D:\archivos\Documents\01 UCV\01-2025\ing software\IS-12-C1\src\main\java\com\ucveats\model\CostoFijo.java
+D:\archivos\Documents\01 UCV\01-2025\ing software\IS-12-C1\src\main\java\com\ucveats\view\costoVariableUI.java
+D:\archivos\Documents\01 UCV\01-2025\ing software\IS-12-C1\src\main\java\com\ucveats\controller\costoFijoService.java
+D:\archivos\Documents\01 UCV\01-2025\ing software\IS-12-C1\src\main\java\com\ucveats\view\seleccionInicio.java
+D:\archivos\Documents\01 UCV\01-2025\ing software\IS-12-C1\src\main\java\com\ucveats\controller\BandejaService.java
+D:\archivos\Documents\01 UCV\01-2025\ing software\IS-12-C1\src\main\java\com\ucveats\view\BotonPanel.java
+D:\archivos\Documents\01 UCV\01-2025\ing software\IS-12-C1\src\main\java\com\ucveats\view\HomePage.java
+D:\archivos\Documents\01 UCV\01-2025\ing software\IS-12-C1\src\main\java\com\ucveats\view\CostosFijosUI.java
+D:\archivos\Documents\01 UCV\01-2025\ing software\IS-12-C1\src\main\java\com\ucveats\view\MenuAdminPanel.java
+D:\archivos\Documents\01 UCV\01-2025\ing software\IS-12-C1\src\main\java\com\ucveats\view\registroInterface.java
+D:\archivos\Documents\01 UCV\01-2025\ing software\IS-12-C1\src\main\java\com\ucveats\model\CostoVariable.java
+D:\archivos\Documents\01 UCV\01-2025\ing software\IS-12-C1\src\main\java\com\ucveats\view\inicioSesionInterface.java
+D:\archivos\Documents\01 UCV\01-2025\ing software\IS-12-C1\src\main\java\com\ucveats\model\Comensal.java
+D:\archivos\Documents\01 UCV\01-2025\ing software\IS-12-C1\src\main\java\com\ucveats\controller\FileManager.java
+D:\archivos\Documents\01 UCV\01-2025\ing software\IS-12-C1\src\main\java\com\ucveats\controller\ImageUtilities.java
+D:\archivos\Documents\01 UCV\01-2025\ing software\IS-12-C1\src\main\java\com\ucveats\view\MenuUsuarioPanel.java
+D:\archivos\Documents\01 UCV\01-2025\ing software\IS-12-C1\src\main\java\com\ucveats\view\MonederoUI.java
+D:\archivos\Documents\01 UCV\01-2025\ing software\IS-12-C1\src\main\java\com\ucveats\controller\AuthService.java
+D:\archivos\Documents\01 UCV\01-2025\ing software\IS-12-C1\src\main\java\com\ucveats\Main.java
+D:\archivos\Documents\01 UCV\01-2025\ing software\IS-12-C1\src\main\java\com\ucveats\model\Administrador.java
+D:\archivos\Documents\01 UCV\01-2025\ing software\IS-12-C1\src\main\java\com\ucveats\model\Bandeja.java
+D:\archivos\Documents\01 UCV\01-2025\ing software\IS-12-C1\src\main\java\com\ucveats\view\cobroServicio.java
+D:\archivos\Documents\01 UCV\01-2025\ing software\IS-12-C1\src\main\java\com\ucveats\view\MyFrame.java
