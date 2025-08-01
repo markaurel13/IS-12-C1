@@ -56,23 +56,27 @@ public class Bandeja {
         return LocalDate.parse(fechaString, formatter);
     }
 
-    public Bandeja(String id, String nombre, double costo, String date, String descripcion) {
+    public Bandeja(String id, String nombre, int numBandejas, String tipoBandeja, String date, String descripcion) {
         if (id == null || id.trim().isEmpty()) {
             throw new IllegalArgumentException("El ID no puede ser nulo o vacío.");
         }
         if (nombre == null || !nombre.matches(NOMBRE_REGEX)) {
             throw new IllegalArgumentException("Nombre inválido. Debe tener al menos 4 caracteres alfanuméricos");
         }
-        if (costo < 0) {
-            throw new IllegalArgumentException("Costo inválido. No puede ser negativo.");
+        if (bandejas <= 0) {
+            throw new IllegalArgumentException("Cantidad de bandejas inválidas. No puede ser negativo o nula.");
         }
         if (date == null || !date.matches(DATE_REGEX)) {
             throw new IllegalArgumentException("Fecha inválida. Debe estar en formato DD/MM/YYYY");
         }
 
+        double costoFijo = costoFijoService.getCostoFijoTotal();
+        double costoVariable = costoVariableService.getCostoVariable(date, tipoBandeja);
+        double merma = Merma.getMerma();
+
         this.ID = id;
         this.nombreBandeja = nombre;
-        this.costo = costo;
+        this.costo = ((costoFijo+costoVariable)/numBandejas) * (1+merma);
         this.fecha = crearFecha(date);
         this.descripcionBandeja = descripcion;
     }
