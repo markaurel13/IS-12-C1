@@ -1,2 +1,1 @@
-00001,pollito,0.30,01/08/2025,Rico Pollito,Desayuno
-00002,Patatas,0.30,01/08/2025,Ricas Patatas,Almuerzo
+00001,Ricos Pasteles,31.20,01/08/2025,Muy buenos pasteles,Desayuno
