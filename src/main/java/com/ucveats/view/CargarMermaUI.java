@@ -1,6 +1,8 @@
 package com.ucveats.view;
 
-import com.ucveats.controller.mermaService;
+import com.ucveats.controller.MermaService;
+import com.ucveats.view.MyFrame;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,11 +13,11 @@ public class CargarMermaUI extends JPanel {
     private final JLabel mermaActualLabel;
     private final JButton btnGuardar; // Cambiar a JButton si BotonPanel no es una clase estándar
     private final MyFrame parentFrame;
-    private final mermaService mermaService;
+    private final MermaService mermaService;
 
     public CargarMermaUI(MyFrame frame) {
         this.parentFrame = frame;
-        this.mermaService = new mermaService(); // Instanciar el servicio
+        this.mermaService = new MermaService(); // Instanciar el servicio
 
         // Configuraciones del panel
         this.setLayout(null);
@@ -47,15 +49,22 @@ public class CargarMermaUI extends JPanel {
         btnGuardar.setBorder(BorderFactory.createLineBorder(Color.decode("#2f3829"), 2, true));
         this.add(btnGuardar);
         
-        // Agregar el listener para guardar
         addGuardarListener();
     }
 
     private JTextField crearCampo(String etiqueta, int y, JPanel panel) {
-        // ... (código sin cambios)
+        JLabel label = new JLabel(etiqueta);
+        label.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        label.setBounds(40, y, 120, 25);
+        panel.add(label);
+
+        JTextField campo = new JTextField();
+        campo.setBounds(180, y, 150, 25);
+        campo.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        panel.add(campo);
+        return campo;
     }
 
-    // Método para manejar la acción del botón de guardar
     private void addGuardarListener() {
         btnGuardar.addActionListener(e -> {
             try {
@@ -76,7 +85,6 @@ public class CargarMermaUI extends JPanel {
         return campoMerma.getText();
     }
     
-    // Este método ya no es necesario si la UI se encarga de su propia lógica de listener
     public void addGuardarListener(ActionListener listener) {
         btnGuardar.addActionListener(listener);
     }

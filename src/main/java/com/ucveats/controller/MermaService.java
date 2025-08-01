@@ -8,11 +8,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Locale;
 
-public class mermaService {
+public class MermaService {
     private Merma merma;
     private static final String FILE_PATH = "src/main/resources/merma.txt";
 
-    public mermaService() {
+    public MermaService() {
         this.merma = cargarMerma();
         if (this.merma == null) {
             this.merma = new Merma(0); // Valor por defecto

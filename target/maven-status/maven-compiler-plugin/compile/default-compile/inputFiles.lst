@@ -1,31 +1,34 @@
-C:\Users\Flores\Desktop\reestructuración\IS-12-C1\src\main\java\com\ucveats\model\Bandeja.java
-C:\Users\Flores\Desktop\reestructuración\IS-12-C1\src\main\java\com\ucveats\view\seleccionInicio.java
-C:\Users\Flores\Desktop\reestructuración\IS-12-C1\src\main\java\com\ucveats\controller\BandejaService.java
-C:\Users\Flores\Desktop\reestructuración\IS-12-C1\src\main\java\com\ucveats\view\inicioSesionInterface.java
-C:\Users\Flores\Desktop\reestructuración\IS-12-C1\src\main\java\com\ucveats\controller\AuthService.java
-C:\Users\Flores\Desktop\reestructuración\IS-12-C1\src\main\java\com\ucveats\view\costoVariableUI.java
-C:\Users\Flores\Desktop\reestructuración\IS-12-C1\src\main\java\com\ucveats\view\cobroServicio.java
-C:\Users\Flores\Desktop\reestructuración\IS-12-C1\src\main\java\com\ucveats\model\MonederoGlobal.java
-C:\Users\Flores\Desktop\reestructuración\IS-12-C1\src\main\java\com\ucveats\model\Comensal.java
-C:\Users\Flores\Desktop\reestructuración\IS-12-C1\src\main\java\com\ucveats\view\verMenuInterface.java
-C:\Users\Flores\Desktop\reestructuración\IS-12-C1\src\main\java\com\ucveats\view\MyFrame.java
-C:\Users\Flores\Desktop\reestructuración\IS-12-C1\src\main\java\com\ucveats\controller\costoFijoService.java
-C:\Users\Flores\Desktop\reestructuración\IS-12-C1\src\main\java\com\ucveats\Main.java
-C:\Users\Flores\Desktop\reestructuración\IS-12-C1\src\main\java\com\ucveats\view\CostosFijosUI.java
-C:\Users\Flores\Desktop\reestructuración\IS-12-C1\src\main\java\com\ucveats\model\CostoFijo.java
-C:\Users\Flores\Desktop\reestructuración\IS-12-C1\src\main\java\com\ucveats\controller\costoVariableService.java
-C:\Users\Flores\Desktop\reestructuración\IS-12-C1\src\main\java\com\ucveats\controller\ImageUtilities.java
-C:\Users\Flores\Desktop\reestructuración\IS-12-C1\src\main\java\com\ucveats\model\Administrador.java
-C:\Users\Flores\Desktop\reestructuración\IS-12-C1\src\main\java\com\ucveats\controller\SecurityUtils.java
-C:\Users\Flores\Desktop\reestructuración\IS-12-C1\src\main\java\com\ucveats\view\MonederoUI.java
-C:\Users\Flores\Desktop\reestructuración\IS-12-C1\src\main\java\com\ucveats\model\MonederoVirtual.java
-C:\Users\Flores\Desktop\reestructuración\IS-12-C1\src\main\java\com\ucveats\view\BotonPanel.java
-C:\Users\Flores\Desktop\reestructuración\IS-12-C1\src\main\java\com\ucveats\model\CostoVariable.java
-C:\Users\Flores\Desktop\reestructuración\IS-12-C1\src\main\java\com\ucveats\view\CargarMenuAdmin.java
-C:\Users\Flores\Desktop\reestructuración\IS-12-C1\src\main\java\com\ucveats\view\MenuAdminPanel.java
-C:\Users\Flores\Desktop\reestructuración\IS-12-C1\src\main\java\com\ucveats\view\elementoMenu.java
-C:\Users\Flores\Desktop\reestructuración\IS-12-C1\src\main\java\com\ucveats\view\MenuUsuarioPanel.java
-C:\Users\Flores\Desktop\reestructuración\IS-12-C1\src\main\java\com\ucveats\view\HomePage.java
-C:\Users\Flores\Desktop\reestructuración\IS-12-C1\src\main\java\com\ucveats\model\Usuario.java
-C:\Users\Flores\Desktop\reestructuración\IS-12-C1\src\main\java\com\ucveats\view\registroInterface.java
-C:\Users\Flores\Desktop\reestructuración\IS-12-C1\src\main\java\com\ucveats\controller\FileManager.java
+c:\Users\ltuser\OneDrive - Cruz Roja Venezolana\Documentos\IS-12-C1\src\main\java\com\ucveats\view\CargarMermaUI.java
+c:\Users\ltuser\OneDrive - Cruz Roja Venezolana\Documentos\IS-12-C1\src\main\java\com\ucveats\view\cobroServicio.java
+c:\Users\ltuser\OneDrive - Cruz Roja Venezolana\Documentos\IS-12-C1\src\main\java\com\ucveats\controller\costoFijoService.java
+c:\Users\ltuser\OneDrive - Cruz Roja Venezolana\Documentos\IS-12-C1\src\main\java\com\ucveats\view\HomePage.java
+c:\Users\ltuser\OneDrive - Cruz Roja Venezolana\Documentos\IS-12-C1\src\main\java\com\ucveats\model\Administrador.java
+c:\Users\ltuser\OneDrive - Cruz Roja Venezolana\Documentos\IS-12-C1\src\main\java\com\ucveats\Main.java
+c:\Users\ltuser\OneDrive - Cruz Roja Venezolana\Documentos\IS-12-C1\src\main\java\com\ucveats\model\Comensal.java
+c:\Users\ltuser\OneDrive - Cruz Roja Venezolana\Documentos\IS-12-C1\src\main\java\com\ucveats\controller\ImageUtilities.java
+c:\Users\ltuser\OneDrive - Cruz Roja Venezolana\Documentos\IS-12-C1\src\main\java\com\ucveats\model\Bandeja.java
+c:\Users\ltuser\OneDrive - Cruz Roja Venezolana\Documentos\IS-12-C1\src\main\java\com\ucveats\model\Usuario.java
+c:\Users\ltuser\OneDrive - Cruz Roja Venezolana\Documentos\IS-12-C1\src\main\java\com\ucveats\view\inicioSesionInterface.java
+c:\Users\ltuser\OneDrive - Cruz Roja Venezolana\Documentos\IS-12-C1\src\main\java\com\ucveats\view\MyFrame.java
+c:\Users\ltuser\OneDrive - Cruz Roja Venezolana\Documentos\IS-12-C1\src\main\java\com\ucveats\model\MonederoGlobal.java
+c:\Users\ltuser\OneDrive - Cruz Roja Venezolana\Documentos\IS-12-C1\src\main\java\com\ucveats\model\MonederoVirtual.java
+c:\Users\ltuser\OneDrive - Cruz Roja Venezolana\Documentos\IS-12-C1\src\main\java\com\ucveats\controller\AuthService.java
+c:\Users\ltuser\OneDrive - Cruz Roja Venezolana\Documentos\IS-12-C1\src\main\java\com\ucveats\view\registroInterface.java
+c:\Users\ltuser\OneDrive - Cruz Roja Venezolana\Documentos\IS-12-C1\src\main\java\com\ucveats\view\CostosFijosUI.java
+c:\Users\ltuser\OneDrive - Cruz Roja Venezolana\Documentos\IS-12-C1\src\main\java\com\ucveats\controller\SecurityUtils.java
+c:\Users\ltuser\OneDrive - Cruz Roja Venezolana\Documentos\IS-12-C1\src\main\java\com\ucveats\model\Merma.java
+c:\Users\ltuser\OneDrive - Cruz Roja Venezolana\Documentos\IS-12-C1\src\main\java\com\ucveats\controller\FileManager.java
+c:\Users\ltuser\OneDrive - Cruz Roja Venezolana\Documentos\IS-12-C1\src\main\java\com\ucveats\view\elementoMenu.java
+c:\Users\ltuser\OneDrive - Cruz Roja Venezolana\Documentos\IS-12-C1\src\main\java\com\ucveats\view\CargarMenuAdmin.java
+c:\Users\ltuser\OneDrive - Cruz Roja Venezolana\Documentos\IS-12-C1\src\main\java\com\ucveats\controller\BandejaService.java
+c:\Users\ltuser\OneDrive - Cruz Roja Venezolana\Documentos\IS-12-C1\src\main\java\com\ucveats\controller\MermaService.java
+c:\Users\ltuser\OneDrive - Cruz Roja Venezolana\Documentos\IS-12-C1\src\main\java\com\ucveats\view\MonederoUI.java
+c:\Users\ltuser\OneDrive - Cruz Roja Venezolana\Documentos\IS-12-C1\src\main\java\com\ucveats\view\MenuUsuarioPanel.java
+c:\Users\ltuser\OneDrive - Cruz Roja Venezolana\Documentos\IS-12-C1\src\main\java\com\ucveats\controller\costoVariableService.java
+c:\Users\ltuser\OneDrive - Cruz Roja Venezolana\Documentos\IS-12-C1\src\main\java\com\ucveats\view\costoVariableUI.java
+c:\Users\ltuser\OneDrive - Cruz Roja Venezolana\Documentos\IS-12-C1\src\main\java\com\ucveats\view\MenuAdminPanel.java
+c:\Users\ltuser\OneDrive - Cruz Roja Venezolana\Documentos\IS-12-C1\src\main\java\com\ucveats\model\CostoVariable.java
+c:\Users\ltuser\OneDrive - Cruz Roja Venezolana\Documentos\IS-12-C1\src\main\java\com\ucveats\model\CostoFijo.java
+c:\Users\ltuser\OneDrive - Cruz Roja Venezolana\Documentos\IS-12-C1\src\main\java\com\ucveats\view\BotonPanel.java
+c:\Users\ltuser\OneDrive - Cruz Roja Venezolana\Documentos\IS-12-C1\src\main\java\com\ucveats\view\seleccionInicio.java
+c:\Users\ltuser\OneDrive - Cruz Roja Venezolana\Documentos\IS-12-C1\src\main\java\com\ucveats\view\verMenuInterface.java
