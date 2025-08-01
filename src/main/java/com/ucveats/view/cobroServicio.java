@@ -1,6 +1,3 @@
-/*
- * solo falta agregar en el boton de pagar la logica para comparar las imagenes
- */
 package com.ucveats.view;
 
 import com.ucveats.controller.ImageUtilities;
@@ -9,9 +6,8 @@ import java.awt.*;
 import java.io.File;
 import java.awt.event.ActionListener;
 
+public class cobroServicio extends JPanel {
 
-public class cobroServicio  extends JPanel {
-    
     private File archivo = null;
     private JLabel etiquetaStatus;
     private JLabel EstudianteLabel;
@@ -22,7 +18,6 @@ public class cobroServicio  extends JPanel {
     private JLabel PrecioAdministrativo;
     private BotonPanel botonPagar;
 
-
     public cobroServicio(MyFrame frame) {
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -32,7 +27,7 @@ public class cobroServicio  extends JPanel {
         titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
         titulo.setFont(new Font("Segoe UI", Font.BOLD, 26));
         titulo.setForeground(Color.decode("#2f3829"));
-        
+
         JPanel panelCampos = new JPanel();
         panelCampos.setBackground(Color.decode("#ffffff"));
         panelCampos.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -41,7 +36,6 @@ public class cobroServicio  extends JPanel {
         panelCampos.setMaximumSize(new Dimension(300, 150));
 
         EstudianteLabel = new JLabel("Estudiante");
-        //EstudianteLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         EstudianteLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
         EstudianteLabel.setForeground(Color.decode("#2f3829"));
 
@@ -52,9 +46,7 @@ public class cobroServicio  extends JPanel {
         panelCampos.add(EstudianteLabel);
         panelCampos.add(PrecioEstudiante);
 
-
         ProfesorLabel = new JLabel("Profesor");
-        //ProfesorLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         ProfesorLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
         ProfesorLabel.setForeground(Color.decode("#2f3829"));
 
@@ -66,17 +58,15 @@ public class cobroServicio  extends JPanel {
         panelCampos.add(PrecioProfesor);
 
         AdministrativoLabel = new JLabel("Administrativo");
-        //AdministrativoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         AdministrativoLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
         AdministrativoLabel.setForeground(Color.decode("#2f3829"));
 
         PrecioAdministrativo = new JLabel(" ");
-        PrecioAdministrativo.setFont(new Font("Segoe UI", Font.PLAIN, 16)); 
+        PrecioAdministrativo.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         PrecioAdministrativo.setForeground(Color.decode("#2f3829"));
 
         panelCampos.add(AdministrativoLabel);
         panelCampos.add(PrecioAdministrativo);
-
 
         etiquetaStatus = new JLabel(" ");
         etiquetaStatus.setFont(new Font("Segoe UI", Font.ITALIC, 14));
@@ -86,9 +76,9 @@ public class cobroServicio  extends JPanel {
         JButton botonAgregarImg = new JButton("Cargar Imagen");
         botonAgregarImg.setAlignmentX(Component.CENTER_ALIGNMENT);
         botonAgregarImg.addActionListener(e -> {
-            archivo =ImageUtilities.selectorImagen(this);
+            archivo = ImageUtilities.selectorImagen(this);
 
-             if (archivo != null) {
+            if (archivo != null) {
                 etiquetaStatus.setText("<html><p style='width: 250px;'>Archivo seleccionado: " + archivo.getAbsolutePath() + "</p></html>");
             } else {
                 etiquetaStatus.setText("Selección de archivo cancelada.");
@@ -97,17 +87,11 @@ public class cobroServicio  extends JPanel {
 
         botonPagar = new BotonPanel("Pagar Servicio", 200, 40);
 
-
-
         this.add(Box.createVerticalStrut(20));
         this.add(titulo);
         this.add(Box.createVerticalStrut(30));
         this.add(panelCampos);
         this.add(Box.createVerticalStrut(10));
-        //this.add(ProfesorLabel);
-        //this.add(Box.createVerticalStrut(10));
-        //this.add(AdministrativoLabel);
-        //this.add(Box.createVerticalStrut(10));
         this.add(botonAgregarImg);
         this.add(Box.createVerticalStrut(10));
         this.add(etiquetaStatus);
@@ -125,6 +109,59 @@ public class cobroServicio  extends JPanel {
 
     public void addPagarListener(ActionListener listener) {
         botonPagar.addActionListener(listener);
+    }
+
+    private void simularEscaneoFacialYValidar() {
+        JDialog dialogo = new JDialog(SwingUtilities.getWindowAncestor(this), "Verificación Facial", Dialog.ModalityType.APPLICATION_MODAL);
+        dialogo.setSize(300, 100);
+        dialogo.setLocationRelativeTo(this);
+        dialogo.setLayout(new BorderLayout());
+
+        JLabel etiqueta = new JLabel("Escaneando rostro...", SwingConstants.CENTER);
+        JProgressBar barra = new JProgressBar();
+        barra.setIndeterminate(true);
+
+        dialogo.add(etiqueta, BorderLayout.NORTH);
+        dialogo.add(barra, BorderLayout.CENTER);
+
+        SwingWorker<Void, Void> worker = new SwingWorker<>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                Thread.sleep(2000);
+                return null;
+            }
+
+            @Override
+            protected void done() {
+                dialogo.dispose();
+                try {
+                    String nombreArchivoCargado = archivo.getName();
+                    String nombreArchivoReferencia = "estudiante.png";
+
+                    if (nombreArchivoCargado.equalsIgnoreCase(nombreArchivoReferencia)) {
+                        mostrarExito("Verificación facial exitosa. Servicio pagado.");
+                    } else {
+                        throw new IllegalArgumentException("Datos biométricos no registrados.");
+                    }
+
+                } catch (IllegalArgumentException ex) {
+                    mostrarError(ex.getMessage());
+                } catch (Exception ex) {
+                    mostrarError("Ocurrió un error inesperado: " + ex.getMessage());
+                }
+            }
+        };
+
+        worker.execute();
+        dialogo.setVisible(true);
+    }
+
+    public void ejecutarVerificacionFacial() {
+        if (archivo == null) {
+            mostrarError("Debe cargar una imagen antes de pagar el servicio.");
+            return;
+        }
+        simularEscaneoFacialYValidar();
     }
 
     public void mostrarExito(String mensaje) {
