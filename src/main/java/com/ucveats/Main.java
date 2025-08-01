@@ -38,6 +38,7 @@ public class Main {
             MyFrame mainFrame = new MyFrame("UCVeats", 400, 620);
 
             // Vistas (Paneles)
+            seleccionInicio seleccionInicioView = new seleccionInicio(mainFrame);
             inicioSesionInterface loginView = new inicioSesionInterface(mainFrame);
             registroInterface registerView = new registroInterface(mainFrame);
             HomePage homeView = new HomePage(mainFrame);
@@ -256,8 +257,19 @@ public class Main {
 
             // --- 3. INICIO DE LA APLICACIÓN ---
 
+            // Lógica de la pantalla de selección inicial
+            seleccionInicioView.addLoginFlowListener(e -> {
+                mainFrame.setContentPanel(loginView);
+            });
+
+            seleccionInicioView.addPaymentFlowListener(e -> {
+                // Aquí podrías añadir lógica para cargar los costos antes de mostrar la vista
+                // cobroServicioView.setCostos(...);
+                mainFrame.setContentPanel(cobroServicioView);
+            });
+
             // Establece el panel inicial
-            mainFrame.setContentPanel(loginView);
+            mainFrame.setContentPanel(seleccionInicioView);
 
             // Hace visible la ventana principal
             mainFrame.mostrarVentana();

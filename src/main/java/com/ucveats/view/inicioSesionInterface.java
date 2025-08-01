@@ -90,4 +90,9 @@ public class inicioSesionInterface extends JPanel {
     public void addRegisterListener(ActionListener listener) {
         botonRegistrarse.addActionListener(listener);
     }
+
+    public void limpiarCampos() {
+        campoUsuario.setText("");
+        campoContrasena.setText("");
+    }
 }
