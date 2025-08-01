@@ -14,6 +14,8 @@ import com.ucveats.model.Bandeja;
 
 public class verMenuInterface extends JPanel {
 
+    double precioBandjea = 0.0;
+
     private MyFrame parentFrame; // Necesitamos una referencia a MyFrame
     private JPanel contentInternalPanel;
 
@@ -41,9 +43,16 @@ public class verMenuInterface extends JPanel {
         labelFecha.setAlignmentX(Component.CENTER_ALIGNMENT);
         labelFecha.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         labelFecha.setForeground(Color.decode("#2f3829"));
-  
+
+        JLabel labelPrecio = new JLabel("Precio: " + precioBandjea);
+        labelPrecio.setAlignmentX(Component.CENTER_ALIGNMENT);
+        labelPrecio.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        labelPrecio.setForeground(Color.decode("#2f3829"));
+        
+        
         contentInternalPanel.add(labelTitulo);
         contentInternalPanel.add(labelFecha);
+        contentInternalPanel.add(labelPrecio);
 
         //  Crear un JScrollPane para el contentInternalPanel y añadirlo a 'this' (el JPanel verMenuInterface)
         JScrollPane scrollPanel = new JScrollPane(contentInternalPanel, 
@@ -57,7 +66,7 @@ public class verMenuInterface extends JPanel {
         // Limpiar cualquier menú anterior
         // Se mantienen el título y la fecha
         Component[] components = contentInternalPanel.getComponents();
-        for (int i = 2; i < components.length; i++) {
+        for (int i = 3; i < components.length; i++) {
             contentInternalPanel.remove(components[i]);
         }
 

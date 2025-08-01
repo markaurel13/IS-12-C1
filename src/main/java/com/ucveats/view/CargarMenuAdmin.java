@@ -22,6 +22,8 @@ public class CargarMenuAdmin extends JPanel {
     private JTextField campoCosto;
     private JDateChooser campoFecha;
     private BotonPanel botonCargarMenu;
+    private JComboBox<String> campoTipoBandeja;
+    private int cantidadBandejas = 0;
 
     public CargarMenuAdmin(MyFrame frame) {
         this.parentFrame = frame;
@@ -38,8 +40,9 @@ public class CargarMenuAdmin extends JPanel {
 
         JPanel panelCampos = new JPanel();
         panelCampos.setBackground(Color.decode("#ffffff"));
-        panelCampos.setLayout(new GridLayout(5, 2, 0, 10));
-        panelCampos.setMaximumSize(new Dimension(300, 200));
+        panelCampos.setLayout(new GridLayout(7, 2, 0, 10));
+        panelCampos.setPreferredSize(new Dimension(300, 300));
+        panelCampos.setMaximumSize(new Dimension(300, 300));
         
 
         JLabel etiquetaTitulo = new JLabel("Titulo:");
@@ -68,6 +71,37 @@ public class CargarMenuAdmin extends JPanel {
         campoDescripcion.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         campoDescripcion.setPreferredSize(new Dimension(150, 25));
         panelCampos.add(campoDescripcion);
+
+        JLabel labelTipoBandeja = new JLabel("Tipo de Bandeja:");
+        labelTipoBandeja.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        labelTipoBandeja.setBounds(40, 310, 140, 25);
+        panelCampos.add(labelTipoBandeja);
+
+        String[] opcionesBandeja = { "Desayuno", "Almuerzo"};
+        campoTipoBandeja = new JComboBox<>(opcionesBandeja);
+        campoTipoBandeja.setBounds(190, 310, 150, 25);
+        campoTipoBandeja.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        panelCampos.add(campoTipoBandeja);
+
+        JLabel etiquetaCantBandejas = new JLabel("Cant. de bandejas:");
+        etiquetaCantBandejas.setFont(new Font("Segoe ui", Font.PLAIN, 14));
+        panelCampos.add(etiquetaCantBandejas);
+
+        JTextField campoCantBandejas = new JTextField();
+        campoCantBandejas.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        campoCantBandejas.setPreferredSize(new Dimension(150, 25));
+        panelCampos.add(campoCantBandejas);
+        
+        try {
+            String cantBandejas = campoCantBandejas.getText();
+            cantidadBandejas = Integer.parseInt(cantBandejas);
+            
+        } catch (NumberFormatException e) {
+            // Si la conversión falla (porque el string está vacío o no es un número),
+            // el programa saltará a este bloque en lugar de detenerse.
+            System.err.println("Error: Debes ingresar un número válido.");
+        }
+
 
         JLabel etiquetaFecha = new JLabel("Fecha:");
         etiquetaFecha.setFont(new Font("Segoe ui", Font.PLAIN, 14));
@@ -111,6 +145,7 @@ public class CargarMenuAdmin extends JPanel {
         this.add(etiquetaStatus);
         this.add(Box.createVerticalStrut(30));
         this.add(botonCargarMenu);
+    
     }
 
     // --- MÉTODOS PARA EL CONTROLADOR EXTERNO ---
@@ -120,6 +155,7 @@ public class CargarMenuAdmin extends JPanel {
     public String getCosto() { return campoCosto.getText(); }
     public Date getFecha() { return campoFecha.getDate(); }
     public File getArchivoImagen() { return archivo; }
+    public String getTipoBandeja() { return (String) campoTipoBandeja.getSelectedItem(); }
 
     public void addCargarMenuListener(ActionListener listener) {
         botonCargarMenu.addActionListener(listener);
