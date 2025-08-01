@@ -10,14 +10,12 @@ import com.ucveats.model.Usuario;
 import com.ucveats.model.Merma;
 import com.ucveats.view.*;
 
-import com.ucveats.view.CargarMermaUI;
-import com.ucveats.view.MyFrame;
-
 import javax.swing.*;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.util.List;
+import java.io.File;
 
 /**
  * Clase principal que inicia y ensambla la aplicación UCVeats.
@@ -160,6 +158,9 @@ public class Main {
                     if (cargarMenuView.getFecha() == null) {
                         cargarMenuView.mostrarError("Debe seleccionar una fecha.");
                         return;
+                    }else if (tipoBandeja.equals("Seleccionar tipo")) {
+                        cargarMenuView.mostrarError("Debe seleccionar un tipo de bandeja.");
+                        return;
                     }
                     String fecha = new SimpleDateFormat("dd/MM/yyyy").format(cargarMenuView.getFecha());
 
@@ -167,7 +168,7 @@ public class Main {
                     cargarMenuView.mostrarExito("Plato añadido al menú correctamente.");
 
                 } catch (NumberFormatException ex) {
-                    cargarMenuView.mostrarError("El costo debe ser un número válido.");
+                    cargarMenuView.mostrarError("La cantidad debe ser un número válido.");
                 } catch (IllegalArgumentException | IOException ex) {
                     cargarMenuView.mostrarError("Error al crear la bandeja: " + ex.getMessage());
                 }
@@ -191,6 +192,11 @@ public class Main {
                 }
             });
 
+            // Logica para Cobrar Servicio 
+            cobroServicioView.addPagarListener(e -> {
+            cobroServicioView.ejecutarVerificacionFacial();
+            });
+
             // Lógica para Costos Variables (Admin)
             costoVariableView.addGuardarListener(e -> {
                 try {
@@ -201,7 +207,12 @@ public class Main {
                     if (costoVariableView.getFecha() == null) {
                         costoVariableView.mostrarError("Debe seleccionar una fecha.");
                         return;
+                    } else if (tipoBandeja.equals("Seleccionar tipo")) {
+                        costoVariableView.mostrarError("Debe seleccionar un tipo de bandeja.");
+                        return;
                     }
+
+                    
                     java.time.LocalDate fecha = costoVariableView.getFecha().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
                     costoVariableService.guardarCostos(proteinas, carbohidratos, energia, fecha, tipoBandeja);
