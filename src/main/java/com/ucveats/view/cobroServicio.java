@@ -14,9 +14,12 @@ public class cobroServicio  extends JPanel {
     
     private File archivo = null;
     private JLabel etiquetaStatus;
-    private JLabel costoEstudianteLabel;
-    private JLabel costoProfesorLabel;
-    private JLabel costoAdministrativoLabel;
+    private JLabel EstudianteLabel;
+    private JLabel PrecioEstudiante;
+    private JLabel ProfesorLabel;
+    private JLabel PrecioProfesor;
+    private JLabel AdministrativoLabel;
+    private JLabel PrecioAdministrativo;
     private BotonPanel botonPagar;
 
 
@@ -29,21 +32,51 @@ public class cobroServicio  extends JPanel {
         titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
         titulo.setFont(new Font("Segoe UI", Font.BOLD, 26));
         titulo.setForeground(Color.decode("#2f3829"));
+        
+        JPanel panelCampos = new JPanel();
+        panelCampos.setBackground(Color.decode("#ffffff"));
+        panelCampos.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panelCampos.setLayout(new GridLayout(3, 2, 0, 10));
+        panelCampos.setPreferredSize(new Dimension(300, 150));
+        panelCampos.setMaximumSize(new Dimension(300, 150));
 
-        costoEstudianteLabel = new JLabel("Estudiante: 0.00 BsS");
-        costoEstudianteLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        costoEstudianteLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        costoEstudianteLabel.setForeground(Color.decode("#2f3829"));
+        EstudianteLabel = new JLabel("Estudiante");
+        //EstudianteLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        EstudianteLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        EstudianteLabel.setForeground(Color.decode("#2f3829"));
 
-        costoProfesorLabel = new JLabel("Profesor: 0.00 BsS");
-        costoProfesorLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        costoProfesorLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        costoProfesorLabel.setForeground(Color.decode("#2f3829"));
+        PrecioEstudiante = new JLabel(" ");
+        PrecioEstudiante.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        PrecioEstudiante.setForeground(Color.decode("#2f3829"));
 
-        costoAdministrativoLabel = new JLabel("Administrativo: 0.00 BsS");
-        costoAdministrativoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        costoAdministrativoLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        costoAdministrativoLabel.setForeground(Color.decode("#2f3829"));
+        panelCampos.add(EstudianteLabel);
+        panelCampos.add(PrecioEstudiante);
+
+
+        ProfesorLabel = new JLabel("Profesor");
+        //ProfesorLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        ProfesorLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        ProfesorLabel.setForeground(Color.decode("#2f3829"));
+
+        PrecioProfesor = new JLabel(" ");
+        PrecioProfesor.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        PrecioProfesor.setForeground(Color.decode("#2f3829"));
+
+        panelCampos.add(ProfesorLabel);
+        panelCampos.add(PrecioProfesor);
+
+        AdministrativoLabel = new JLabel("Administrativo");
+        //AdministrativoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        AdministrativoLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        AdministrativoLabel.setForeground(Color.decode("#2f3829"));
+
+        PrecioAdministrativo = new JLabel(" ");
+        PrecioAdministrativo.setFont(new Font("Segoe UI", Font.PLAIN, 16)); 
+        PrecioAdministrativo.setForeground(Color.decode("#2f3829"));
+
+        panelCampos.add(AdministrativoLabel);
+        panelCampos.add(PrecioAdministrativo);
+
 
         etiquetaStatus = new JLabel(" ");
         etiquetaStatus.setFont(new Font("Segoe UI", Font.ITALIC, 14));
@@ -69,12 +102,12 @@ public class cobroServicio  extends JPanel {
         this.add(Box.createVerticalStrut(20));
         this.add(titulo);
         this.add(Box.createVerticalStrut(30));
-        this.add(costoEstudianteLabel);
+        this.add(panelCampos);
         this.add(Box.createVerticalStrut(10));
-        this.add(costoProfesorLabel);
-        this.add(Box.createVerticalStrut(10));
-        this.add(costoAdministrativoLabel);
-        this.add(Box.createVerticalStrut(10));
+        //this.add(ProfesorLabel);
+        //this.add(Box.createVerticalStrut(10));
+        //this.add(AdministrativoLabel);
+        //this.add(Box.createVerticalStrut(10));
         this.add(botonAgregarImg);
         this.add(Box.createVerticalStrut(10));
         this.add(etiquetaStatus);
@@ -85,9 +118,9 @@ public class cobroServicio  extends JPanel {
     // --- MÉTODOS PARA EL CONTROLADOR EXTERNO ---
 
     public void setCostos(double estudiante, double profesor, double admin) {
-        costoEstudianteLabel.setText(String.format("Estudiante: %.2f BsS", estudiante));
-        costoProfesorLabel.setText(String.format("Profesor: %.2f BsS", profesor));
-        costoAdministrativoLabel.setText(String.format("Administrativo: %.2f BsS", admin));
+        PrecioEstudiante.setText(String.format("%.2f BsS", estudiante));
+        PrecioProfesor.setText(String.format("%.2f BsS", profesor));
+        PrecioAdministrativo.setText(String.format("%.2f BsS", admin));
     }
 
     public void addPagarListener(ActionListener listener) {

@@ -153,7 +153,6 @@ public class Main {
                     String nombre = cargarMenuView.getTitulo();
                     int numeroBandejas = cargarMenuView.getNumeroBandejas();
                     String tipoBandeja = cargarMenuView.getTipoBandeja();
-                    //double costo = Double.parseDouble(cargarMenuView.getCosto());
                     String descripcion = cargarMenuView.getDescripcion();
                     if (cargarMenuView.getFecha() == null) {
                         cargarMenuView.mostrarError("Debe seleccionar una fecha.");
@@ -303,8 +302,16 @@ public class Main {
             });
 
             seleccionInicioView.addPaymentFlowListener(e -> {
-                // Aquí podrías añadir lógica para cargar los costos antes de mostrar la vista
-                // cobroServicioView.setCostos(...);
+                List<Bandeja> bandejas = bandejaService.getBandejas();
+                if (bandejas != null && !bandejas.isEmpty()) {
+                    Bandeja bandeja = bandejas.get(0);
+                    double costoEstudiante = Bandeja.getCostoEspecifico(bandeja.getCosto(), "Estudiante");
+                    double costoProfesor = Bandeja.getCostoEspecifico(bandeja.getCosto(), "Profesor");
+                    double costoEmpleado = Bandeja.getCostoEspecifico(bandeja.getCosto(), "Empleado");
+                    cobroServicioView.setCostos(costoEstudiante, costoProfesor, costoEmpleado);
+                } else {
+                    cobroServicioView.setCostos(0, 0, 0);
+                }
                 mainFrame.setContentPanel(cobroServicioView);
             });
 

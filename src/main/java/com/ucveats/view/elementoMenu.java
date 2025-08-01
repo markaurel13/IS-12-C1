@@ -10,8 +10,9 @@ public class elementoMenu extends JPanel {
         private JPanel NoImagen;
         private JLabel nombrePlato;
         private JLabel descripcionPlato;
+        private JLabel tipoBandeja;
 
-        public elementoMenu(String rutaIcono, String nombre, String descripcion) {
+        public elementoMenu(String rutaIcono, String nombre, String descripcion, String tipo) {
 
             this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
             this.setBackground(Color.decode("#ffffff"));
@@ -46,8 +47,14 @@ public class elementoMenu extends JPanel {
             }
 
 
+            this.tipoBandeja = new JLabel();
             this.nombrePlato = new JLabel(nombre);
             this.descripcionPlato = new JLabel(descripcion);
+
+            this.tipoBandeja.setText(tipo);
+            this.tipoBandeja.setAlignmentX(Component.CENTER_ALIGNMENT);
+            this.tipoBandeja.setFont(new Font("Segoe UI", Font.BOLD, 18));
+            this.tipoBandeja.setForeground(Color.decode("#2f3829"));
 
             this.nombrePlato.setAlignmentX(Component.CENTER_ALIGNMENT);
             this.nombrePlato.setFont(new Font("Segoe UI", Font.BOLD, 16));
@@ -57,6 +64,9 @@ public class elementoMenu extends JPanel {
             this.descripcionPlato.setFont(new Font("Segoe UI", Font.ITALIC, 14));
             this.descripcionPlato.setForeground(Color.decode("#2f3829"));
 
+            
+            this.add(Box.createVerticalStrut(10));
+            this.add(tipoBandeja);
             this.add(Box.createVerticalStrut(10));
             if (iconoPlato == null) {
                 this.add(NoImagen);

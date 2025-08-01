@@ -64,8 +64,8 @@ public class BandejaService {
                         bandeja.getNombreBandeja(),
                         bandeja.getCosto(),
                         bandeja.getFecha(),
-                        bandeja.getTipoBandeja(),
-                        bandeja.getDescripcionBandeja());
+                        bandeja.getDescripcionBandeja(),
+                        bandeja.getTipoBandeja());
                 bw.write(linea);
                 bw.newLine();
             }

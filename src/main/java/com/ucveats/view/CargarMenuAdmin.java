@@ -19,7 +19,7 @@ public class CargarMenuAdmin extends JPanel {
     private JLabel etiquetaStatus;
     private JTextField campoTitulo;
     private JTextField campoDescripcion;
-    private JTextField campoCosto;
+    //private JTextField campoCosto;
     private JDateChooser campoFecha;
     private BotonPanel botonCargarMenu;
     private JComboBox<String> campoTipoBandeja;
@@ -154,7 +154,7 @@ public class CargarMenuAdmin extends JPanel {
 
     public String getTitulo() { return campoTitulo.getText(); }
     public String getDescripcion() { return campoDescripcion.getText(); }
-    public String getCosto() { return campoCosto.getText(); }
+    //public String getCosto() { return campoCosto.getText(); }
     public Date getFecha() { return campoFecha.getDate(); }
     public File getArchivoImagen() { return archivo; }
     public int getNumeroBandejas() { return cantidadBandejas = Integer.parseInt(campoCantBandejas.getText()); }
@@ -169,7 +169,7 @@ public class CargarMenuAdmin extends JPanel {
         // Limpiar campos
         campoTitulo.setText("");
         campoDescripcion.setText("");
-        campoCosto.setText("");
+        //campoCosto.setText("");
         campoFecha.setDate(null);
         etiquetaStatus.setText(" ");
         archivo = null;

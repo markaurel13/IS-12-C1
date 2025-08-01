@@ -80,12 +80,13 @@ public class verMenuInterface extends JPanel {
 
         if (bandejas == null || bandejas.isEmpty()) {
             JLabel noHayMenu = new JLabel("No hay menú disponible para hoy.");
+            noHayMenu.setFont(new Font("Segoe UI", Font.PLAIN, 16)); 
             noHayMenu.setAlignmentX(Component.CENTER_ALIGNMENT);
             contentInternalPanel.add(noHayMenu);
         } else {
             for (Bandeja bandeja : bandejas) {
                 // Asumimos que tienes una imagen por defecto o lógica para encontrar la imagen
-                elementoMenu item = new elementoMenu("/almuerzo.png", bandeja.getNombreBandeja(), bandeja.getDescripcionBandeja());
+                elementoMenu item = new elementoMenu("/"+bandeja.getTipoBandeja()+".png", bandeja.getNombreBandeja(), bandeja.getDescripcionBandeja(), bandeja.getTipoBandeja());
                 contentInternalPanel.add(item);
                 contentInternalPanel.add(Box.createVerticalStrut(20));
             }

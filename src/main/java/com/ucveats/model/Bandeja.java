@@ -2,6 +2,7 @@ package com.ucveats.model;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.io.File;
 
 
 public class Bandeja {
@@ -17,17 +18,19 @@ public class Bandeja {
     private LocalDate fecha;
     private int cantidadBandejas;
     private String tipoBandeja;
+    private File imagenBandeja;
 
     private static double porcentajeEstudiante = 0.25; 
     private static double porcentajeProfesor = 0.80;
     private static double porcentajeEmpleado = 0.100;
 
     public static double getCostoEspecifico(double costo, String tipoUsuario) {
-         if (costo < 0) {
+        if (costo < 0) {
             throw new IllegalArgumentException("Por favor ingrese un valor positivo en el costo.");
         }
 
-         if (tipoUsuario == null || tipoUsuario == "Estudiante" || tipoUsuario == "Profesor" || tipoUsuario == "Empleado") {
+        if (tipoUsuario == null || 
+            !(tipoUsuario.equals("Estudiante") || tipoUsuario.equals("Profesor") || tipoUsuario.equals("Empleado"))) {
             throw new IllegalArgumentException("Por favor ingrese un tipo de comensal: Estudiante, Profesor, o Empleado.");
         }
         
