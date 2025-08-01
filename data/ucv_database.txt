@@ -1,3 +1,5 @@
 Ana,Perez,Estudiante,30181317
 Carlos,Gomez,Profesor,12345678
 Johana,Flores,Empleado,11410984
+Mariangel,Suarez,Estudiante,30260673
+Barbara,Ravelo,Estudiante,25848972
