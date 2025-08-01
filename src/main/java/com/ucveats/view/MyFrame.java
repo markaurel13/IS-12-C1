@@ -227,5 +227,10 @@ public class MyFrame extends JFrame {
                 }
             }
         }
+
+    }
+
+    public void alternarMenuLateral() {
+         toggleFloatingMenu();
     }
 }
