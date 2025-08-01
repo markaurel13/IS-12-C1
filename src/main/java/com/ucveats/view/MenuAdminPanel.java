@@ -1,6 +1,9 @@
 package com.ucveats.view;
 
 import javax.swing.*;
+
+import main.vista.MyFrame;
+
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.net.URL;
@@ -10,6 +13,7 @@ public class MenuAdminPanel extends JPanel {
     private MyFrame parentFrame; // Necesitamos una referencia a MyFrame
     private BotonPanel botonVerCostosF;
     private BotonPanel botonVerCostosV;
+    private BotonPanel botonCargarMerma;
     private BotonPanel botonCargarMenu;
     private BotonPanel botonCerrarSesion;
     private JLabel nombreLabel;
@@ -58,6 +62,7 @@ public class MenuAdminPanel extends JPanel {
         // --- Botones del Menú ---
         botonVerCostosF = new BotonPanel("Costos Fijos", 180, 35);
         botonVerCostosV = new BotonPanel("Costos Variables", 180, 35);
+        botonCargarMerma = new BotonPanel("Cargar Merma", 180, 35);
         botonCargarMenu = new BotonPanel("Cargar Menú", 180, 35);
         botonCerrarSesion = new BotonPanel("Cerrar Sesión", 180, 35);
 
@@ -71,6 +76,8 @@ public class MenuAdminPanel extends JPanel {
         this.add(botonVerCostosF);
         this.add(Box.createVerticalStrut(10));
         this.add(botonVerCostosV);
+        this.add(Box.createVerticalStrut(10));
+        this.add(botonCargarMerma);
         this.add(Box.createVerticalStrut(10));
         this.add(botonCargarMenu);
         this.add(Box.createVerticalStrut(70));
@@ -88,6 +95,10 @@ public class MenuAdminPanel extends JPanel {
 
     public void addCostosVariablesListener(ActionListener listener) {
         botonVerCostosV.addActionListener(listener);
+    }
+
+    public void addCargarMermaListener(ActionListener listener) {
+        botonCargarMerma.addActionListener(listener);
     }
 
     public void addCargarMenuListener(ActionListener listener) {

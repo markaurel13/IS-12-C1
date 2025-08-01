@@ -11,6 +11,6 @@ public class Merma {
         Merma.merma = merma;
     }
 
-    static getMerma() { return Merma.merma; }
+    public static double getMerma() { return merma; }
     
 }

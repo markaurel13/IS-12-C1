@@ -15,16 +15,14 @@ public class Bandeja {
     private double costo;
     private String descripcionBandeja;
     private LocalDate fecha;
+    private int cantidadBandejas;
+    private String tipoBandeja;
 
     private static double porcentajeEstudiante = 0.25; 
     private static double porcentajeProfesor = 0.80;
     private static double porcentajeEmpleado = 0.100;
 
-    public static double getCostoEspecifico(double costo, string tipoUsuario) {
-        if (costo == empty) {
-            throw new IllegalArgumentException("Por favor ingrese un costo.");
-        }
-
+    public static double getCostoEspecifico(double costo, String tipoUsuario) {
          if (costo < 0) {
             throw new IllegalArgumentException("Por favor ingrese un valor positivo en el costo.");
         }
@@ -56,29 +54,26 @@ public class Bandeja {
         return LocalDate.parse(fechaString, formatter);
     }
 
-    public Bandeja(String id, String nombre, int numBandejas, String tipoBandeja, String date, String descripcion) {
+    public Bandeja(String id, String nombre, double costo, String date, String descripcion, String tipoBandeja) {
         if (id == null || id.trim().isEmpty()) {
             throw new IllegalArgumentException("El ID no puede ser nulo o vacío.");
         }
         if (nombre == null || !nombre.matches(NOMBRE_REGEX)) {
             throw new IllegalArgumentException("Nombre inválido. Debe tener al menos 4 caracteres alfanuméricos");
         }
-        if (bandejas <= 0) {
-            throw new IllegalArgumentException("Cantidad de bandejas inválidas. No puede ser negativo o nula.");
+        if (costo <= 0) {
+            throw new IllegalArgumentException("El costo no puede ser negativo o nulo.");
         }
         if (date == null || !date.matches(DATE_REGEX)) {
             throw new IllegalArgumentException("Fecha inválida. Debe estar en formato DD/MM/YYYY");
         }
 
-        double costoFijo = costoFijoService.getCostoFijoTotal();
-        double costoVariable = costoVariableService.getCostoVariable(date, tipoBandeja);
-        double merma = Merma.getMerma();
-
         this.ID = id;
         this.nombreBandeja = nombre;
-        this.costo = ((costoFijo+costoVariable)/numBandejas) * (1+merma);
+        this.costo = costo;
         this.fecha = crearFecha(date);
         this.descripcionBandeja = descripcion;
+        this.tipoBandeja = tipoBandeja;
     }
 
     // Getters
@@ -119,6 +114,8 @@ public class Bandeja {
         }
         this.fecha = crearFecha(fecha);
     }
+
+    // Grupo de sets que establecen los costos para cada tipo de comensal.
 
     private void setCostoEstudiante(double costo) {
         if (costo < 0 || costo >= 300) {
