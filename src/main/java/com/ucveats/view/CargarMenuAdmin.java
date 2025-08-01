@@ -1,7 +1,4 @@
-/*
- * aqui hay que manejar que al cargar la iamgen y los datos esta infromacion sirva para alimentar
- * la interface de ver menu
- */
+
 package com.ucveats.view;
 
 import com.ucveats.controller.ImageUtilities;
@@ -33,7 +30,7 @@ public class CargarMenuAdmin extends JPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBackground(Color.decode("#ffffff"));
 
-        JLabel Titulo = new JLabel("Aañdir plato al menu");
+        JLabel Titulo = new JLabel("Añadir plato al menu");
         Titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
         Titulo.setFont(new Font("Segoe UI", Font.BOLD, 20));
         Titulo.setForeground(Color.decode("#2f3829"));
@@ -46,7 +43,7 @@ public class CargarMenuAdmin extends JPanel {
         panelCampos.setMaximumSize(new Dimension(300, 300));
         
 
-        JLabel etiquetaTitulo = new JLabel("Titulo:");
+        JLabel etiquetaTitulo = new JLabel("Nombre del Platillo:");
         etiquetaTitulo.setFont(new Font("Segoe ui", Font.PLAIN, 14));
         panelCampos.add(etiquetaTitulo);
 
@@ -64,7 +61,7 @@ public class CargarMenuAdmin extends JPanel {
         campoCosto.setPreferredSize(new Dimension(150, 25));
         panelCampos.add(campoCosto);*/
 
-        JLabel etiquetaDescripcion = new JLabel("Descripcion:");
+        JLabel etiquetaDescripcion = new JLabel("Descripción:");
         etiquetaDescripcion.setFont(new Font("Segoe ui", Font.PLAIN, 14));
         panelCampos.add(etiquetaDescripcion);
 
@@ -78,8 +75,9 @@ public class CargarMenuAdmin extends JPanel {
         labelTipoBandeja.setBounds(40, 310, 140, 25);
         panelCampos.add(labelTipoBandeja);
 
-        String[] opcionesBandeja = { "Desayuno", "Almuerzo"};
+        String[] opcionesBandeja = { "Seleccionar tipo", "Desayuno", "Almuerzo"};
         campoTipoBandeja = new JComboBox<>(opcionesBandeja);
+        campoTipoBandeja.setSelectedIndex(0);
         campoTipoBandeja.setBounds(190, 310, 150, 25);
         campoTipoBandeja.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         panelCampos.add(campoTipoBandeja);
@@ -180,3 +178,4 @@ public class CargarMenuAdmin extends JPanel {
     }
 
 }
+
