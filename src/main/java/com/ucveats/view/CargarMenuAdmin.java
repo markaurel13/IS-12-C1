@@ -23,6 +23,7 @@ public class CargarMenuAdmin extends JPanel {
     private JDateChooser campoFecha;
     private BotonPanel botonCargarMenu;
     private JComboBox<String> campoTipoBandeja;
+    private JTextField campoCantBandejas;
     private int cantidadBandejas = 0;
 
     public CargarMenuAdmin(MyFrame frame) {
@@ -54,14 +55,14 @@ public class CargarMenuAdmin extends JPanel {
         campoTitulo.setPreferredSize(new Dimension(150, 25));
         panelCampos.add(campoTitulo);
 
-        JLabel etiquetaCosto = new JLabel("Costo (BsS.):");
+        /*JLabel etiquetaCosto = new JLabel("Costo (BsS.):");
         etiquetaCosto.setFont(new Font("Segoe ui", Font.PLAIN, 14));
         panelCampos.add(etiquetaCosto);
 
         campoCosto = new JTextField();
         campoCosto.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         campoCosto.setPreferredSize(new Dimension(150, 25));
-        panelCampos.add(campoCosto);
+        panelCampos.add(campoCosto);*/
 
         JLabel etiquetaDescripcion = new JLabel("Descripcion:");
         etiquetaDescripcion.setFont(new Font("Segoe ui", Font.PLAIN, 14));
@@ -87,20 +88,21 @@ public class CargarMenuAdmin extends JPanel {
         etiquetaCantBandejas.setFont(new Font("Segoe ui", Font.PLAIN, 14));
         panelCampos.add(etiquetaCantBandejas);
 
-        JTextField campoCantBandejas = new JTextField();
+        campoCantBandejas = new JTextField();
         campoCantBandejas.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         campoCantBandejas.setPreferredSize(new Dimension(150, 25));
         panelCampos.add(campoCantBandejas);
         
-        try {
+       /* try {
             String cantBandejas = campoCantBandejas.getText();
             cantidadBandejas = Integer.parseInt(cantBandejas);
+            
             
         } catch (NumberFormatException e) {
             // Si la conversión falla (porque el string está vacío o no es un número),
             // el programa saltará a este bloque en lugar de detenerse.
             System.err.println("Error: Debes ingresar un número válido.");
-        }
+        } */
 
 
         JLabel etiquetaFecha = new JLabel("Fecha:");
@@ -155,6 +157,7 @@ public class CargarMenuAdmin extends JPanel {
     public String getCosto() { return campoCosto.getText(); }
     public Date getFecha() { return campoFecha.getDate(); }
     public File getArchivoImagen() { return archivo; }
+    public int getNumeroBandejas() { return cantidadBandejas = Integer.parseInt(campoCantBandejas.getText()); }
     public String getTipoBandeja() { return (String) campoTipoBandeja.getSelectedItem(); }
 
     public void addCargarMenuListener(ActionListener listener) {

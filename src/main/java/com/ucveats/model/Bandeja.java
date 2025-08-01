@@ -32,15 +32,15 @@ public class Bandeja {
         }
         
         switch(tipoUsuario) {
-            case Estudiante:
+            case "Estudiante":
             return costo*porcentajeEstudiante;
-            break;
-            case Profesor:
+            //break;
+            case "Profesor":
             return costo*porcentajeProfesor;
-            break;
-            case Empleado:
+            //break;
+            case "Empleado":
             return costo*porcentajeEmpleado;
-            break;
+            //break;
             default:
             return costo;
         }
@@ -81,6 +81,7 @@ public class Bandeja {
     public String getNombreBandeja() { return nombreBandeja; }
     public double getCosto() { return costo; }
     public String getDescripcionBandeja() { return descripcionBandeja; }
+    public String getTipoBandeja() { return tipoBandeja; }
     public String getFecha() {
         return fecha.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }

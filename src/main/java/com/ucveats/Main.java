@@ -4,14 +4,17 @@ import com.ucveats.controller.AuthService;
 import com.ucveats.controller.BandejaService;
 import com.ucveats.controller.costoFijoService;
 import com.ucveats.controller.costoVariableService;
+import com.ucveats.model.Bandeja;
 import com.ucveats.model.Comensal;
 import com.ucveats.model.Usuario;
+import com.ucveats.model.Merma;
 import com.ucveats.view.*;
 
 import javax.swing.*;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.ZoneId;
+import java.util.List;
 
 /**
  * Clase principal que inicia y ensambla la aplicación UCVeats.
@@ -48,12 +51,14 @@ public class Main {
             CostosFijosUI costosFijosView = new CostosFijosUI(mainFrame);
             costoVariableUI costoVariableView = new costoVariableUI(mainFrame);
             cobroServicio cobroServicioView = new cobroServicio(mainFrame);
+            CargarMermaUI cargarMermaView = new CargarMermaUI(mainFrame);
 
             // Menús flotantes
             MenuUsuarioPanel menuUsuarioPanel = new MenuUsuarioPanel(mainFrame);
             MenuAdminPanel menuAdminPanel = new MenuAdminPanel(mainFrame);
 
             // --- 2. CONEXIÓN (WIRING) DE LÓGICA Y NAVEGACIÓN ---
+
 
             // Lógica de Inicio de Sesión
             loginView.addLoginListener(e -> {
@@ -146,7 +151,9 @@ public class Main {
             cargarMenuView.addCargarMenuListener(e -> {
                 try {
                     String nombre = cargarMenuView.getTitulo();
-                    double costo = Double.parseDouble(cargarMenuView.getCosto());
+                    int numeroBandejas = cargarMenuView.getNumeroBandejas();
+                    String tipoBandeja = cargarMenuView.getTipoBandeja();
+                    //double costo = Double.parseDouble(cargarMenuView.getCosto());
                     String descripcion = cargarMenuView.getDescripcion();
                     if (cargarMenuView.getFecha() == null) {
                         cargarMenuView.mostrarError("Debe seleccionar una fecha.");
@@ -154,7 +161,7 @@ public class Main {
                     }
                     String fecha = new SimpleDateFormat("dd/MM/yyyy").format(cargarMenuView.getFecha());
 
-                    bandejaService.crearBandeja(nombre, costo, fecha, descripcion);
+                    bandejaService.crearBandeja(nombre, numeroBandejas, fecha, descripcion, tipoBandeja);
                     cargarMenuView.mostrarExito("Plato añadido al menú correctamente.");
 
                 } catch (NumberFormatException ex) {
@@ -206,11 +213,38 @@ public class Main {
                 }
             });
 
+            // Lógica para Cargar Merma
+            cargarMermaView.addGuardarListener(e -> {
+                try {
+                    double merma = Double.parseDouble(cargarMermaView.getMerma());
+                    // Validar rango
+                    if (merma < 0 || merma > 100) {
+                        cargarMermaView.mostrarError("La merma debe estar entre 0 y 100%");
+                        return;
+                    }
+                    // Guardar el valor en el modelo (ejemplo: clase Merma)
+                    Merma.setMerma(merma);
+                    cargarMermaView.setMermaActual(merma);
+                    cargarMermaView.mostrarExito("Merma guardada correctamente.");
+                } catch (NumberFormatException ex) {
+                    cargarMermaView.mostrarError("Debes ingresar un número válido para la merma.");
+                } catch (IllegalArgumentException ex) {
+                    cargarMermaView.mostrarError(ex.getMessage());
+                }
+            });
+
             // --- NAVEGACIÓN CENTRALIZADA DESDE MENÚS ---
 
             // Navegación Menú Comensal
             menuUsuarioPanel.addVerMenuListener(e -> {
                 menuView.mostrarMenu(bandejaService.getBandejas());
+                List<Bandeja> bandejas = bandejaService.getBandejas();
+                if (bandejas != null && !bandejas.isEmpty()) {
+                    double precio = bandejas.get(0).getCostoEspecifico(bandejas.get(0).getCosto(), currentUser.getRolUcv());
+                    menuView.setPrecio(precio);
+                } else {
+                    menuView.setPrecio(0.0);
+                }
                 mainFrame.setContentPanel(menuView);
                 mainFrame.hideFloatingMenu();
             });
@@ -245,6 +279,12 @@ public class Main {
 
             menuAdminPanel.addCargarMenuListener(e -> {
                 mainFrame.setContentPanel(cargarMenuView);
+                mainFrame.hideFloatingMenu();
+            });
+
+            menuAdminPanel.addCargarMermaListener(e -> {
+                cargarMermaView.setMermaActual(Merma.getMerma());
+                mainFrame.setContentPanel(cargarMermaView);
                 mainFrame.hideFloatingMenu();
             });
             

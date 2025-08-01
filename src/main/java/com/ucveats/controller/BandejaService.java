@@ -1,8 +1,7 @@
 package com.ucveats.controller;
 
 import com.ucveats.model.Bandeja;
-
-import main.java.com.ucveats.model.Merma;
+import com.ucveats.model.Merma;
 
 import java.io.*;
 import java.util.ArrayList;

@@ -15,6 +15,7 @@ import com.ucveats.model.Bandeja;
 public class verMenuInterface extends JPanel {
 
     double precioBandjea = 0.0;
+    private JLabel labelPrecio;
 
     private MyFrame parentFrame; // Necesitamos una referencia a MyFrame
     private JPanel contentInternalPanel;
@@ -44,7 +45,7 @@ public class verMenuInterface extends JPanel {
         labelFecha.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         labelFecha.setForeground(Color.decode("#2f3829"));
 
-        JLabel labelPrecio = new JLabel("Precio: " + precioBandjea);
+        labelPrecio = new JLabel("Precio: " + precioBandjea);
         labelPrecio.setAlignmentX(Component.CENTER_ALIGNMENT);
         labelPrecio.setFont(new Font("Segoe UI", Font.BOLD, 16));
         labelPrecio.setForeground(Color.decode("#2f3829"));
@@ -60,6 +61,13 @@ public class verMenuInterface extends JPanel {
                                                  JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPanel.setBorder(BorderFactory.createEmptyBorder()); // Eliminar el borde predeterminado del scrollPanel
         this.add(scrollPanel, BorderLayout.CENTER); // Añadir el scrollPanel al centro de este JPanel
+    }
+
+    public void setPrecio(double precio) {
+        this.precioBandjea = precio;
+        labelPrecio.setText("Precio: " + String.format("%.2f", precioBandjea) + " BsS"); // <-- Actualiza el label
+        labelPrecio.revalidate();
+        labelPrecio.repaint();
     }
 
     public void mostrarMenu(List<Bandeja> bandejas) {

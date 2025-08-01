@@ -2,8 +2,6 @@ package com.ucveats.view;
 
 import javax.swing.*;
 
-import main.vista.MyFrame;
-
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.net.URL;
