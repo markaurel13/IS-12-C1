@@ -98,4 +98,24 @@ public class costoVariableService {
     public CostoVariable getCostoVariable() {
         return costoVariable;
     }
+
+    public double getCostoVariable(String fechaString, String tipoBandeja) {
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
+            String linea;
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            while ((linea = br.readLine()) != null) {
+                String[] partes = linea.split(",");
+                if (partes.length >= 5) {
+                    String fechaArchivo = partes[3];
+                    String tipoBandejaArchivo = partes[4];
+                    if (fechaArchivo.equals(fechaString) && tipoBandejaArchivo.equals(tipoBandeja)) {
+                        return Double.parseDouble(partes[0]) + Double.parseDouble(partes[1]) + Double.parseDouble(partes[2]);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error al buscar costos variables: " + e.getMessage());
+        }
+        return 0; // Devolver 0 si no se encuentra
+    }
 }

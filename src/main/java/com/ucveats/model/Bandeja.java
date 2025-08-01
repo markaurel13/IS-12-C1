@@ -16,6 +16,38 @@ public class Bandeja {
     private String descripcionBandeja;
     private LocalDate fecha;
 
+    private static double porcentajeEstudiante = 0.25; 
+    private static double porcentajeProfesor = 0.80;
+    private static double porcentajeEmpleado = 0.100;
+
+    public static double getCostoEspecifico(double costo, string tipoUsuario) {
+        if (costo == empty) {
+            throw new IllegalArgumentException("Por favor ingrese un costo.");
+        }
+
+         if (costo < 0) {
+            throw new IllegalArgumentException("Por favor ingrese un valor positivo en el costo.");
+        }
+
+         if (tipoUsuario == null || tipoUsuario == "Estudiante" || tipoUsuario == "Profesor" || tipoUsuario == "Empleado") {
+            throw new IllegalArgumentException("Por favor ingrese un tipo de comensal: Estudiante, Profesor, o Empleado.");
+        }
+        
+        switch(tipoUsuario) {
+            case Estudiante:
+            return costo*porcentajeEstudiante;
+            break;
+            case Profesor:
+            return costo*porcentajeProfesor;
+            break;
+            case Empleado:
+            return costo*porcentajeEmpleado;
+            break;
+            default:
+            return costo;
+        }
+    }
+
     private LocalDate crearFecha(String fechaString) {
         if (fechaString == null || !fechaString.matches(DATE_REGEX)) {
             throw new IllegalArgumentException("Fecha inválida. Debe estar en formato DD/MM/YYYY");
@@ -24,23 +56,27 @@ public class Bandeja {
         return LocalDate.parse(fechaString, formatter);
     }
 
-    public Bandeja(String id, String nombre, double costo, String date, String descripcion) {
+    public Bandeja(String id, String nombre, int numBandejas, String tipoBandeja, String date, String descripcion) {
         if (id == null || id.trim().isEmpty()) {
             throw new IllegalArgumentException("El ID no puede ser nulo o vacío.");
         }
         if (nombre == null || !nombre.matches(NOMBRE_REGEX)) {
             throw new IllegalArgumentException("Nombre inválido. Debe tener al menos 4 caracteres alfanuméricos");
         }
-        if (costo < 0) {
-            throw new IllegalArgumentException("Costo inválido. No puede ser negativo.");
+        if (bandejas <= 0) {
+            throw new IllegalArgumentException("Cantidad de bandejas inválidas. No puede ser negativo o nula.");
         }
         if (date == null || !date.matches(DATE_REGEX)) {
             throw new IllegalArgumentException("Fecha inválida. Debe estar en formato DD/MM/YYYY");
         }
 
+        double costoFijo = costoFijoService.getCostoFijoTotal();
+        double costoVariable = costoVariableService.getCostoVariable(date, tipoBandeja);
+        double merma = Merma.getMerma();
+
         this.ID = id;
         this.nombreBandeja = nombre;
-        this.costo = costo;
+        this.costo = ((costoFijo+costoVariable)/numBandejas) * (1+merma);
         this.fecha = crearFecha(date);
         this.descripcionBandeja = descripcion;
     }
@@ -82,5 +118,26 @@ public class Bandeja {
             throw new IllegalArgumentException("Fecha inválida. Debe estar en formato DD/MM/YYYY");
         }
         this.fecha = crearFecha(fecha);
+    }
+
+    private void setCostoEstudiante(double costo) {
+        if (costo < 0 || costo >= 300) {
+            throw new IllegalArgumentException("Valor inválido. Debe ingresar un valor porcentual positivo entre 0% y 300%");
+        }
+        porcentajeEstudiante = costo / 100;
+    }
+
+    private void setCostoProfesor(double costo) {
+        if (costo < 0 || costo >= 300) {
+            throw new IllegalArgumentException("Valor inválido. Debe ingresar un valor porcentual positivo entre 0% y 300%");
+        }
+        porcentajeProfesor = costo / 100;
+    }
+
+    private void setCostoEmpleado(double costo) {
+        if (costo < 0 || costo >= 300) {
+            throw new IllegalArgumentException("Valor inválido. Debe ingresar un valor porcentual positivo entre 0% y 300%");
+        }
+        porcentajeEmpleado = costo / 100;
     }
 }
