@@ -33,7 +33,7 @@ public class costoVariableUI extends JPanel {
         totalLabel.setBounds(60, 30, 340, 30);
         this.add(totalLabel);
 
-        JLabel tituloRegistro = new JLabel("Registrar Costos Variables");
+        JLabel tituloRegistro = new JLabel("      Registrar Costos Variables");
         tituloRegistro.setFont(new Font("Montserrat", Font.BOLD, 16));
         tituloRegistro.setBounds(60, 80, 300, 25);
         this.add(tituloRegistro);
@@ -48,8 +48,9 @@ public class costoVariableUI extends JPanel {
         labelTipoBandeja.setBounds(40, 310, 140, 25);
         this.add(labelTipoBandeja);
 
-        String[] opcionesBandeja = { "Desayuno", "Almuerzo"};
+        String[] opcionesBandeja = { "Seleccionar tipo","Desayuno", "Almuerzo"};
         campoTipoBandeja = new JComboBox<>(opcionesBandeja);
+        campoTipoBandeja.setSelectedIndex(0);
         campoTipoBandeja.setBounds(190, 310, 150, 25);
         campoTipoBandeja.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         this.add(campoTipoBandeja);
