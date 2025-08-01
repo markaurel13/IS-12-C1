@@ -27,6 +27,7 @@ com\ucveats\controller\costoFijoService.class
 com\ucveats\model\Merma.class
 com\ucveats\model\CostoFijo.class
 com\ucveats\model\Usuario$RolUsuario.class
+com\ucveats\view\cobroServicio$1.class
 com\ucveats\model\Bandeja.class
 com\ucveats\model\Comensal.class
 com\ucveats\view\BotonPanel.class
