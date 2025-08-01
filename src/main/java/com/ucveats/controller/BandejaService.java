@@ -3,6 +3,8 @@ package com.ucveats.controller;
 import com.ucveats.model.Bandeja;
 import com.ucveats.model.Merma;
 
+import com.ucveats.controller.MermaService;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,11 +20,13 @@ public class BandejaService {
     // Se agregan instancias de los servicios de costos para poder invocarlos
     private costoFijoService costoFijoService;
     private costoVariableService costoVariableService;
+    private MermaService mermaService;
 
     public BandejaService() {
         this.bandejas = cargarBandejas();
         this.costoFijoService = new costoFijoService();
         this.costoVariableService = new costoVariableService();
+        this.mermaService = new MermaService();
     }
 
     /**
@@ -92,7 +96,7 @@ public class BandejaService {
     public void crearBandeja(String nombre, int numeroBandejas, String fecha, String descripcion, String tipoBandeja) throws IOException {
         double costoFijoTotal = costoFijoService.getCostoFijoTotal();
         double costoVariableTotal = costoVariableService.getCostoVariable(fecha, tipoBandeja);
-        double merma = Merma.getMerma();
+        double merma = mermaService.getMerma();
         double costo = ((costoFijoTotal + costoVariableTotal) / numeroBandejas) * (1 + merma);
 
         int maxId = 0;

@@ -10,6 +10,9 @@ import com.ucveats.model.Usuario;
 import com.ucveats.model.Merma;
 import com.ucveats.view.*;
 
+import com.ucveats.view.CargarMermaUI;
+import com.ucveats.view.MyFrame;
+
 import javax.swing.*;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -32,13 +35,13 @@ public class Main {
 
             // --- 1. INSTANCIACIÓN DE COMPONENTES ---
 
+            // Vista Principal (Ventana)
+            MyFrame mainFrame = new MyFrame("UCVeats", 400, 620);
+
             // Controladores (Servicios)
             BandejaService bandejaService = new BandejaService();
             costoFijoService costoFijoService = new costoFijoService();
             costoVariableService costoVariableService = new costoVariableService();
-
-            // Vista Principal (Ventana)
-            MyFrame mainFrame = new MyFrame("UCVeats", 400, 620);
 
             // Vistas (Paneles)
             seleccionInicio seleccionInicioView = new seleccionInicio(mainFrame);
@@ -213,23 +216,9 @@ public class Main {
             });
 
             // Lógica para Cargar Merma
-            cargarMermaView.addGuardarListener(e -> {
-                try {
-                    double merma = Double.parseDouble(cargarMermaView.getMerma());
-                    // Validar rango
-                    if (merma < 0 || merma > 100) {
-                        cargarMermaView.mostrarError("La merma debe estar entre 0 y 100%");
-                        return;
-                    }
-                    // Guardar el valor en el modelo (ejemplo: clase Merma)
-                    Merma.setMerma(merma);
-                    cargarMermaView.setMermaActual(merma);
-                    cargarMermaView.mostrarExito("Merma guardada correctamente.");
-                } catch (NumberFormatException ex) {
-                    cargarMermaView.mostrarError("Debes ingresar un número válido para la merma.");
-                } catch (IllegalArgumentException ex) {
-                    cargarMermaView.mostrarError(ex.getMessage());
-                }
+            menuAdminPanel.addCargarMermaListener(e -> {
+                 mainFrame.setContentPanel(cargarMermaView);
+                 mainFrame.hideFloatingMenu();
             });
 
             // --- NAVEGACIÓN CENTRALIZADA DESDE MENÚS ---
@@ -264,6 +253,12 @@ public class Main {
             });
 
             // Navegación Menú Admin
+             menuAdminPanel.addCostosFijosListener(e -> {
+                costosFijosView.setTotal(costoFijoService.getCostoFijoTotal());
+                mainFrame.setContentPanel(costosFijosView);
+                mainFrame.hideFloatingMenu();
+            });
+
             menuAdminPanel.addCostosFijosListener(e -> {
                 costosFijosView.setTotal(costoFijoService.getCostoFijoTotal());
                 mainFrame.setContentPanel(costosFijosView);
@@ -282,9 +277,8 @@ public class Main {
             });
 
             menuAdminPanel.addCargarMermaListener(e -> {
-                cargarMermaView.setMermaActual(Merma.getMerma());
-                mainFrame.setContentPanel(cargarMermaView);
-                mainFrame.hideFloatingMenu();
+                 mainFrame.setContentPanel(cargarMermaView);
+                 mainFrame.hideFloatingMenu();
             });
             
             menuAdminPanel.addCerrarSesionListener(e -> {

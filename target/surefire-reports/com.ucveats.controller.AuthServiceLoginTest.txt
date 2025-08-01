@@ -1,4 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.ucveats.controller.AuthServiceLoginTest
 -------------------------------------------------------------------------------
+<<<<<<< HEAD
 Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.221 s -- in com.ucveats.controller.AuthServiceLoginTest
+=======
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.457 s -- in com.ucveats.controller.AuthServiceLoginTest
+>>>>>>> 5ab0f945118ab51c788111386ddee8ecf7766ae5
